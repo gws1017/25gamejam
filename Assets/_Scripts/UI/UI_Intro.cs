@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -69,7 +69,7 @@ public class UI_Intro : MonoBehaviour
     private void MoveToNextText()
     {
         // Check for space key press to move to the next text
-        if (IsSpacebarPressed())
+        if (IsSpacebarPressed() && !isTyping)
         {
             moveToNextText = true;
             currentTextIndex++;
