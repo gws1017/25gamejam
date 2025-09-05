@@ -182,7 +182,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -5209209732570186984, guid: da72cd0f4a66bde45a5d23a6eb22e3c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -397,6 +397,18 @@ PrefabInstance:
     - target: {fileID: 3586394016731827960, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3834704160276179367, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+    - target: {fileID: 8492088418331964841, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1357281997}
+    - target: {fileID: 8492088418331964841, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: radius
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
