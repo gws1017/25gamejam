@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class UI_Loading : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad;
     [SerializeField] private TextMeshProUGUI LoadingText;
 
+    private string sceneToLoad;
     private WaitForSeconds waitForSeconds;
 
     private void Start()
@@ -28,7 +28,7 @@ public class UI_Loading : MonoBehaviour
 
     private IEnumerator LoadTextAnimation(AsyncOperation asyncSceneLoad)
     {
-        string[] loadingTexts = { "Now Loading", "Now Loading.", "Now Loading..", "Now Loading..." };
+        string[] loadingTexts = { "로딩중", "로딩중.", "로딩중..", "로딩중..." };
         int textIndex = 0;
 
         while (!asyncSceneLoad.isDone)
