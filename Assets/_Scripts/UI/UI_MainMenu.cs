@@ -36,7 +36,7 @@ public class UI_MainMenu : MonoBehaviour
 
     private void SubscribeOnClickEventListeners()
     {
-        gameStartButton.onClick.AddListener(() => SceneLoader.LoadScene(SceneLoader.Scene.GameScene));
+        gameStartButton.onClick.AddListener(() => SceneManager.LoadScene(SceneLoader.Scene.IntroScene.ToString()));
         exitButton.onClick.AddListener(() => Application.Quit());
         optionsButton.onClick.AddListener(() => eventsManager.Events_UI.InvokeOnOptionsButtonsClicked());
     }
