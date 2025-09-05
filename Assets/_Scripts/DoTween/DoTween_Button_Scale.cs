@@ -24,11 +24,11 @@ public class DoTween_Button_Scale : DoTween_Button
 
     protected override void Init()
     {
-        // ¹öÆ° ÄÄÆ÷³ÍÆ® ±×·¦
+        // ë²„íŠ¼ ì»´í¬ë„ŒíŠ¸ ê·¸ë©
         if (!button) button = GetComponent<Button>();
         if (!buttonTransform) buttonTransform = GetComponent<RectTransform>();
 
-        // ¿ø·¡ ½ºÄÉÀÏ ÀúÀå
+        // ì›ë˜ ìŠ¤ì¼€ì¼ ì €ì¥
         originalScale = buttonTransform.localScale;
     }
 
@@ -36,7 +36,7 @@ public class DoTween_Button_Scale : DoTween_Button
     {
         base.OnPointerEnter(eventData);
 
-        // ¹öÆ°¿¡ ¸¶¿ì½º ¿À¹ö ½Ã ½ºÄÉÀÏ ¾÷
+        // ë²„íŠ¼ì— ë§ˆìš°ìŠ¤ ì˜¤ë²„ ì‹œ ìŠ¤ì¼€ì¼ ì—…
         onPointerEnterTween = buttonTransform.DOScale(originalScale * scaleUpFactor, tweenDuration).
                                               SetEase(easeType).
                                               SetUpdate(true);
@@ -46,7 +46,7 @@ public class DoTween_Button_Scale : DoTween_Button
     {
         base.OnPointerExit(eventData);
 
-        // ¹öÆ°¿¡¼­ ¸¶¿ì½º ¾Æ¿ô ½Ã ¿ø·¡ ½ºÄÉÀÏ·Î º¹¿ø
+        // ë²„íŠ¼ì—ì„œ ë§ˆìš°ìŠ¤ ì•„ì›ƒ ì‹œ ì›ë˜ ìŠ¤ì¼€ì¼ë¡œ ë³µì›
         onPointerExitTween = buttonTransform.DOScale(originalScale, tweenDuration).
                                              SetEase(easeType).
                                              SetUpdate(true);
@@ -58,7 +58,7 @@ public class DoTween_Button_Scale : DoTween_Button
 
         // Over 0.2 seconds, make the UI element quickly expand by about 15%, wobble 10 times with full bounce, then return to its normal size
         // and do it even if the game is paused
-        onButtonClickTween =  buttonTransform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 10, 1).
+        onButtonClickTween = buttonTransform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 10, 1).
                                               SetUpdate(true);
     }
 }

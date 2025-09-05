@@ -10,13 +10,13 @@ public class DoTween_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     protected virtual void Awake()
     {
-        // ÃÊ±âÈ­ ÀÛ¾÷
+        // ì´ˆê¸°í™” ì‘ì—…
         Init();
     }
 
     protected virtual void OnDestroy()
     {
-        // ¸ğµç Tween ÁßÁö
+        // ëª¨ë“  Tween ì¤‘ì§€
         KillAllTweens();
     }
 
@@ -24,7 +24,7 @@ public class DoTween_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     protected virtual void KillAllTweens()
     {
-        // ¸ğµç Tween ÁßÁö
+        // ëª¨ë“  Tween ì¤‘ì§€
         onPointerEnterTween?.Kill();
         onPointerExitTween?.Kill();
         onButtonClickTween?.Kill();
@@ -32,19 +32,19 @@ public class DoTween_Button : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        // ÀÌÀü Æ®À©ÀÌ ÀÖ´Ù¸é ÁßÁö
+        // ì´ì „ íŠ¸ìœˆì´ ìˆë‹¤ë©´ ì¤‘ì§€
         onPointerEnterTween?.Kill();
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        // ÀÌÀü Æ®À©ÀÌ ÀÖ´Ù¸é ÁßÁö
+        // ì´ì „ íŠ¸ìœˆì´ ìˆë‹¤ë©´ ì¤‘ì§€
         onPointerExitTween?.Kill();
     }
 
     public virtual void OnButtonClick()
     {
-        // ÀÌÀü Æ®À©ÀÌ ÀÖ´Ù¸é ÁßÁö
+        // ì´ì „ íŠ¸ìœˆì´ ìˆë‹¤ë©´ ì¤‘ì§€
         onButtonClickTween?.Kill();
     }
 

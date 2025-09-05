@@ -7,8 +7,8 @@ public class PlayerController : BaseController
     [SerializeField] private Camera cam;
 
     [Header("Property")]
-    [SerializeField] private float speed = 4f; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¼Óµµ
-    [SerializeField] private float radius = 2f; // ·Îº¿ Á¤·É ¹ÝÁö¸§
+    [SerializeField] private float speed = 4f; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½
+    [SerializeField] private float radius = 2f; // ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     [Header("Input Raw Data")]
     [SerializeField] private float horizontalAxis;
@@ -20,7 +20,7 @@ public class PlayerController : BaseController
     [SerializeField] private bool isHorizonMove;
 
     [SerializeField] private Vector3 dirVec;
-    [SerializeField] private int lastHorzDir = 1; // 1: ¿À¸¥ÂÊ, -1: ¿ÞÂÊ
+    [SerializeField] private int lastHorzDir = 1; // 1: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, -1: ï¿½ï¿½ï¿½ï¿½
     
     private Animator anim;
     protected override void Awake()
@@ -48,13 +48,13 @@ public class PlayerController : BaseController
         
     }
 
-    //Å°ÀÔ·Â Ã¼Å©
+    //Å°ï¿½Ô·ï¿½ Ã¼Å©
     void CheckInput()
     {
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
 
-        //¸¶¿ì½º ¿ùµåÁÂÇ¥ °è»ê
+        //ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
         if (cam != null)
         {
             Vector3 mouseScreenPos = Input.mousePosition;
@@ -105,13 +105,13 @@ public class PlayerController : BaseController
         }
     }
 
-    //·Îº¿ Á¤·É È¸Àü
+    //ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
     void RotateRobot()
     {
         if (robotSpiritObject == null) return;
         if(cam == null)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯¿¡ Ä«¸Þ¶ó°¡ Set µÇÁö¾Ê¾Ò½À´Ï´Ù.");
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ Set ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 62184567}
   - component: {fileID: 62184566}
   - component: {fileID: 62184565}
+  - component: {fileID: 62184568}
   m_Layer: 5
   m_Name: GameStartButton
   m_TagString: Untagged
@@ -240,6 +241,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62184563}
   m_CullTransparentMesh: 1
+--- !u!114 &62184568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62184563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f580063f041e714c9ce7061db964cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoTween_Button_Scale
+  button: {fileID: 62184565}
+  buttonTransform: {fileID: 62184564}
+  scaleUpFactor: 1.05
+  tweenDuration: 0.2
+  easeType: 27
 --- !u!1 &123267117
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,8 +548,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_MainMenu
   contentParent: {fileID: 1564790515}
   gameStartButton: {fileID: 62184565}
-  exitButton: {fileID: 1119750792}
+  quitButton: {fileID: 1119750792}
   optionsButton: {fileID: 1446460423}
+  gameStartButtonTween: {fileID: 62184568}
+  quitButtonTween: {fileID: 1119750795}
+  optionsButtonTween: {fileID: 1446460426}
+  optionPopup: {fileID: 6472407094001674574}
 --- !u!1 &1079405543
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,6 +702,7 @@ GameObject:
   - component: {fileID: 1119750794}
   - component: {fileID: 1119750793}
   - component: {fileID: 1119750792}
+  - component: {fileID: 1119750795}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -789,6 +812,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119750790}
   m_CullTransparentMesh: 1
+--- !u!114 &1119750795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119750790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f580063f041e714c9ce7061db964cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoTween_Button_Scale
+  button: {fileID: 1119750792}
+  buttonTransform: {fileID: 1119750791}
+  scaleUpFactor: 1.05
+  tweenDuration: 0.2
+  easeType: 27
 --- !u!1 &1153298042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,6 +1193,7 @@ GameObject:
   - component: {fileID: 1446460425}
   - component: {fileID: 1446460424}
   - component: {fileID: 1446460423}
+  - component: {fileID: 1446460426}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -1262,6 +1303,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446460421}
   m_CullTransparentMesh: 1
+--- !u!114 &1446460426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446460421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f580063f041e714c9ce7061db964cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoTween_Button_Scale
+  button: {fileID: 1446460423}
+  buttonTransform: {fileID: 1446460422}
+  scaleUpFactor: 1.05
+  tweenDuration: 0.2
+  easeType: 5
 --- !u!1 &1511361001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,6 +1574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UI_Options
   contentParent: {fileID: 4562565178650813169}
   exitButton: {fileID: 4026234260667530403}
+  optionsPopup: {fileID: 6472407094001674574}
 --- !u!222 &272360571209017164
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1535,6 +1594,8 @@ GameObject:
   - component: {fileID: 6246795119081483977}
   - component: {fileID: 5697251719741582348}
   - component: {fileID: 6472407094001674573}
+  - component: {fileID: 6472407094001674574}
+  - component: {fileID: 6472407094001674575}
   m_Layer: 5
   m_Name: OptionsWindow
   m_TagString: Untagged
@@ -2002,6 +2063,7 @@ GameObject:
   - component: {fileID: 2007611027079057873}
   - component: {fileID: 6634223393052009875}
   - component: {fileID: 4026234260667530403}
+  - component: {fileID: 6634223393052009876}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -2804,6 +2866,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6472407094001674574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471754228368962639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63736e5a7e8292645974edae267e359f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoTween_Popup
+  popupFadeDuration: 0.25
+  popupScaleDuration: 0.3
+  showEase: 27
+  hideEase: 26
+--- !u!225 &6472407094001674575
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471754228368962639}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &6584096151679804271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2853,6 +2943,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6634223393052009876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3534447923314209065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f580063f041e714c9ce7061db964cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoTween_Button_Scale
+  button: {fileID: 4026234260667530403}
+  buttonTransform: {fileID: 5194910696713798577}
+  scaleUpFactor: 1.05
+  tweenDuration: 0.2
+  easeType: 5
 --- !u!224 &6666105238097602865
 RectTransform:
   m_ObjectHideFlags: 0

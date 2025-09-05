@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Options : MonoBehaviour, IToggleUI
@@ -6,6 +6,21 @@ public class UI_Options : MonoBehaviour, IToggleUI
     [Header("Options Config")]
     [SerializeField] private GameObject contentParent;
     [SerializeField] private Button exitButton;
+    [SerializeField] private DoTween_Popup optionsPopup;
+
+    // References
+    private EventsManager eventsManager;
+
+    private void Awake()
+    {
+        if (optionsPopup == null)
+            optionsPopup = GetComponentInChildren<DoTween_Popup>(); 
+    }
+
+    private void OnEnable()
+    {
+        eventsManager = EventsManager.Instance;
+    }
 
     private void Start()
     {
@@ -24,22 +39,29 @@ public class UI_Options : MonoBehaviour, IToggleUI
     // Events Methods
     private void SubscribeOnClickEventListeners()
     {
-        exitButton.onClick.AddListener(() => Hide());
+        exitButton.onClick.AddListener(() =>
+        {
+            optionsPopup.Hide(Hide);
+        });
     }
 
     private void SubscribeToEvents()
     {
-        EventsManager.Instance.Events_UI.OnOptionsButtonClicked += Events_UI_OnOptionsButtonClicked;
+        if (eventsManager == null) return;
+
+        eventsManager.Events_UI.OnOptionsButtonClicked += Events_UI_OnOptionsButtonClicked;
     }
 
     private void UnSubscribeFromEvents()
     {
-        EventsManager.Instance.Events_UI.OnOptionsButtonClicked -= Events_UI_OnOptionsButtonClicked;
+        if (eventsManager == null) return;
+
+        eventsManager.Events_UI.OnOptionsButtonClicked -= Events_UI_OnOptionsButtonClicked;
     }
 
     private void Events_UI_OnOptionsButtonClicked(object sender, System.EventArgs e)
     {
-        Show();
+        optionsPopup.Show(Show);
     }
 
 
