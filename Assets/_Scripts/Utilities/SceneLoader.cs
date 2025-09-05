@@ -11,6 +11,7 @@ public static class SceneLoader
         MainMenuScene,
         LoadingScene,
         GameScene,
+        UI_Options,
     }
 
     private static Scene targetScene = Scene.MainMenuScene;
@@ -44,6 +45,12 @@ public static class SceneLoader
     {
         return targetScene.ToString();
     }
+
+    public static string GetSceneName(Scene scene)
+    {
+        return scene.ToString();
+    }
+
 
     private static void ClearTargetScene()
     {
