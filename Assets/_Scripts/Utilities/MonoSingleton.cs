@@ -1,0 +1,96 @@
+﻿using UnityEngine;
+
+public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+{
+    private static T _instance;
+
+    public static bool HasInstance => _instance != null;
+    private static readonly object Lock = new object();
+    private static bool _applicationIsQuitting;
+
+    protected virtual bool ShouldRename => false;
+
+    public static T Instance
+    {
+        get
+        {
+            if (_applicationIsQuitting)
+            {
+                Logger.Log(
+                    $"[MonoSingleton]Instance '{typeof(T)}' already destroyed on application quit. Won't create again - returning null.");
+                return _instance;
+            }
+
+            lock (Lock)
+            {
+                if (_instance)
+                    return _instance;
+
+                _instance = (T)FindAnyObjectByType(typeof(T));
+
+                if (!_instance)
+                {
+                    _instance = new GameObject(typeof(T).ToString(), typeof(T)).GetComponent<T>();
+                    if (!_instance)
+                    {
+                        Logger.LogError("[MonoSingleton]Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");
+                    }
+
+                    Logger.Log($"[MonoSingleton]An instance of {typeof(T)} is needed in the scene, so '{_instance.name}' was created with DontDestroyOnLoad.");
+                }
+
+                if (FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 1)
+                {
+                    Logger.LogError(
+                        $"[MonoSingleton]Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");
+                }
+
+                return _instance;
+            }
+        }
+    }
+
+    #region Mono
+
+    protected virtual void Awake()
+    {
+        if (_instance &&
+            _instance != this)
+        {
+            // Logger.LogError($"{typeof(T)} already exist!");
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!_instance)
+        {
+            _instance = (T)this;
+        }
+
+        if (ShouldRename)
+        {
+            name = typeof(T).ToString();
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        _instance = null;
+    }
+
+    protected virtual void OnApplicationQuit()
+    {
+        _applicationIsQuitting = true;
+    }
+
+    protected virtual void OnEnable()
+    {
+
+    }
+
+    #endregion
+
+    public void EmptyMethod()
+    {
+    }
+}
