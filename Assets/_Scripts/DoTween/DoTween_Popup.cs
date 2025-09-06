@@ -42,6 +42,22 @@ public class DoTween_Popup : MonoBehaviour
         rectTransform.localScale = Vector3.zero;
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+
+        // Reset state instantly
+        ResetState();
+
+        // Animate fade in and scale up
+        canvasGroup.DOFade(1f, popupFadeDuration).
+                    SetEase(showEase);
+
+        rectTransform.DOScale(originalScale, popupScaleDuration).
+                      SetEase(showEase).
+                      SetUpdate(true);
+    }
+
     public void Show(Action callBack)
     {
         // Invoke callback if provided

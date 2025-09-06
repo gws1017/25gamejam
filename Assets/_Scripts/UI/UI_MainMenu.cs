@@ -7,6 +7,7 @@ public class UI_MainMenu : MonoBehaviour
 {
     [Header("MainMenu Config")]
     [SerializeField] private GameObject contentParent;
+    [SerializeField] private UI_SoundSettings ui_SoundSettings;
 
     [Header("Buttons Config")]
     [SerializeField] private Button gameStartButton;
@@ -18,22 +19,9 @@ public class UI_MainMenu : MonoBehaviour
     [SerializeField] DoTween_Button_Scale quitButtonTween;
     [SerializeField] DoTween_Button_Scale optionsButtonTween;
 
-    [Header("Popup Tweeners")]
-    [SerializeField] private DoTween_Popup optionPopup;
-
-
-    // References
-    private EventsManager eventsManager;
-
-
     private void Awake()
     {
         SubscribeOnClickEventListeners();
-    }
-
-    private void Start()
-    {
-        eventsManager = EventsManager.Instance;
     }
 
     private void OnDestroy()
@@ -50,6 +38,9 @@ public class UI_MainMenu : MonoBehaviour
             // DoTween Button Click Animation
             gameStartButtonTween.OnButtonClick();
 
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             SceneManager.LoadScene(SceneLoader.Scene.IntroScene.ToString());
         });
 
@@ -57,6 +48,9 @@ public class UI_MainMenu : MonoBehaviour
         {
             // DoTween Button Click Animation
             quitButtonTween.OnButtonClick();
+
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
 
             Application.Quit();
         });
@@ -66,7 +60,11 @@ public class UI_MainMenu : MonoBehaviour
             // DoTween Button Click Animation
             optionsButtonTween.OnButtonClick();
 
-            eventsManager.Events_UI.InvokeOnOptionsButtonsClicked();
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
+            ui_SoundSettings.Show();
+            ui_SoundSettings.GetDoTweenPopup().Show();
         });
     }
 
