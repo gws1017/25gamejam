@@ -21,7 +21,7 @@ public class PlayerController : BaseController
 
     [SerializeField] private Vector3 dirVec;
     [SerializeField] private int lastHorzDir = 1; // 1: ������, -1: ����
-    
+
     private Animator anim;
     protected override void Awake()
     {
@@ -30,22 +30,30 @@ public class PlayerController : BaseController
     }
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-       CheckInput();
+        var player = GetComponent<PlayerCharacter>();
+        if (player == null) return;
+        if (player.IsDead == true) return;
 
-       RotateRobot();
+        CheckInput();
+
+        RotateRobot();
     }
 
     private void FixedUpdate()
     {
+        var player = GetComponent<PlayerCharacter>();
+        if (player == null) return;
+        if (player.IsDead == true) return;
+
         //Vector2 moveVec = isHorizonMove ? new Vector2(horizontalAxis, 0) : new Vector2(0, verticalAxis);
         Vector2 moveVec = new Vector2(horizontalAxis, 0);
         rigidBody2D.linearVelocity = moveVec * speed;
-        
+
     }
 
     //Ű�Է� üũ
@@ -109,7 +117,7 @@ public class PlayerController : BaseController
     void RotateRobot()
     {
         if (robotSpiritObject == null) return;
-        if(cam == null)
+        if (cam == null)
         {
             Debug.Log("�÷��̾� ��Ʈ�ѷ��� ī�޶� Set �����ʾҽ��ϴ�.");
             return;

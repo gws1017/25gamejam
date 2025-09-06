@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class PlayerCharacter : BaseCharacter
 {
-    //ÇÃ·¹ÀÌ¾î Á¤º¸
+    //í”Œë ˆì´ì–´ ì •ë³´
     private int level;
     private int currentExp;
     private int maxExxp;
 
+    private bool isDead = false;
     public int CurrentExp => currentExp;
     public int Level => level;
+    public bool IsDead => isDead;
 
     void Start()
     {
@@ -34,6 +36,32 @@ public class PlayerCharacter : BaseCharacter
         {
             currentExp = 0;
             level++;
+        }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+
+        isDead = true;
+        //ì• ë‹ˆë©”ì´ì…˜ í˜¸ì¶œ
+        GetComponent<Animator>().SetTrigger("Die");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        currentHP -= collision.GetComponent<Bullet>().Damage;
+
+        if (currentHP > 0)
+        {
+            //
+            Hit();
+        }
+        else
+        {
+            if(IsDead == false)
+                Die();
         }
     }
 }

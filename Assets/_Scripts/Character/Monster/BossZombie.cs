@@ -34,12 +34,14 @@ public class BossZombie : MonsterCharacter
 
         Vector2 targetDir = controller.TargetDir;
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
-        Instantiate(zombieBulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        var bulletObject = Instantiate(zombieBulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)).GetComponent<Bullet>();
 
+        bulletObject.Init(damage);
+        bulletObject.AddIgnoreObject(gameObject); // ë³¸ì¸ ë¬´ì‹œ
         controller.ChangeState(AIController.AIState.Move);
     }
 
-    //µîÀå½Ã ÀÌµ¿°ú ½ºÄÉÀÏÀ» ¼­¼­È÷ ´Ã¸°´Ù
+    //ë“±ì¥ì‹œ ì´ë™ê³¼ ìŠ¤ì¼€ì¼ì„ ì„œì„œíˆ ëŠ˜ë¦°ë‹¤
     IEnumerator SpawnCorutine()
     {
         var rb = GetComponent<Rigidbody2D>();
@@ -60,7 +62,7 @@ public class BossZombie : MonsterCharacter
             Vector2 next = (toTarget.magnitude > step) ? rb.position + toTarget.normalized * step : spawnPos;
             rb.MovePosition(next);
 
-            //º¸½º¸ó½ºÅÍ scaleÀÌ 0.2 ºÎÅÍ 1.0±îÁö Á¡Á¡ Ä¿Áø´Ù
+            //ë³´ìŠ¤ëª¬ìŠ¤í„° scaleì´ 0.2 ë¶€í„° 1.0ê¹Œì§€ ì ì  ì»¤ì§„ë‹¤
             if (elapsed < duration)
             {
                 float t = Mathf.Clamp01(elapsed / duration);

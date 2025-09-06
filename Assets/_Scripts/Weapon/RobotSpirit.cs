@@ -3,23 +3,17 @@ using UnityEngine;
 public class RobotSpirit : MonoBehaviour
 {
 
-    [SerializeField] GameObject bulletPrefab;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float damage = 5f; //로봇 정령 탄환 데미지
 
     public void Attack(float angle)
     {
         if (bulletPrefab == null) return;
+        
+        var bulletObject = Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)).GetComponent<Bullet>();
 
-        Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        bulletObject.Init(damage);
+        bulletObject.AddIgnoreObject(gameObject); // 본인 무시(로봇정령)
+        bulletObject.AddIgnoreObject(transform.parent.gameObject); // 플레이어 무시
     }
 }
