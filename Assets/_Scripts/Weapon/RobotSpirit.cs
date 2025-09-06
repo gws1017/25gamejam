@@ -4,7 +4,7 @@ public class RobotSpirit : MonoBehaviour
 {
 
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float damage = 5f; //로봇 정령 탄환 데미지
+    [SerializeField] private int damage = 5; //로봇 정령 탄환 데미지
 
     public void Attack(float angle)
     {

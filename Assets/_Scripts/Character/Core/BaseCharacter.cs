@@ -3,14 +3,14 @@ using UnityEngine;
 public class BaseCharacter : MonoBehaviour
 {
     [Header("Character Status")]
-    [SerializeField] protected float damage;
-    [SerializeField] protected float currentHP;
-    [SerializeField] protected float maxHP;
+    [SerializeField] protected int damage;
+    [SerializeField] protected int currentHP;
+    [SerializeField] protected int maxHP;
 
 
-    public float Damage => damage;
-    public float CurrentHP => currentHP;
-    public float MaxHP => maxHP;
+    public int Damage => damage;
+    public int CurrentHP => currentHP;
+    public int MaxHP => maxHP;
 
     protected virtual void Awake()
     {

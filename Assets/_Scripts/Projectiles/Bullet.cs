@@ -6,12 +6,14 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float lifetime = 3f;
 
-    [SerializeField] private float damage = 1f;
+    [SerializeField] private int damage = 1;
     [SerializeField] private List<GameObject> ignoreObjects = new List<GameObject>(); //충돌 처리 무시할 오브젝트 등록(본인, 무기등)
 
-    public float Damage => damage;
+    public int Damage => damage;
 
-    public void Init(float dmg)
+
+
+    public void Init(int dmg)
     {
         damage = dmg;
     }

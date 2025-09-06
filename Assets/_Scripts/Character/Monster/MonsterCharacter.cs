@@ -17,7 +17,7 @@ public class MonsterCharacter : BaseCharacter
     {
         //플레이어 한테 입히는 데미지 1로 고정
         //플레이어는 체력 3을 갖고, 3번 히트시 게임오버
-        damage = 1f;
+        damage = 1;
     }
 
     // Update is called once per frame
