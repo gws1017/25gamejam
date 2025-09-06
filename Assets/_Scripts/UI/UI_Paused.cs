@@ -9,6 +9,8 @@ public class UI_Paused : MonoBehaviour, IToggleUI
     [SerializeField] private Button currentStateButton;
     [SerializeField] private Button soundSettingsButton;
     [SerializeField] private Button quitGameButton;
+    [Space]
+    [SerializeField] private DoTween_Popup doTweenPopup;
 
 
     private void Start()
@@ -32,6 +34,7 @@ public class UI_Paused : MonoBehaviour, IToggleUI
     public void Show()
     {
         contentParents.SetActive(true);
+        doTweenPopup.Show();
     }
 
     public void SubscribeOnClickEvents()
@@ -39,7 +42,7 @@ public class UI_Paused : MonoBehaviour, IToggleUI
         exitButton.onClick.AddListener(() =>
         {
             // TODO : GameManager에서 Time.timeScale을 1로 설정하는 메서드 호출
-            Hide();
+            doTweenPopup.Hide(Hide);
         });
 
         resumeButton.onClick.AddListener(() =>
