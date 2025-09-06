@@ -8,6 +8,7 @@ public class AIController : BaseController
 
     [SerializeField] protected Vector2 targetDir;
     [SerializeField] protected float moveSpeed = 2f;
+    [SerializeField] protected int spriteDir = 1; // 1 : right -1 : left
     public enum AIState
     {
         Move,
@@ -17,7 +18,7 @@ public class AIController : BaseController
         Hit
     }
 
-    protected AIState currentState;
+    [SerializeField] protected AIState currentState;
 
     public Rigidbody2D TargetPlayer => targetPlayer;
     public Vector2 TargetDir => targetDir;
@@ -31,15 +32,15 @@ public class AIController : BaseController
         owner = GetComponent<MonsterCharacter>();
         targetPlayer = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
     }
-    void Start()
+    protected virtual void Start()
     {
-        ChangeState(AIState.Spawn);
+        LookAtPlayer();
     }
 
     protected virtual void FixedUpdate()
     {
         if (targetPlayer == null) return;
-        targetDir = (targetPlayer.position - rigidBody2D.position).normalized;
+        targetDir = (targetPlayer.position - rigidBody2D.position);
 
         switch (currentState)
         {
@@ -47,6 +48,7 @@ public class AIController : BaseController
                 CalculateAIMovement();
                 break;
             case AIState.Attack:
+                LookAtPlayer();
                 owner.Attack();
                 break;
              case AIState.Dead:
@@ -61,9 +63,22 @@ public class AIController : BaseController
         MoveToTarget();
     }
 
+    protected void LookAtPlayer()
+    {
+        Vector2 playerDir = (targetPlayer.position - rigidBody2D.position).normalized;
+
+        if (spriteRenderer != null)
+        {
+            if(spriteDir == 1)
+                spriteRenderer.flipX = playerDir.x > 0f;
+            if(spriteDir == -1)
+                spriteRenderer.flipX = playerDir.x < 0f;
+        }
+    }
+
     private void MoveToTarget()
     {
-        Vector2 nextVec = targetDir * moveSpeed * Time.fixedDeltaTime;
+        Vector2 nextVec = targetDir.normalized * moveSpeed * Time.fixedDeltaTime;
         //공격사거리까지 이동
         if (targetDir.magnitude >= owner.AttackRange)
         {

@@ -38,15 +38,6 @@ public class BossZombieController : AIController
             GetComponent<Animator>().SetTrigger("Idle");
             ChangeState(AIState.Attack);
         }
-
-        Vector2 playerDir = targetPlayer.position - rigidBody2D.position;
-
-        // 2. SpriteRenderer 얻기
-        
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.flipX = playerDir.x > 0f;
-        }
     }
 
     bool CanAttack(float currentAngle)
