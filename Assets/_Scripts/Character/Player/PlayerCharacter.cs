@@ -52,6 +52,7 @@ public class PlayerCharacter : BaseCharacter
     {
 
         currentHP -= collision.GetComponent<Bullet>().Damage;
+        currentHP = Mathf.Clamp(currentHP, 0,MaxHP);
 
         if (currentHP > 0)
         {
