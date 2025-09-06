@@ -13,4 +13,14 @@ public class UI_Skill : MonoBehaviour, IToggleUI
     {
         contentParents.SetActive(true);
     }
+
+    public void SubscribeOnClickEvents()
+    {
+        
+    }
+
+    public void UnsubscribeOnClickEvents()
+    {
+       
+    }
 }

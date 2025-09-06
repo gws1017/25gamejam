@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_GameOver : MonoBehaviour, IToggleUI
 {
     [SerializeField] private GameObject contentParents;
+    [SerializeField] private Button exitButton;
 
     public void Hide()
     {
@@ -12,5 +14,15 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
     public void Show()
     {
         contentParents.SetActive(true);
+    }
+
+    public void SubscribeOnClickEvents()
+    {
+    
+    }
+
+    public void UnsubscribeOnClickEvents()
+    {
+    
     }
 }

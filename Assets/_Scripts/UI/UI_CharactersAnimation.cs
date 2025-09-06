@@ -4,93 +4,153 @@ using UnityEngine.UI;
 
 public class UI_CharactersAnimation : MonoBehaviour
 {
-    [Header("NPC Images")]
-    [SerializeField] private Image mainNPCImage;
-    [SerializeField] private Image subNPCImage;
+    [Header("Sprites (targets)")]
+    [SerializeField] private SpriteRenderer mainNPC;   // The primary character sprite to bob
+    [SerializeField] private SpriteRenderer subNPC;    // A secondary character sprite to bob
 
-    private RectTransform mainNPCRectTransform;
-    private Vector2 mainNPCOriginalPosition;
-    private Tween mainNPCbreathingTween;
-    private int mainNPC_YOffset = 10;
+    [Header("Motion Settings")]
+    [SerializeField] private bool useLocalSpace = true;      // true: use localPosition (relative to parent); false: world position
+    [SerializeField] private bool updateWhilePaused = false; // true: keep animating when timeScale==0 (menus/pauses)
 
-    // SubNPC Breathing Animation Config
-    private RectTransform subNPCRectTransform;
-    private Vector2 subNPCOoriginalPosition;
-    private Tween subNPCbreathingTween;
-    private int subNPC_YOffset = 7;
+    [Tooltip("How far the MAIN sprite moves vertically (world units/meters).")]
+    [SerializeField] private float mainYOffset = 0.10f;
+
+    [Tooltip("Seconds for one half-cycle (down or up) of MAIN breathing.")]
+    [SerializeField] private float mainDuration = 1.5f;
+
+    [Tooltip("How far the SUB sprite moves vertically (world units/meters).")]
+    [SerializeField] private float subYOffset = 0.07f;
+
+    [Tooltip("Seconds for one half-cycle (down or up) of SUB breathing.")]
+    [SerializeField] private float subDuration = 1.0f;
+
+    [Tooltip("Easing curve for both tweens (InOutSine feels natural).")]
+    [SerializeField] private Ease ease = Ease.InOutSine;
+
+    // Cached transforms and original positions so we can restore on stop/teardown
+    private Transform mainT, subT;
+    private Vector3 mainOriginalPos, subOriginalPos;
+
+    // Currently running tweens (kept so we can Kill() them explicitly)
+    private Tween mainTween, subTween;
 
     private void Start()
     {
-        NPCInit();
+        // Cache transforms if sprites were assigned
+        if (mainNPC) mainT = mainNPC.transform;
+        if (subNPC) subT = subNPC.transform;
 
-        StartNPCBreathingAnimation();
+        // Remember where each sprite started (local or world space)
+        if (mainT) mainOriginalPos = useLocalSpace ? mainT.localPosition : mainT.position;
+        if (subT) subOriginalPos = useLocalSpace ? subT.localPosition : subT.position;
+
+        // Kick off the looping animation
+        StartBreathing();
+    }
+
+    private void OnDisable()
+    {
+        // When the object is disabled (e.g., scene change or parent turned off),
+        // stop tweens and restore positions to avoid dangling tweens targeting destroyed objects.
+        StopBreathing();
     }
 
     private void OnDestroy()
     {
-        StopNPCBreathingAnimation();
-    }   
-
-    private void NPCInit()
-    {
-        // NPC RectTransform 설정
-        if (mainNPCImage != null)
-            mainNPCRectTransform = mainNPCImage.GetComponent<RectTransform>();
-
-        if (subNPCImage != null)
-            subNPCRectTransform = subNPCImage.GetComponent<RectTransform>();
-
-        // NPC Original Position 설정
-        if (mainNPCRectTransform != null)
-            mainNPCOriginalPosition = mainNPCRectTransform.anchoredPosition;
-
-        if (subNPCRectTransform != null)
-            subNPCOoriginalPosition = subNPCRectTransform.anchoredPosition;
-
-        Debug.Log(subNPCOoriginalPosition);
+        // Redundant safety: in case OnDisable didn't run, ensure we clean up
+        StopBreathing();
     }
 
-    private void StartNPCBreathingAnimation()
+    /// <summary>
+    /// Starts/resumes breathing on available sprites.
+    /// Safe to call multiple times; it kills/replaces any existing tweens.
+    /// </summary>
+    public void StartBreathing()
     {
-        if (mainNPCRectTransform == null) return;
-        if (subNPCRectTransform == null) return;
+        // MAIN sprite breathing
+        if (mainT)
+        {
+            // Kill any previous tween on this transform to prevent stacking
+            mainTween?.Kill();
 
-        // Tween 비워주고 시작
-        // StopNPCBreathingAnimation();    
+            // Compute target Y based on original position and offset
+            float targetY = mainOriginalPos.y - mainYOffset;
 
-        // 메인 NPC 호흡 애니메이션 시작
-        mainNPCbreathingTween = mainNPCRectTransform.DOAnchorPosY(mainNPCOriginalPosition.y - mainNPC_YOffset, 1.5f).
-                                                     SetEase(Ease.InOutSine).
-                                                     SetLoops(-1, LoopType.Yoyo);
+            // Pick the correct move function for world/local mode
+            mainTween = (useLocalSpace
+                ? mainT.DOLocalMoveY(targetY, mainDuration)
+                : mainT.DOMoveY(targetY, mainDuration))
+                .SetEase(ease)                     // natural smooth in/out
+                .SetLoops(-1, LoopType.Yoyo)       // loop forever: down→up→down...
+                .SetUpdate(updateWhilePaused)      // ignore timeScale if desired
+                .SetLink(mainT.gameObject, LinkBehaviour.KillOnDestroy); // auto-kill when object is destroyed
+        }
 
-        // 서브 NPC 호흡 애니메이션 시작
-        subNPCbreathingTween = subNPCRectTransform.DOAnchorPosY(subNPCOoriginalPosition.y - subNPC_YOffset, 1f).
-                                                     SetEase(Ease.InOutSine).
-                                                     SetLoops(-1, LoopType.Yoyo);
+        // SUB sprite breathing
+        if (subT)
+        {
+            subTween?.Kill();
+
+            float targetY = subOriginalPos.y - subYOffset;
+
+            subTween = (useLocalSpace
+                ? subT.DOLocalMoveY(targetY, subDuration)
+                : subT.DOMoveY(targetY, subDuration))
+                .SetEase(ease)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(updateWhilePaused)
+                .SetLink(subT.gameObject, LinkBehaviour.KillOnDestroy);
+        }
     }
 
-    private void StopNPCBreathingAnimation()
+    /// <summary>
+    /// Stops breathing on both sprites and restores original positions.
+    /// Safe to call even if no tweens are active.
+    /// </summary>
+    public void StopBreathing()
     {
-        // 메인 NPC 호흡 애니메이션 정지
-        if (mainNPCbreathingTween != null)
+        // Kill tweens (if they exist) to stop updates immediately
+        if (mainTween != null) { mainTween.Kill(); mainTween = null; }
+        if (subTween != null) { subTween.Kill(); subTween = null; }
+
+        // Restore each sprite to its starting position (important for consistent re-entry)
+        if (mainT)
         {
-            mainNPCbreathingTween.Kill();
-            mainNPCbreathingTween = null;
+            if (useLocalSpace) mainT.localPosition = mainOriginalPos;
+            else mainT.position = mainOriginalPos;
         }
 
-        // 서브 NPC 호흡 애니메이션 정지
-        if (subNPCbreathingTween != null)
+        if (subT)
         {
-            subNPCbreathingTween.Kill();
-            subNPCbreathingTween = null;
+            if (useLocalSpace) subT.localPosition = subOriginalPos;
+            else subT.position = subOriginalPos;
         }
+    }
 
-        // NPC 위치 초기화
-        if (mainNPCRectTransform != null)
-            mainNPCRectTransform.anchoredPosition = mainNPCOriginalPosition;
+    // 🔧 Optional helpers if you want to swap sprites at runtime:
 
-        if (subNPCRectTransform != null)
-            subNPCRectTransform.anchoredPosition = subNPCOoriginalPosition;
+    /// <summary>
+    /// Assigns a new main sprite target at runtime and restarts breathing.
+    /// </summary>
+    public void SetMain(SpriteRenderer newMain, bool restart = true)
+    {
+        StopBreathing();
+        mainNPC = newMain;
+        mainT = newMain ? newMain.transform : null;
+        if (mainT) mainOriginalPos = useLocalSpace ? mainT.localPosition : mainT.position;
+        if (restart) StartBreathing();
+    }
+
+    /// <summary>
+    /// Assigns a new sub sprite target at runtime and restarts breathing.
+    /// </summary>
+    public void SetSub(SpriteRenderer newSub, bool restart = true)
+    {
+        StopBreathing();
+        subNPC = newSub;
+        subT = newSub ? newSub.transform : null;
+        if (subT) subOriginalPos = useLocalSpace ? subT.localPosition : subT.position;
+        if (restart) StartBreathing();
     }
 
 }
