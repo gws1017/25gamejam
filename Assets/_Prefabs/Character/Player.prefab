@@ -122,7 +122,7 @@ MonoBehaviour:
   robotSpiritObject: {fileID: 5990434182332541677}
   cam: {fileID: 0}
   speed: 4
-  radius: 2
+  radius: 1
   horizontalAxis: 0
   verticalAxis: 0
   mouseWorld: {x: 0, y: 0, z: 0}

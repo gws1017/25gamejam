@@ -5,6 +5,8 @@ public class BaseController : MonoBehaviour
     protected Rigidbody2D rigidBody2D;
     protected SpriteRenderer spriteRenderer;
 
+    protected bool isPlayer;
+
     protected virtual void Awake()
     {
         rigidBody2D =  GetComponent<Rigidbody2D>();

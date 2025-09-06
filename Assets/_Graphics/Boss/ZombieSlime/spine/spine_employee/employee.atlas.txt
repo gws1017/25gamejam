@@ -1,0 +1,90 @@
+
+employee.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bird_01
+  rotate: false
+  xy: 219, 377
+  size: 58, 51
+  orig: 58, 63
+  offset: 0, 0
+  index: -1
+bird_02
+  rotate: true
+  xy: 2, 2
+  size: 58, 43
+  orig: 58, 63
+  offset: 0, 10
+  index: -1
+body_01
+  rotate: false
+  xy: 279, 378
+  size: 55, 50
+  orig: 95, 72
+  offset: 12, 12
+  index: -1
+body_02
+  rotate: false
+  xy: 2, 120
+  size: 74, 50
+  orig: 95, 72
+  offset: 11, 12
+  index: -1
+foot_01
+  rotate: false
+  xy: 2, 62
+  size: 53, 56
+  orig: 53, 56
+  offset: 0, 0
+  index: -1
+foot_02
+  rotate: false
+  xy: 131, 179
+  size: 33, 56
+  orig: 33, 56
+  offset: 0, 0
+  index: -1
+foot_03
+  rotate: false
+  xy: 131, 237
+  size: 45, 61
+  orig: 45, 61
+  offset: 0, 0
+  index: -1
+hand_01
+  rotate: true
+  xy: 78, 128
+  size: 42, 51
+  orig: 42, 51
+  offset: 0, 0
+  index: -1
+hand_02
+  rotate: false
+  xy: 131, 300
+  size: 61, 58
+  orig: 61, 58
+  offset: 0, 0
+  index: -1
+hand_03
+  rotate: false
+  xy: 131, 360
+  size: 86, 68
+  orig: 86, 68
+  offset: 0, 0
+  index: -1
+head_01
+  rotate: false
+  xy: 2, 172
+  size: 127, 127
+  orig: 127, 127
+  offset: 0, 0
+  index: -1
+head_02
+  rotate: false
+  xy: 2, 301
+  size: 127, 127
+  orig: 127, 127
+  offset: 0, 0
+  index: -1
