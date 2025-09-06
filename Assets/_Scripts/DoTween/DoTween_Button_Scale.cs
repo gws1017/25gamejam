@@ -34,31 +34,40 @@ public class DoTween_Button_Scale : DoTween_Button
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
+        if (!buttonTransform) return;
+
         base.OnPointerEnter(eventData);
 
         // 버튼에 마우스 오버 시 스케일 업
         onPointerEnterTween = buttonTransform.DOScale(originalScale * scaleUpFactor, tweenDuration).
                                               SetEase(easeType).
-                                              SetUpdate(true);
+                                              SetUpdate(true).
+                                              SetLink(buttonTransform.gameObject, LinkBehaviour.KillOnDestroy);
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
+        if (!buttonTransform) return;
+
         base.OnPointerExit(eventData);
 
         // 버튼에서 마우스 아웃 시 원래 스케일로 복원
         onPointerExitTween = buttonTransform.DOScale(originalScale, tweenDuration).
                                              SetEase(easeType).
-                                             SetUpdate(true);
+                                             SetUpdate(true).
+                                             SetLink(buttonTransform.gameObject, LinkBehaviour.KillOnDestroy);
     }
 
     public override void OnButtonClick()
     {
+        if (!buttonTransform) return;
+
         base.OnButtonClick();
 
         // Over 0.2 seconds, make the UI element quickly expand by about 15%, wobble 10 times with full bounce, then return to its normal size
         // and do it even if the game is paused
         onButtonClickTween = buttonTransform.DOPunchScale(Vector3.one * 0.15f, 0.2f, 10, 1).
-                                              SetUpdate(true);
+                                              SetUpdate(true).
+                                              SetLink(buttonTransform.gameObject, LinkBehaviour.KillOnDestroy);
     }
 }

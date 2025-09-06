@@ -23,6 +23,13 @@ public class DoTween_Popup : MonoBehaviour
         StartHidden();
     }
 
+    private void OnDestroy()
+    {
+        // Kill all tweens to prevent memory leaks
+        canvasGroup.DOKill();
+        rectTransform.DOKill();
+    }
+
     private void StartHidden()
     {
         ResetState();

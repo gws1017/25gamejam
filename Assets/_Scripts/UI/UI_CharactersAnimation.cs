@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_MainMenu_CharactersAnimation : MonoBehaviour
+public class UI_CharactersAnimation : MonoBehaviour
 {
     [Header("NPC Images")]
     [SerializeField] private Image mainNPCImage;
@@ -25,6 +25,11 @@ public class UI_MainMenu_CharactersAnimation : MonoBehaviour
 
         StartNPCBreathingAnimation();
     }
+
+    private void OnDestroy()
+    {
+        StopNPCBreathingAnimation();
+    }   
 
     private void NPCInit()
     {
