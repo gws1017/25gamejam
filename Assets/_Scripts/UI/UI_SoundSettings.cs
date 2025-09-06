@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Settings : MonoBehaviour, IToggleUI
+public class UI_SoundSettings : MonoBehaviour, IToggleUI
 {
     [Header("Options Config")]
     [SerializeField] private GameObject contentParent;
