@@ -10,11 +10,22 @@ public class ItemEvents : MonoBehaviour
     {
         Instance = this;
     }
+
+    private void EmptySingleton()
+    {
+        if (Instance != null)
+            Instance = null;
+    }
     #endregion
 
     private void Awake()
     {
         SingleTon();
+    }
+
+    private void OnDestroy()
+    {
+        EmptySingleton();
     }
 
     public event EventHandler OnAddHeartItemBought;

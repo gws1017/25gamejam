@@ -37,6 +37,9 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
     {
         exitButton.onClick.AddListener(() =>
         {
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             doTweenPopup.Hide(Hide);
         });
     }
@@ -55,6 +58,7 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
     {
         contentParent.SetActive(true);
         doTweenPopup.Show();
+        SoundEvents.Instance.InvokeOnPlayUIPopupFx();
     }
     #endregion
 }

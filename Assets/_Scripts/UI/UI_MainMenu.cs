@@ -38,6 +38,9 @@ public class UI_MainMenu : MonoBehaviour
             // DoTween Button Click Animation
             gameStartButtonTween.OnButtonClick();
 
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             SceneManager.LoadScene(SceneLoader.Scene.IntroScene.ToString());
         });
 
@@ -46,6 +49,9 @@ public class UI_MainMenu : MonoBehaviour
             // DoTween Button Click Animation
             quitButtonTween.OnButtonClick();
 
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             Application.Quit();
         });
 
@@ -53,6 +59,9 @@ public class UI_MainMenu : MonoBehaviour
         {
             // DoTween Button Click Animation
             optionsButtonTween.OnButtonClick();
+
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
 
             ui_SoundSettings.Show();
             ui_SoundSettings.GetDoTweenPopup().Show();

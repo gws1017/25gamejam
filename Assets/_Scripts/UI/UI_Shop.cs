@@ -93,6 +93,15 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         doTweenPopup.Hide(Hide);
     }
 
+    private void ExecutePurchaseProcess(Action itemEventAction)
+    {
+        // Play Button Click SFX
+        SoundEvents.Instance.InvokeOnPlayButtonFx();
+        BuyItem();
+
+        itemEventAction?.Invoke();
+    }
+
     private bool IsPurchaseAllowed() => Time.unscaledTime >= nextPurchaseAllowedTime;
     private void StartPurchaseCooldown() => nextPurchaseAllowedTime = Time.unscaledTime + itemPurchaseCooldown;
 
@@ -106,6 +115,9 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     {
         contentParents.SetActive(true);
         doTweenPopup.Show();
+
+        // Play popup open SFX
+        SoundEvents.Instance.InvokeOnPlayUIPopupFx();
     }
 
     public void SubscribeOnClickEvents()
@@ -113,45 +125,47 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         exitButton.onClick.AddListener(() =>
         {
             doTweenPopup.Hide(Hide);
+
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
         });
 
         // 아이템 버튼 onClick 이벤트 등록
         // Each button: wrap in TryPurchase so cooldown is enforced
         item_AddHeart.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnAddHeartItemBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnAddHeartItemBought);
                 Debug.Log("AddHeart Item Purchased");
             }));
 
         item_Invincibility.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnInvincibilityBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnInvincibilityBought);
+                Debug.Log("Invincibility Item Purchased");
             }));
 
         item_EnemySpeedDown.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnEnemySpeedDownBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnEnemySpeedDownBought);
+                Debug.Log("EnemySpeedDown Item Purchased");
             }));
 
         item_AttackBoost.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnAttackBoostBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnAttackBoostBought);
+                Debug.Log("AttackBoost Item Purchased");
             }));
 
         item_EnemyDefensePowerDown.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnEnemyDefenseDownBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnEnemyDefenseDownBought);
+                Debug.Log("EnemyDefensePowerDown Item Purchased");
             }));
 
         item_DefenseBoost.onClick.AddListener(() =>
             TryPurchase(() => {
-                BuyItem();
-                itemEvents.InvokeOnDefenseBoostBought();
+                ExecutePurchaseProcess(itemEvents.InvokeOnDefenseBoostBought);
+                Debug.Log("DefenseBoost Item Purchased");
             }));
     }
 

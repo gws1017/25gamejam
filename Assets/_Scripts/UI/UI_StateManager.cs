@@ -13,6 +13,12 @@ public class UI_StateManager : MonoBehaviour
 
         Instance = this;
     }
+
+    private void EmptySingleton()
+    {
+        if (Instance != null)
+            Instance = null;
+    }
     #endregion
 
     public enum UIState
@@ -44,6 +50,11 @@ public class UI_StateManager : MonoBehaviour
     {
         Build_UIStateDictionary();
         HideAll();
+    }
+
+    private void OnDestroy()
+    {
+        EmptySingleton();
     }
 
     #region Internal Logic

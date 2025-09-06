@@ -33,11 +33,17 @@ public class UI_InGame : MonoBehaviour
     {
         shopButton.onClick.AddListener(() =>
         {
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Shop);
         });
 
         pauseButton.onClick.AddListener(() =>
         {
+            // Play Button Click SFX
+            SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Paused);
         });
     }
