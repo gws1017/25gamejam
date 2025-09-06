@@ -206,6 +206,9 @@ MonoBehaviour:
   damage: 5
   currentHP: 3
   maxHP: 3
+  level: 1
+  currentExp: 0
+  maxExp: 100
 --- !u!114 &8492088418331964841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   robotSpiritObject: {fileID: 5990434182332541677}
   cam: {fileID: 0}
+  robot: {fileID: 0}
   speed: 4
   radius: 1
   parryLayerMask:

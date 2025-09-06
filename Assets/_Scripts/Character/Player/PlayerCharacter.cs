@@ -3,9 +3,10 @@ using UnityEngine;
 public class PlayerCharacter : BaseCharacter
 {
     //플레이어 정보
-    private int level;
-    private int currentExp;
-    private int maxExxp;
+    [Header("PlayerStatus")]
+    [SerializeField] private int level;
+    [SerializeField] private int currentExp;
+    [SerializeField] private int maxExp;
 
     private bool isDead = false;
     public int CurrentExp => currentExp;
@@ -26,15 +27,17 @@ public class PlayerCharacter : BaseCharacter
     public void IncreamentExp(int exp)
     {
         currentExp += exp;
-        currentExp = Mathf.Clamp(currentExp, 0, maxExxp);
+
         LevelUp();
+        currentExp = Mathf.Clamp(currentExp, 0, maxExp);
+
     }
 
     public void LevelUp()
     {
-        if (currentExp >= maxExxp)
+        if (currentExp >= maxExp)
         {
-            currentExp = 0;
+            currentExp -= maxExp;
             level++;
         }
     }
@@ -48,12 +51,25 @@ public class PlayerCharacter : BaseCharacter
         GetComponent<Animator>().SetBool("isDead",isDead);
     }
 
+    //데미지 처리
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var bullet = collision.GetComponent<Bullet>();
-        if (bullet == null) return;
+        float applyDamage = 0f;
 
-        currentHP -= collision.GetComponent<Bullet>().Damage;
+        //탄환 데미지 적용
+        var bullet = collision.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            applyDamage += bullet.Damage;
+        }
+        //몬스터 근접공격 데미지 적용
+        var monster = collision.GetComponent<MonsterCharacter>();
+        if (monster != null)
+        {
+            applyDamage += monster.Damage;
+        }
+
+        currentHP -= applyDamage;
         currentHP = Mathf.Clamp(currentHP, 0,MaxHP);
 
         if (currentHP > 0)

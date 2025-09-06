@@ -3,10 +3,11 @@ using UnityEngine;
 public class MonsterCharacter : BaseCharacter
 {
     protected AIController controller;
-    [SerializeField] protected float dropExp = 1f;
+    [SerializeField] protected int dropExp = 1;
     [SerializeField] protected float attackRange = 2f;
 
     public float AttackRange => attackRange;
+    public int DropExp => dropExp;
 
     protected override void Awake()
     {
@@ -40,6 +41,7 @@ public class MonsterCharacter : BaseCharacter
     {
         base.Die();
         //오브젝트 풀링 사용시 변경 필요
+
         Destroy(gameObject);
     }
 
@@ -57,7 +59,7 @@ public class MonsterCharacter : BaseCharacter
         }
         else
         {
-            Die();
+            controller.ChangeState(AIController.AIState.Dead);
         }
     }
 }

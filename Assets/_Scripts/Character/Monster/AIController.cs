@@ -1,7 +1,7 @@
 using UnityEngine;
 public class AIController : BaseController
 {
-    //¸ó½ºÅÍ °øÅë ÄÁÆ®·Ñ·¯ Å¬·¡½º
+    //ëª¬ìŠ¤í„° ê³µí†µ ì»¨íŠ¸ë¡¤ëŸ¬ í´ë˜ìŠ¤
 
     protected Rigidbody2D targetPlayer;
     protected MonsterCharacter owner;
@@ -50,6 +50,8 @@ public class AIController : BaseController
                 owner.Attack();
                 break;
              case AIState.Dead:
+                targetPlayer.GetComponent<PlayerCharacter>().IncreamentExp(owner.DropExp);
+                owner.Die();
                 break;
         }
     }
@@ -62,7 +64,7 @@ public class AIController : BaseController
     private void MoveToTarget()
     {
         Vector2 nextVec = targetDir * moveSpeed * Time.fixedDeltaTime;
-        //°ø°İ»ç°Å¸®±îÁö ÀÌµ¿
+        //ê³µê²©ì‚¬ê±°ë¦¬ê¹Œì§€ ì´ë™
         if (targetDir.magnitude >= owner.AttackRange)
         {
             rigidBody2D.MovePosition(rigidBody2D.position + nextVec);
@@ -70,7 +72,7 @@ public class AIController : BaseController
         }
         else
         {
-            //°ø°İ°¡´ÉÇÑ °Å¸®¸é 
+            //ê³µê²©ê°€ëŠ¥í•œ ê±°ë¦¬ë©´ 
             ChangeState(AIState.Attack);
         }
     }
