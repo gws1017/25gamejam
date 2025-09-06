@@ -3,7 +3,10 @@ using UnityEngine;
 public class BaseCharacter : MonoBehaviour
 {
 
-    
+    protected virtual void Awake()
+    {
+
+    }
 
     void Start()
     {
