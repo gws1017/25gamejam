@@ -23,6 +23,7 @@ public class BossZombie : MonsterCharacter
         base.Spawn();
 
         if (controller == null) return;
+
         StartCoroutine(SpawnCorutine());
     }
 
@@ -39,6 +40,8 @@ public class BossZombie : MonsterCharacter
         bulletObject.Init(damage,gameObject);
         bulletObject.AddIgnoreObject(gameObject); // 본인 무시
         controller.ChangeState(AIController.AIState.Move);
+        GetComponent<Animator>().SetTrigger("Move");
+
     }
 
     //등장시 이동과 스케일을 서서히 늘린다
@@ -76,7 +79,7 @@ public class BossZombie : MonsterCharacter
         rb.MovePosition(spawnPos);
         transform.localScale = targetScale;
         controller.ChangeState(AIController.AIState.Move);
-
+        GetComponent<Animator>().SetTrigger("Move");
         BossZombieController bc = controller as BossZombieController;
         if (bc == null) yield break;
         Vector2 dir = (rb.position - targetPos);

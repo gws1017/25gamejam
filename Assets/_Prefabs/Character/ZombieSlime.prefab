@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 87311880212391647}
   - component: {fileID: 9196988966477607017}
   - component: {fileID: 6155493384743665826}
+  - component: {fileID: 8089265591075543225}
   m_Layer: 0
   m_Name: ZombieSlime
   m_TagString: Untagged
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 656623f49b61f9c4e8c00d6c15d8c75c, type: 3}
+  m_Sprite: {fileID: -964842494257694910, guid: 60afdb2005554474cb14d101280b270f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -159,7 +160,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3.5}
+    oldSize: {x: 1.36, y: 1.79}
     newSize: {x: 3, y: 3.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -205,3 +206,25 @@ MonoBehaviour:
   - 90
   - 180
   - 270
+--- !u!95 &8089265591075543225
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115483976116657050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 994f3310e58017e40865f5ffe72452fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -4,14 +4,14 @@ using UnityEngine;
 public class BossZombieController : AIController
 {
     private float rotateAngle = 0f;
-    [SerializeField] private float rotateSpeed = 10f; // È¸Àü¼Óµµ
-    [SerializeField] private List<float> attackAngles = new List<float>() { 0, 90, 180, 270 }; // °ø°İÀüÈ¯ °¢µµ
+    [SerializeField] private float rotateSpeed = 10f; // íšŒì „ì†ë„
+    [SerializeField] private List<float> attackAngles = new List<float>() { 0, 90, 180, 270 }; // ê³µê²©ì „í™˜ ê°ë„
 
     private List<float> lastAngles = new List<float>();
 
     public float RotateAngle { get => rotateAngle; set => rotateAngle = value; }
 
-    //±âº» ÀÌµ¿ÀÌ Á»ºñº¸½º´Â ´Ş¶ó¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ±¸Çö
+    //ê¸°ë³¸ ì´ë™ì´ ì¢€ë¹„ë³´ìŠ¤ëŠ” ë‹¬ë¼ì„œ ì˜¤ë²„ë¼ì´ë“œí•˜ì—¬ êµ¬í˜„
     protected override void CalculateAIMovement()
     {
         RotateFromTarget();
@@ -35,7 +35,17 @@ public class BossZombieController : AIController
         float currentAngle = rotateAngle % 360f;
         if(CanAttack(currentAngle))
         {
+            GetComponent<Animator>().SetTrigger("Idle");
             ChangeState(AIState.Attack);
+        }
+
+        Vector2 playerDir = targetPlayer.position - rigidBody2D.position;
+
+        // 2. SpriteRenderer ì–»ê¸°
+        
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = playerDir.x > 0f;
         }
     }
 
