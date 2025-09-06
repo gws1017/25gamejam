@@ -44,9 +44,6 @@ public class UI_StateManager : MonoBehaviour
     {
         Build_UIStateDictionary();
         HideAll();
-
-        // Default state
-        SetState(UIState.UI_Paused);
     }
 
     #region Internal Logic
@@ -57,7 +54,7 @@ public class UI_StateManager : MonoBehaviour
         TryAdd(UIState.UI_Shop, ui_Shop);
         TryAdd(UIState.UI_Skill, ui_Skill);
         TryAdd(UIState.UI_GameOver, ui_GameOver);
-        TryAdd(UIState.UI_SoundSettings, ui_GameOver);
+        TryAdd(UIState.UI_SoundSettings, ui_SoundSettings);
     }
 
     private void TryAdd(UIState state, MonoBehaviour UIComponent)

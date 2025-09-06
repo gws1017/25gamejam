@@ -6,66 +6,46 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
     [Header("Options Config")]
     [SerializeField] private GameObject contentParent;
     [SerializeField] private Button exitButton;
-    [SerializeField] private DoTween_Popup optionsPopup;
-
-    // References
-    private EventsManager eventsManager;
+    [SerializeField] private DoTween_Popup doTweenPopup;
 
     private void Awake()
     {
-        if (optionsPopup == null)
-            optionsPopup = GetComponentInChildren<DoTween_Popup>(); 
-    }
-
-    private void OnEnable()
-    {
-        eventsManager = EventsManager.Instance;
+        if (doTweenPopup == null)
+            doTweenPopup = GetComponentInChildren<DoTween_Popup>(); 
     }
 
     private void Start()
     {
-        SubscribeToEvents();
-        SubscribeOnClickEventListeners();
+        SubscribeOnClickEvents();
 
         Hide();
     }
 
     private void OnDestroy()
     {
-        UnSubscribeFromEvents();
+        UnsubscribeOnClickEvents();
+    }
+
+    public DoTween_Popup GetDoTweenPopup()
+    {
+        return doTweenPopup;
     }
 
     #region Internal Logic  
-    // Events Methods
-    private void SubscribeOnClickEventListeners()
+    // Interface Methods
+    public void SubscribeOnClickEvents()
     {
         exitButton.onClick.AddListener(() =>
         {
-            optionsPopup.Hide(Hide);
+            doTweenPopup.Hide(Hide);
         });
     }
 
-    private void SubscribeToEvents()
+    public void UnsubscribeOnClickEvents()
     {
-        if (eventsManager == null) return;
-
-        eventsManager.Events_UI.OnOptionsButtonClicked += Events_UI_OnOptionsButtonClicked;
+        exitButton.onClick.RemoveAllListeners();
     }
 
-    private void UnSubscribeFromEvents()
-    {
-        if (eventsManager == null) return;
-
-        eventsManager.Events_UI.OnOptionsButtonClicked -= Events_UI_OnOptionsButtonClicked;
-    }
-
-    private void Events_UI_OnOptionsButtonClicked(object sender, System.EventArgs e)
-    {
-        optionsPopup.Show(Show);
-    }
-
-
-    // Interface Methods
     public void Hide()
     {
         contentParent.SetActive(false);
@@ -74,6 +54,7 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
     public void Show()
     {
         contentParent.SetActive(true);
+        doTweenPopup.Show();
     }
     #endregion
 }

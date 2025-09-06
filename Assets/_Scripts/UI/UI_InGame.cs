@@ -20,7 +20,7 @@ public class UI_InGame : MonoBehaviour
 
     private void Start()
     {
-        
+        SubscribeOnClickEvents();
     }
 
     private void OnDestroy()
@@ -29,16 +29,16 @@ public class UI_InGame : MonoBehaviour
     }
 
 
-    private void SubscribeOnClickEvents()
+    public void SubscribeOnClickEvents()
     {
         shopButton.onClick.AddListener(() =>
         {
-            
+            UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Shop);
         });
 
         pauseButton.onClick.AddListener(() =>
         {
-            
+            UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Paused);
         });
     }
 
