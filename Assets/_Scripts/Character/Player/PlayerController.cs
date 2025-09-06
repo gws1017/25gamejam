@@ -10,6 +10,8 @@ public class PlayerController : BaseController
     [Header("Property")]
     [SerializeField] private float speed = 4f; // 플레이어 이동속도
     [SerializeField] private float radius = 2f; // 로봇 정령 회전 반지름
+    [SerializeField] private float parryDistance = 1f; // 패링 허용 거리
+    [SerializeField] private float parryDistanceOffset = 2f; // 패링 실패 오프셋값
     [SerializeField] private LayerMask parryLayerMask; //패링 객체 탐색용 마스크
 
 
@@ -123,11 +125,12 @@ public class PlayerController : BaseController
 
     private void CanParry()
     {
-        var hits = Physics2D.OverlapCircleAll(transform.position, 1f, parryLayerMask);
+        var hits = Physics2D.OverlapCircleAll(transform.position, parryDistance + parryDistanceOffset, parryLayerMask);
+        var parrySuccess = Physics2D.OverlapCircleAll(transform.position, parryDistance, parryLayerMask);
 
         robot.detectedParryTarget = hits.Length > 0; //패링가능한 타겟 감지
 
-        foreach (var hit in hits)
+        foreach (var hit in parrySuccess)
         {
             var parryable = hit.GetComponent<IParryable>();
             if (parryable != null && parryable.CanBeParried && robot.hasParried == false)

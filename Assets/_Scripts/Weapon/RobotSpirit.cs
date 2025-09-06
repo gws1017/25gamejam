@@ -5,7 +5,7 @@ public class RobotSpirit : MonoBehaviour
 {
 
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float damage = 5f; //로봇 정령 탄환 데미지
+    [SerializeField] private int damage = 5; //로봇 정령 탄환 데미지
     [SerializeField] private float parryTime = 0.2f; // 패링 가능시간
     [SerializeField] private bool isParrying = false; //패링 가능 상태
 
@@ -53,6 +53,7 @@ public class RobotSpirit : MonoBehaviour
         if(hasParried == false && detectedParryTarget)
         {
             Debug.Log("패링 실패");
+            GetComponentInParent<PlayerCharacter>().ApplyDamage();
         }
         parryCoroutine = null;
     }

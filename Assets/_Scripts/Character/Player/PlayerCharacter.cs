@@ -42,6 +42,23 @@ public class PlayerCharacter : BaseCharacter
         }
     }
 
+    //데미지 처리함수
+    public void ApplyDamage(int damage = 1)
+    {
+        currentHP -= damage;
+        currentHP = Mathf.Clamp(currentHP, 0, MaxHP);
+
+        if (currentHP > 0)
+        {
+            Hit();
+        }
+        else
+        {
+            if (IsDead == false)
+                Die();
+        }
+    }
+
     public override void Die()
     {
         isDead = true;
@@ -54,7 +71,7 @@ public class PlayerCharacter : BaseCharacter
     //데미지 처리
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        float applyDamage = 0f;
+        int applyDamage = 0;
 
         //탄환 데미지 적용
         var bullet = collision.GetComponent<Bullet>();
@@ -69,17 +86,6 @@ public class PlayerCharacter : BaseCharacter
             applyDamage += monster.Damage;
         }
 
-        currentHP -= applyDamage;
-        currentHP = Mathf.Clamp(currentHP, 0,MaxHP);
-
-        if (currentHP > 0)
-        {
-            Hit();
-        }
-        else
-        {
-            if(IsDead == false)
-                Die();
-        }
+        ApplyDamage(applyDamage);
     }
 }
