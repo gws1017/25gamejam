@@ -137,7 +137,11 @@ public class PlayerController : BaseController
             {
                 Debug.Log("패링 성공");
                 robot.hasParried = true;
-                //parryable.OnParried(parryDirection);
+                parryable.OnParried(hit.ClosestPoint(transform.position));
+
+                //투사체 패링이면 발사자 변경
+                if (parryable is not Bullet bullet) return;
+                bullet.Init(robot.Damage, gameObject);
             }
         }
     }

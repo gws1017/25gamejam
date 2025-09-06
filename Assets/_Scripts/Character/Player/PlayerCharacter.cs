@@ -75,7 +75,7 @@ public class PlayerCharacter : BaseCharacter
 
         //탄환 데미지 적용
         var bullet = collision.GetComponent<Bullet>();
-        if (bullet != null)
+        if (bullet != null && bullet.causerObject != gameObject)
         {
             applyDamage += bullet.Damage;
         }

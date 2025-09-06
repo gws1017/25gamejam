@@ -13,6 +13,7 @@ public class RobotSpirit : MonoBehaviour
     public bool hasParried = false; //패링 연속 입력 방지 변수
     public bool detectedParryTarget = false; //패링중 대상 감지 여부
     public bool IsParrying => isParrying;
+    public int Damage => damage;
 
     public void Attack(float angle)
     {
@@ -20,7 +21,7 @@ public class RobotSpirit : MonoBehaviour
         
         var bulletObject = Instantiate(bulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)).GetComponent<Bullet>();
 
-        bulletObject.Init(damage);
+        bulletObject.Init(damage, transform.parent.gameObject);
         bulletObject.AddIgnoreObject(gameObject); // 본인 무시(로봇정령)
         bulletObject.AddIgnoreObject(transform.parent.gameObject); // 플레이어 무시
     }

@@ -36,7 +36,7 @@ public class BossZombie : MonsterCharacter
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
         var bulletObject = Instantiate(zombieBulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)).GetComponent<Bullet>();
 
-        bulletObject.Init(damage);
+        bulletObject.Init(damage,gameObject);
         bulletObject.AddIgnoreObject(gameObject); // 본인 무시
         controller.ChangeState(AIController.AIState.Move);
     }

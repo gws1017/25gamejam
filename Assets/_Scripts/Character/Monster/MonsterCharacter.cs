@@ -49,8 +49,14 @@ public class MonsterCharacter : BaseCharacter
     {
         //플레이어 공격은 투사체 밖에 없다
         if (!collision.CompareTag("Projectile")) return;
+        int applyDamage = 0;
 
-        currentHP -= collision.GetComponent<Bullet>().Damage;
+        var bullet = collision.GetComponent<Bullet>();
+        if(bullet != null && bullet.causerObject != gameObject)
+        {
+            applyDamage += bullet.Damage;
+        }
+        currentHP -= applyDamage;
 
         if(currentHP > 0)
         {
