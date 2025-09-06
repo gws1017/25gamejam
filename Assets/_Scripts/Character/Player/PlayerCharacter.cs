@@ -41,22 +41,23 @@ public class PlayerCharacter : BaseCharacter
 
     public override void Die()
     {
-        base.Die();
-
         isDead = true;
+        base.Die();
+        
         //애니메이션 호출
-        GetComponent<Animator>().SetTrigger("Die");
+        GetComponent<Animator>().SetBool("isDead",isDead);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var bullet = collision.GetComponent<Bullet>();
+        if (bullet == null) return;
 
         currentHP -= collision.GetComponent<Bullet>().Damage;
         currentHP = Mathf.Clamp(currentHP, 0,MaxHP);
 
         if (currentHP > 0)
         {
-            //
             Hit();
         }
         else

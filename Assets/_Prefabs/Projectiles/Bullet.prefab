@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7672723523971845551}
   - component: {fileID: 325201501101714376}
   - component: {fileID: 8196805767785128859}
-  - component: {fileID: 736425438467673309}
   - component: {fileID: 4738730770246755910}
-  m_Layer: 0
+  - component: {fileID: 736425438467673309}
+  m_Layer: 10
   m_Name: Bullet
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -120,22 +120,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &736425438467673309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8743953251841192934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b33a38ac65326c4da8ee5ba50385599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  speed: 3
-  lifetime: 3
-  damage: 1
-  ignoreObjects: []
 --- !u!61 &4738730770246755910
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,3 +166,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.5, y: 2.5}
   m_EdgeRadius: 0
+--- !u!114 &736425438467673309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8743953251841192934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b33a38ac65326c4da8ee5ba50385599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  speed: 3
+  lifetime: 3
+  damage: 1
+  ignoreObjects: []

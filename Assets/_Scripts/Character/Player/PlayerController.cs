@@ -5,10 +5,13 @@ public class PlayerController : BaseController
     [Header("Component")]
     [SerializeField] private GameObject robotSpiritObject;
     [SerializeField] private Camera cam;
+    [SerializeField] private RobotSpirit robot;
 
     [Header("Property")]
-    [SerializeField] private float speed = 4f; // �÷��̾� �̵� �ӵ�
-    [SerializeField] private float radius = 2f; // �κ� ���� ������
+    [SerializeField] private float speed = 4f; // 플레이어 이동속도
+    [SerializeField] private float radius = 2f; // 로봇 정령 회전 반지름
+    [SerializeField] private LayerMask parryLayerMask; //패링 객체 탐색용 마스크
+
 
     [Header("Input Raw Data")]
     [SerializeField] private float horizontalAxis;
@@ -20,13 +23,16 @@ public class PlayerController : BaseController
     [SerializeField] private bool isHorizonMove;
 
     [SerializeField] private Vector3 dirVec;
-    [SerializeField] private int lastHorzDir = 1; // 1: ������, -1: ����
+    [SerializeField] private int lastHorzDir = 1;
+
 
     private Animator anim;
+
     protected override void Awake()
     {
         base.Awake();
         anim = GetComponent<Animator>();
+        robot = GetComponentInChildren<RobotSpirit>();
     }
     void Start()
     {
@@ -37,8 +43,13 @@ public class PlayerController : BaseController
     {
         var player = GetComponent<PlayerCharacter>();
         if (player == null) return;
-        if (player.IsDead == true) return;
-
+        if (player.IsDead == true)
+        {
+            if(robot != null)
+                robot.ClearParryFlags();
+            rigidBody2D.linearVelocity = Vector3.zero;
+            return;
+        }
         CheckInput();
 
         RotateRobot();
@@ -53,16 +64,20 @@ public class PlayerController : BaseController
         //Vector2 moveVec = isHorizonMove ? new Vector2(horizontalAxis, 0) : new Vector2(0, verticalAxis);
         Vector2 moveVec = new Vector2(horizontalAxis, 0);
         rigidBody2D.linearVelocity = moveVec * speed;
-
+        
+        var robot = GetComponentInChildren<RobotSpirit>();
+        if (robot != null && robot.IsParrying)
+        {
+            CanParry();
+        }
     }
-
-    //Ű�Է� üũ
+    //키입력 체크
     void CheckInput()
     {
         horizontalAxis = Input.GetAxisRaw("Horizontal");
         verticalAxis = Input.GetAxisRaw("Vertical");
 
-        //���콺 ������ǥ ���
+        //마우스 입력 체크
         if (cam != null)
         {
             Vector3 mouseScreenPos = Input.mousePosition;
@@ -102,24 +117,53 @@ public class PlayerController : BaseController
             spriteRenderer.flipX = false;
 
         CheckAttack();
+        CheckParryKey();
+    }
+
+
+    private void CanParry()
+    {
+        var hits = Physics2D.OverlapCircleAll(transform.position, 1f, parryLayerMask);
+
+        robot.detectedParryTarget = hits.Length > 0; //패링가능한 타겟 감지
+
+        foreach (var hit in hits)
+        {
+            var parryable = hit.GetComponent<IParryable>();
+            if (parryable != null && parryable.CanBeParried && robot.hasParried == false)
+            {
+                Debug.Log("패링 성공");
+                robot.hasParried = true;
+                //parryable.OnParried(parryDirection);
+            }
+        }
+    }
+
+    private void CheckParryKey()
+    {
+        if(Input.GetButtonDown("MouseR"))
+        {
+            Debug.Log("MouseR");
+            if(robot != null)
+                robot.ActiveParry();
+        }
     }
 
     private void CheckAttack()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            RobotSpirit robot = robotSpiritObject.GetComponent<RobotSpirit>();
             robot.Attack(mouseAngle);
         }
     }
 
-    //�κ� ���� ȸ��
+    //로봇 정령 회전
     void RotateRobot()
     {
         if (robotSpiritObject == null) return;
         if (cam == null)
         {
-            Debug.Log("�÷��̾� ��Ʈ�ѷ��� ī�޶� Set �����ʾҽ��ϴ�.");
+            Debug.LogWarning("MainCam is not Set!");
             return;
         }
 

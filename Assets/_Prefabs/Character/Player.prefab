@@ -222,6 +222,9 @@ MonoBehaviour:
   cam: {fileID: 0}
   speed: 4
   radius: 1
+  parryLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   horizontalAxis: 0
   verticalAxis: 0
   mouseWorld: {x: 0, y: 0, z: 0}
