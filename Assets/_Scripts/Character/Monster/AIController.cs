@@ -20,9 +20,14 @@ public class AIController : BaseController
 
     [SerializeField] protected AIState currentState;
 
+    //Getter
     public Rigidbody2D TargetPlayer => targetPlayer;
     public Vector2 TargetDir => targetDir;
     public float MoveSpeed => moveSpeed;
+
+    //Setter
+
+    public float SetSpeed { set => moveSpeed = value;}
 
     protected override void Awake()
     {

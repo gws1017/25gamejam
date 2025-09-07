@@ -18,6 +18,7 @@ public class MonsterCharacter : BaseCharacter
     public void  SetSpeed(int value)
     {
         speed = value;
+        controller.SetSpeed = value;
     }
 
     protected override void Awake()

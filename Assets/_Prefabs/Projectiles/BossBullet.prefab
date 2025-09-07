@@ -11,30 +11,26 @@ PrefabInstance:
     - target: {fileID: 325201501101714376, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 97e6f66f3f92e3e4088fd962619c2c29, type: 3}
+      objectReference: {fileID: 21300000, guid: b95cb2be154ad714497688ff1cc73c40, type: 3}
     - target: {fileID: 736425438467673309, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: speed
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 736425438467673309, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
-      propertyPath: damage
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Size.x
-      value: 0.8849961
+      value: 0.7498596
       objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Size.y
-      value: 0.22428392
+      value: 0.34697366
       objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Offset.x
-      value: 0.0042545497
+      value: 0.0042545795
       objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Offset.y
-      value: -0.0023900792
+      value: -0.0015010238
       objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -94,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Name
-      value: playerBullet
+      value: BossBullet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
