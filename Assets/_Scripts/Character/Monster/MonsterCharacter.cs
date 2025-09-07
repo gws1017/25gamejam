@@ -9,6 +9,7 @@ public class MonsterCharacter : BaseCharacter
     [SerializeField] protected float attackRange = 2f;
     [SerializeField] protected float attackCoolTime = 1f;
     [SerializeField] protected string attackTrigger = "Idle";
+    [SerializeField] protected float powerUpMultiplier = 0.1f;
     protected bool isAttacking = false;
     protected bool isLive = true;
 
@@ -35,17 +36,26 @@ public class MonsterCharacter : BaseCharacter
         damage = 1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
         isLive = true;
         controller.enabled = true;
         currentHP = MaxHP;
+    }
+
+    public virtual void PowerUp(int count)
+    {
+        powerUpMultiplier *= count; //1~9 : 0 , 10 ~ 19 : 0.1 , 20 ~ 29 : 0.2
+
+        float pm = 1 + powerUpMultiplier;
+
+        controller.SetSpeed = controller.MoveSpeed * pm;
+        maxHP *= pm;
+        defense *= pm;
+        //경험치도 늘리고싶으면 주석해제
+        //dropExp = Mathf.CeilToInt(((float)dropExp * pm));
+
+        currentHP = maxHP;
     }
 
     public virtual void Spawn()

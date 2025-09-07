@@ -18,6 +18,17 @@ public class BossZombie : MonsterCharacter
     {
         
     }
+
+    public override void PowerUp(int count)
+    {
+        base.PowerUp(count);
+
+        float pm = 1 + powerUpMultiplier * 2;
+
+        if (controller is not BossZombieController bc) return;
+        bc.RotateSpeed *= pm;
+
+    }
     public override void Spawn()
     {
         base.Spawn();

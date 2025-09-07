@@ -10,6 +10,14 @@ public class BossZombieController : AIController
     private List<float> lastAngles = new List<float>();
 
     public float RotateAngle { get => rotateAngle; set => rotateAngle = value; }
+    public float RotateSpeed { get => rotateSpeed; set => rotateSpeed = value; }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        ChangeState(AIState.Spawn);
+    }
 
     //기본 이동이 좀비보스는 달라서 오버라이드하여 구현
     protected override void CalculateAIMovement()
