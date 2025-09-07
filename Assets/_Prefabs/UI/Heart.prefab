@@ -85,7 +85,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8760950032044450442}
   - component: {fileID: 8773205664034271617}
-  - component: {fileID: 7511092082971100912}
   m_Layer: 5
   m_Name: Heart
   m_TagString: Untagged
@@ -127,47 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
   heartFillObject: {fileID: 3659438085974673995}
-  heartFillGraphic: {fileID: 4506500013607845088}
-  useDoTween: 1
-  healPopDuration: 0.18
-  healSettleDuration: 0.1
-  damagePunchDuration: 0.14
-  damagePunchScale: {x: -0.22, y: -0.22}
-  rotatePunchZ: 10
-  fadeInDuration: 0.1
-  fadeOutDuration: 0.12
-  flashDuration: 0.06
-  healEase: 27
-  damageEase: 9
-  healFlashColor: {r: 1, g: 0.95, b: 0.6, a: 1}
-  damageFlashColor: {r: 1, g: 0.4, b: 0.4, a: 1}
---- !u!114 &7511092082971100912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6149687824255028866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74ac622381585e043bce466963d12b5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Heart
-  heartFillObject: {fileID: 0}
-  heartFillGraphic: {fileID: 0}
-  useDoTween: 1
-  healPopDuration: 0.18
-  healSettleDuration: 0.1
-  damagePunchDuration: 0.14
-  damagePunchScale: {x: -0.22, y: -0.22}
-  rotatePunchZ: 10
-  fadeInDuration: 0.1
-  fadeOutDuration: 0.12
-  flashDuration: 0.06
-  healEase: 27
-  damageEase: 9
-  healFlashColor: {r: 1, g: 0.95, b: 0.6, a: 1}
-  damageFlashColor: {r: 1, g: 0.4, b: 0.4, a: 1}
 --- !u!1 &8041988909995835681
 GameObject:
   m_ObjectHideFlags: 0
