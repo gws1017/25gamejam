@@ -37,11 +37,16 @@ public class PlayerController : BaseController
 
     private Animator anim;
 
+    private PlayerItemEffects playerItemEffects;
+    private PlayerCharacter playerCharacter;
+
     protected override void Awake()
     {
         base.Awake();
         anim = GetComponent<Animator>();
         robot = GetComponentInChildren<RobotSpirit>();
+        playerItemEffects = GetComponent<PlayerItemEffects>();
+        playerCharacter = GetComponent<PlayerCharacter>();
     }
     void Start()
     {
@@ -215,7 +220,6 @@ public class PlayerController : BaseController
         if (firePoint == null || BulletPool.Instance == null) return; // 세팅 안 되었으면 종료
         if (fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
 
-        var playerCharacter = GetComponent<PlayerCharacter>();
         if (playerCharacter == null) return;
 
         // 발사 방향 결정(수평만):
@@ -229,11 +233,18 @@ public class PlayerController : BaseController
         // 발사 위치: firePoint.position 그대로 사용(트랜스폼 고정)
         Vector3 spawnPos = firePoint.position;
 
-        float damage = playerCharacter.Damage;                      // 탄환 데미지 = 플레이어 공격력
+        float baseDamage = playerCharacter.Damage;                              // 탄환 데미지 = 플레이어 공격력
+        float attackMultiplier = (playerItemEffects != null) ? 
+                                 playerItemEffects.AttackMultiplier : 1f;
+        float finalBulletDamage = baseDamage * attackMultiplier;
+
+#if UNITY_EDITOR
+        Debug.Log($"[Shoot] BaseDamage={baseDamage}, AttackMultiplier={attackMultiplier}, FinalBulletDamage={finalBulletDamage}");
+#endif
 
         // 풀에서 탄환 꺼내기 → 초기화 → 발사
         Bullet bullet = BulletPool.Instance.Spawn(firePoint.position, Quaternion.identity);
-        bullet.Init(damage, gameObject); // 사수 등록(자기 자신 피격 방지)
+        bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
 
         fireTimer = fireCooldown;   // 쿨다운 재시작

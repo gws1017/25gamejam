@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,19 +19,29 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     [SerializeField] private Button item_EnemyDefensePowerDown;
     [SerializeField] private Button item_DefenseBoost;
 
+    [Header("Price Config")]
+    [SerializeField] private int price_AddHeart = 100;
+    [SerializeField] private int price_Invincibility = 100;
+    [SerializeField] private int price_EnemySpeedDown = 100;
+    [SerializeField] private int price_AttackBoost = 100;
+    [SerializeField] private int price_EnemyDefensePowerDown = 100;
+    [SerializeField] private int price_DefenseBoost = 100;
+
     private float nextPurchaseAllowedTime = 0f;
     private float itemPurchaseCooldown = 5f;
     private Button[] itemButtons;
 
     private ItemEvents itemEvents;
     private GameManager gameManager;
-    private SoundEvents soundEvents;    
+    private SoundEvents soundEvents;
+    private PlayerWallet playerWallet;
 
     private void Start()
     {
         itemEvents = ItemEvents.Instance;
         gameManager = GameManager.Instance;
         soundEvents = SoundEvents.Instance;
+        playerWallet = PlayerCharacter.Instance.PlayerWallet;  
 
         SubscribeOnClickEvents();
         InitalizeButtonsArray();
@@ -82,17 +93,22 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         }
     }
 
-    private void TryPurchase(Action performPurchaseAndFireEvent)
+    private void TryPurchase(int price, Action performPurchaseAndFireEvent)
     {
         if (!IsPurchaseAllowed())
         {
-            // TODO: play error sound or show message
+            // 오류 효과음 등
+            return;
+        }
 
+        if (!playerWallet.TrySpend(price))
+        {
+            // 골드 부족 알림
             return;
         }
 
         // Do gold check here
-        
+
         performPurchaseAndFireEvent?.Invoke();
         StartPurchaseCooldown();
         doTweenPopup.Hide(Hide);
@@ -134,48 +150,44 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     {
         exitButton.onClick.AddListener(() =>
         {
-            // Play Button Click SFX
             soundEvents.InvokeOnPlayButtonFx();
-
             doTweenPopup.Hide(Hide);
         });
 
-        // 아이템 버튼 onClick 이벤트 등록
-        // Each button: wrap in TryPurchase so cooldown is enforced
         item_AddHeart.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_AddHeart, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnAddHeartItemBought);
-                Debug.Log("AddHeart Item Purchased");
+                UnityEngine.Debug.Log("AddHeart Item Purchased");
             }));
 
         item_Invincibility.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_Invincibility, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnInvincibilityBought);
-                Debug.Log("Invincibility Item Purchased");
+                UnityEngine.Debug.Log("Invincibility Item Purchased");
             }));
 
         item_EnemySpeedDown.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_EnemySpeedDown, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnEnemySpeedDownBought);
-                Debug.Log("EnemySpeedDown Item Purchased");
+                UnityEngine.Debug.Log("EnemySpeedDown Item Purchased");
             }));
 
         item_AttackBoost.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_AttackBoost, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnAttackBoostBought);
-                Debug.Log("AttackBoost Item Purchased");
+                UnityEngine.Debug.Log("AttackBoost Item Purchased");
             }));
 
         item_EnemyDefensePowerDown.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_EnemyDefensePowerDown, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnEnemyDefenseDownBought);
-                Debug.Log("EnemyDefensePowerDown Item Purchased");
+                UnityEngine.Debug.Log("EnemyDefensePowerDown Item Purchased");
             }));
 
         item_DefenseBoost.onClick.AddListener(() =>
-            TryPurchase(() => {
+            TryPurchase(price_DefenseBoost, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnDefenseBoostBought);
-                Debug.Log("DefenseBoost Item Purchased");
+                UnityEngine.Debug.Log("DefenseBoost Item Purchased");
             }));
     }
 
