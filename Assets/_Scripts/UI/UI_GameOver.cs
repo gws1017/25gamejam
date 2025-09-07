@@ -37,6 +37,7 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
 
     public void Hide()
     {
+        GameManager.Instance.ResumeGame(); // 게임 재개
         contentParents.SetActive(false);
     }
 
@@ -66,6 +67,7 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
 
             // Play Button Click SFX
             SoundEvents.Instance.InvokeOnPlayButtonFx();
+
             Hide();
 
             // 게임씬 재로딩
