@@ -83,6 +83,8 @@ public class SoundManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (SoundEvents.Instance == null) return;   
+
         SoundEvents.Instance.OnPlayUIPopupFx -= SoundEvents_OnPlayUIPopupFx;
         SoundEvents.Instance.OnPlayButtonFx -= SoundEvents_OnPlayButtonFx;
         EmptySingleton();
