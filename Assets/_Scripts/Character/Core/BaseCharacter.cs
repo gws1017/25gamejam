@@ -4,6 +4,8 @@ public class BaseCharacter : MonoBehaviour
 {
     [Header("Character Status")]
     [SerializeField] protected int damage;
+    [SerializeField] protected int defense;
+    [SerializeField] protected int speed;
     [SerializeField] protected int currentHP;
     [SerializeField] protected int maxHP;
 
