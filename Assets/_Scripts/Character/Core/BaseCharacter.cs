@@ -3,16 +3,17 @@ using UnityEngine;
 public class BaseCharacter : MonoBehaviour
 {
     [Header("Character Status")]
-    [SerializeField] protected int damage;
-    [SerializeField] protected int defense;
-    [SerializeField] protected int speed;
-    [SerializeField] protected int currentHP;
-    [SerializeField] protected int maxHP;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float defense;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float currentHP;
+    [SerializeField] protected float maxHP;
 
-
-    public int Damage => damage;
-    public int CurrentHP => currentHP;
-    public int MaxHP => maxHP;
+    public float Defense => defense;
+    public float Speed => speed;
+    public float Damage => damage;
+    public float CurrentHP => currentHP;
+    public float MaxHP => maxHP;
 
     protected virtual void Awake()
     {

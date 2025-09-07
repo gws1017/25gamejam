@@ -7,6 +7,7 @@ public class PlayerCharacter : BaseCharacter
     [SerializeField] private int level;
     [SerializeField] private int currentExp;
     [SerializeField] private int maxExp;
+    private int maxLevel = 1000;
 
     private bool isDead = false;
     public int CurrentExp => currentExp;
@@ -35,15 +36,20 @@ public class PlayerCharacter : BaseCharacter
 
     public void LevelUp()
     {
-        if (currentExp >= maxExp)
+        if (currentExp >= maxExp || level <= maxLevel)
         {
             currentExp -= maxExp;
             level++;
         }
     }
 
+    public float FinalDamage()
+    {
+        return 0.0f;
+    }
+
     //데미지 처리함수
-    public void ApplyDamage(int damage = 1)
+    public void ApplyDamage(float damage = 1f)
     {
         currentHP -= damage;
         currentHP = Mathf.Clamp(currentHP, 0, MaxHP);
@@ -71,21 +77,21 @@ public class PlayerCharacter : BaseCharacter
     //데미지 처리
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        int applyDamage = 0;
+        float finalDamage = 0;
 
         //탄환 데미지 적용
         var bullet = collision.GetComponent<Bullet>();
         if (bullet != null && bullet.causerObject != gameObject)
         {
-            applyDamage += bullet.Damage;
+            finalDamage += bullet.Damage;
         }
         //몬스터 근접공격 데미지 적용
         var monster = collision.GetComponent<MonsterCharacter>();
         if (monster != null)
         {
-            applyDamage += monster.Damage;
+            finalDamage += monster.Damage ;
         }
 
-        ApplyDamage(applyDamage);
+        ApplyDamage(finalDamage);
     }
 }

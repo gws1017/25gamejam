@@ -15,6 +15,11 @@ public class MonsterCharacter : BaseCharacter
     public float AttackCoolTime => attackCoolTime;
     public int DropExp => dropExp;
 
+    public void  SetSpeed(int value)
+    {
+        speed = value;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -67,7 +72,7 @@ public class MonsterCharacter : BaseCharacter
     {
         //플레이어 공격은 투사체 밖에 없다
         if (!collision.CompareTag("Projectile")) return;
-        int applyDamage = 0;
+        float applyDamage = 0;
 
         var bullet = collision.GetComponent<Bullet>();
         if(bullet != null && bullet.causerObject != gameObject)
