@@ -83,6 +83,8 @@ public class UI_Paused : MonoBehaviour, IToggleUI
             // Play Button Click SFX
             soundEvents.InvokeOnPlayButtonFx();
 
+            Hide();
+
             SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
         });
     }
