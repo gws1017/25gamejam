@@ -115,12 +115,12 @@ public class GameManager : MonoBehaviour
             case GameState.CountdownToStart:
                 StartCountDownTimer();
                 // 플레이어 슈팅 불가능
-                Debug.Log("Countdown To Start");
+                // Debug.Log("Countdown To Start");
                 break;
             case GameState.GamePlaying:
                 // 플레이어 슈팅 가능
                 // 적 스폰 시작
-                Debug.Log("Game Playing");
+                // Debug.Log("Game Playing");
                 break;
             case GameState.GameOver:
                 break;

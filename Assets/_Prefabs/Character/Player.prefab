@@ -36,6 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7030402488101352700}
+  - {fileID: 3283408029046618267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6110946975422721817
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1416862065
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: f58b58f0c520a9248a7a78b99662f5aa, type: 3}
@@ -204,6 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacter
   damage: 5
+  defense: 0
+  speed: 0
   currentHP: 3
   maxHP: 3
   level: 1
@@ -231,6 +234,9 @@ MonoBehaviour:
   parryLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  firePoint: {fileID: 3283408029046618267}
+  fireCooldown: 0.15
+  autoFire: 1
   horizontalAxis: 0
   verticalAxis: 0
   mouseWorld: {x: 0, y: 0, z: 0}
@@ -239,6 +245,37 @@ MonoBehaviour:
   isHorizonMove: 0
   dirVec: {x: 0, y: 0, z: 0}
   lastHorzDir: 1
+--- !u!1 &9053706897726936481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3283408029046618267}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3283408029046618267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053706897726936481}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.379, y: -0.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3586394016731827960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8733130291125499801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -294,6 +331,10 @@ PrefabInstance:
     - target: {fileID: 5478018335763619390, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
       propertyPath: damage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6805794330130772027, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
