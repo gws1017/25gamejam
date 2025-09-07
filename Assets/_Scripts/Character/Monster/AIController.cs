@@ -68,7 +68,6 @@ public class AIController : BaseController
                 CalculateAIMovement();
                 break;
             case AIState.Attack:
-                LookAtPlayer();
                 owner.Attack();
                 break;
              case AIState.Dead:
@@ -76,6 +75,13 @@ public class AIController : BaseController
                 owner.Die();
                 break;
         }
+    }
+    private void LateUpdate()
+    {
+        if (targetPlayer == null) return;
+        if (!owner.IsLive) return;
+
+        LookAtPlayer();
     }
 
     protected virtual void CalculateAIMovement()
@@ -85,14 +91,12 @@ public class AIController : BaseController
 
     protected void LookAtPlayer()
     {
-        Vector2 playerDir = (targetPlayer.position - rigidBody2D.position).normalized;
-
         if (spriteRenderer != null)
         {
-            if(spriteDir == 1)
-                spriteRenderer.flipX = playerDir.x > 0f;
-            if(spriteDir == -1)
-                spriteRenderer.flipX = playerDir.x < 0f;
+            if (spriteDir == -1)
+                spriteRenderer.flipX = targetPlayer.position.x < rigidBody2D.position.x;
+            else if(spriteDir == 1)
+                spriteRenderer.flipX = targetPlayer.position.x > rigidBody2D.position.x;
         }
     }
 
