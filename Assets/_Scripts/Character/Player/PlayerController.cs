@@ -14,6 +14,8 @@ public class PlayerController : BaseController
     [SerializeField] private float parryDistance = 1f; // 패링 허용 거리
     [SerializeField] private float parryDistanceOffset = 2f; // 패링 실패 오프셋값
     [SerializeField] private LayerMask parryLayerMask; //패링 객체 탐색용 마스크
+    [SerializeField] private AudioClip ParryFX;            
+    [SerializeField] private GameObject parryVFX;
 
     [Header("Player Shooting")]
     [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
@@ -156,7 +158,8 @@ public class PlayerController : BaseController
                 Debug.Log("패링 성공");
                 robot.hasParried = true;
                 parryable.OnParried(hit.ClosestPoint(transform.position));
-
+                SoundManager.Instance.PlaySoundFX(ParryFX, 0.6f);
+                Instantiate(parryVFX, hit.ClosestPoint(transform.position), Quaternion.identity);
                 //투사체 패링이면 발사자 변경
                 if (parryable is not Bullet bullet) return;
                 bullet.Init(robot.Damage, gameObject);

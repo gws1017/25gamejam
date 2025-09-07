@@ -7215,6 +7215,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 8492088418331964841, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: ParryFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 21cfc4fd1fd48b842bd5b72a92004de2, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
