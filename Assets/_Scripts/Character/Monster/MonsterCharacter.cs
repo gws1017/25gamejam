@@ -9,6 +9,11 @@ public class MonsterCharacter : BaseCharacter
     public float AttackRange => attackRange;
     public int DropExp => dropExp;
 
+    public void  SetSpeed(int value)
+    {
+        speed = value;
+    }
+
     protected override void Awake()
     {
         base.Awake();
