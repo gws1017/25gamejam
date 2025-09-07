@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ece7bea242c113d47988f2fc929cc27d
+guid: f3cb7ca7c27bb09448751201f8750a2d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2709814126384638493
-    second: Die 2_0
+      213: 5240180381402151629
+    second: "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Die 2_0
+      name: "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30_0"
       rect:
         serializedVersion: 2
-        x: 101
-        y: 114
-        width: 95
-        height: 134
+        x: 27
+        y: 0
+        width: 84
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d1aed7a37913b9520800000000000000
-      internalID: 2709814126384638493
+      spriteID: dca32701b4cd8b840800000000000000
+      internalID: 5240180381402151629
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Die 2_0: 2709814126384638493
+      "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30_0": 5240180381402151629
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
