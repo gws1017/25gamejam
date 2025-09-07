@@ -35,6 +35,10 @@ public class AIController : BaseController
         isPlayer = false;
 
         owner = GetComponent<MonsterCharacter>();
+        spriteRenderer.sortingOrder = 1;
+    }
+    private void OnEnable()
+    {
         targetPlayer = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
     }
     protected virtual void Start()
