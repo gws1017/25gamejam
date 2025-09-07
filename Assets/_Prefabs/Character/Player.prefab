@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2107991291112979802}
   - component: {fileID: 395398805236737927}
   - component: {fileID: 8492088418331964841}
+  - component: {fileID: 3314668463926008621}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -36,6 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7030402488101352700}
+  - {fileID: 7887001744707450926}
   - {fileID: 3283408029046618267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -212,6 +214,9 @@ MonoBehaviour:
   level: 1
   currentExp: 0
   maxExp: 100
+  playerWallet: {fileID: 0}
+  playerController: {fileID: 0}
+  playerItemEffects: {fileID: 0}
 --- !u!114 &8492088418331964841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +250,66 @@ MonoBehaviour:
   isHorizonMove: 0
   dirVec: {x: 0, y: 0, z: 0}
   lastHorzDir: 1
+--- !u!114 &3314668463926008621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104507074130716901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28bf867f7a9f5a4d9b703b0b307e973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerItemEffects
+  attackMultiplier: 1
+  defenseMultiplier: 1
+  isInvincible: 0
+--- !u!1 &3835270872313846531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7887001744707450926}
+  - component: {fileID: 7371109065487142118}
+  m_Layer: 0
+  m_Name: PlayerWallet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7887001744707450926
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3835270872313846531}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3586394016731827960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7371109065487142118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3835270872313846531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7698a552fb7e9b40bfacf86dcfdb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerWallet
+  currentGold: 0
 --- !u!1 &9053706897726936481
 GameObject:
   m_ObjectHideFlags: 0

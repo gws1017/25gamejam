@@ -5,6 +5,11 @@ public class PlayerWallet : MonoBehaviour
     [SerializeField] private int currentGold = 0;
     public int CurrentGold => currentGold;
 
+    private void Start()
+    {
+        currentGold = 5000; // 초기 골드 설정 (테스트용)
+    }
+
     public bool HasEnough(int price) => currentGold >= price;
 
     public bool TrySpend(int price)

@@ -771,6 +771,12 @@ MonoBehaviour:
   item_AttackBoost: {fileID: 2065723430}
   item_EnemyDefensePowerDown: {fileID: 1918403934}
   item_DefenseBoost: {fileID: 305537516}
+  price_AddHeart: 100
+  price_Invincibility: 100
+  price_EnemySpeedDown: 100
+  price_AttackBoost: 100
+  price_EnemyDefensePowerDown: 100
+  price_DefenseBoost: 100
 --- !u!1 &166717836
 GameObject:
   m_ObjectHideFlags: 0
@@ -7274,6 +7280,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3314668463926008621, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: itemEvents
+      value: 
+      objectReference: {fileID: 1344514767}
     - target: {fileID: 3586394016731827960, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

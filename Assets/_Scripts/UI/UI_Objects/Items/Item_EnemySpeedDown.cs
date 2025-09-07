@@ -1,16 +1,31 @@
 using UnityEngine;
 
-public class Item_EnemySpeedDown : MonoBehaviour
+public class Item_EnemySpeedDown : Item
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
+        itemEvents.OnEnemySpeedDownBought += OnBought;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update() { }
+
+    protected override void OnDestroy()
     {
-        
+        itemEvents.OnEnemySpeedDownBought -= OnBought;
     }
+
+    private void OnBought(object sender, System.EventArgs e)
+    {
+        ApplyItemEffects();
+    }
+
+    public override void ApplyItemEffects()
+    {
+        if (EnemyGlobalEffects.Instance == null) return;
+        // 실제 감속은 EnemyGlobalEffects에서 코루틴 처리
+    }
+
+    public override void RemoveItemEffects() { }
+
+    public override bool CheckItemPurchasability() => true;
 }

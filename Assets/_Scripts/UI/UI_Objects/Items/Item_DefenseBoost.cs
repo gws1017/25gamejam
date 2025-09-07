@@ -1,16 +1,32 @@
+/* 4-4) 10초간 방어력 40% 상승 */
 using UnityEngine;
 
-public class Item_DefenseBoost : MonoBehaviour
+public class Item_DefenseBoost : Item
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void Start()
     {
-        
+        itemEvents.OnDefenseBoostBought += OnBought;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update() { }
+
+    protected override void OnDestroy()
     {
-        
+        itemEvents.OnDefenseBoostBought -= OnBought;
     }
+
+    private void OnBought(object sender, System.EventArgs e)
+    {
+        ApplyItemEffects();
+    }
+
+    public override void ApplyItemEffects()
+    {
+        var effects = PlayerCharacter.Instance?.PlayerItemEffects;
+        if (effects == null) return;
+    }
+
+    public override void RemoveItemEffects() { }
+
+    public override bool CheckItemPurchasability() => true;
 }

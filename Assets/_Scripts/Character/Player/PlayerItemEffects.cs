@@ -11,23 +11,24 @@ public class PlayerItemEffects : MonoBehaviour
     [Header("States")]
     [SerializeField] private bool isInvincible = false;
 
+    [Space]
+    [SerializeField] private ItemEvents itemEvents;
+
     private PlayerCharacter playerCharacter;
-    private ItemEvents itemEvents;
 
     private Coroutine invincibilityCoroutine;
     private Coroutine attackBoostCoroutine;
     private Coroutine defenseBoostCoroutine;
 
-    public float CurrentAttack => playerCharacter.Damage * attackMultiplier;
-    public float CurrentDefense => playerCharacter.Defense * defenseMultiplier;
-    public bool IsInvincible => isInvincible;
+    public float AttackMultiplier => attackMultiplier;  
+    public float DefenseMultiplier => defenseMultiplier;
 
     private void Awake()
     {
         playerCharacter = GetComponent<PlayerCharacter>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         itemEvents = ItemEvents.Instance;
 
@@ -36,7 +37,7 @@ public class PlayerItemEffects : MonoBehaviour
         itemEvents.OnDefenseBoostBought += HandleDefenseBoostBought;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (itemEvents == null) return;
 
@@ -54,10 +55,24 @@ public class PlayerItemEffects : MonoBehaviour
 
     private IEnumerator InvincibilityTimer(float duration)
     {
+        // 내부 상태
         isInvincible = true;
+
+        // 실제 데미지 가드: PlayerCharacter의 외부 무적 플래그 ON
+        if (PlayerCharacter.Instance != null)
+            PlayerCharacter.Instance.IsInvincibleExternal = true;
+
         yield return new WaitForSeconds(duration);
+   
+
         isInvincible = false;
+
+        // 데미지 가드 OFF
+        if (PlayerCharacter.Instance != null)
+            PlayerCharacter.Instance.IsInvincibleExternal = false;
+
         itemEvents.InvokeOnInvincibilityExpired();
+        invincibilityCoroutine = null;
     }
 
     // 공격력 40% 상승 10초

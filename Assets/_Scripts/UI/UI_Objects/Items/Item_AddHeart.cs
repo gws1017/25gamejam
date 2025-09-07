@@ -21,8 +21,8 @@ public class Item_AddHeart : Item
 
     public override void ApplyItemEffects()
     {
-        // 단순 구현: 최대 체력 +1, 현재 체력 +1 회복(상한 클램프)
-        var player = FindObjectOfType<PlayerCharacter>();
+        // 최대 체력 +1, 현재 체력 +1 회복(상한 클램프)
+        var player = PlayerCharacter.Instance;
 
         if (player == null) return;
 
