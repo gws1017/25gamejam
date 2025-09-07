@@ -38,7 +38,7 @@ public class PlayerCharacter : BaseCharacter
     private void NotifyHealthChanged() => OnHealthChanged?.Invoke(currentHP, maxHP);
 
     public bool IsInvincibleExternal { get; set; } = false;
-    private int hitBuffer = 0; 
+    private int hitBuffer = 0;
 
     private int maxLevel = 1000;
     private Coroutine DamageDelayCorutine;
@@ -64,13 +64,14 @@ public class PlayerCharacter : BaseCharacter
 
     void Start()
     {
-        
+        UI_InGame.Instance.SetLevel(level);
+        UI_InGame.Instance.SetXPBar(currentExp, maxExp);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnDestroy()
@@ -85,6 +86,8 @@ public class PlayerCharacter : BaseCharacter
         LevelUp();
         currentExp = Mathf.Clamp(currentExp, 0, maxExp);
 
+        if (UI_InGame.Instance != null)
+            UI_InGame.Instance.SetXPBar(currentExp, maxExp);
     }
 
     public void LevelUp()
@@ -94,38 +97,40 @@ public class PlayerCharacter : BaseCharacter
             currentExp -= maxExp;
             level++;
         }
+
+        UI_InGame.Instance.SetLevel(level);
     }
 
     /// <summary>
     /// 체력을 회복한다. (양수만 허용, 오버힐 방지, 사망 시 무시)
     /// </summary>
-       public void Heal(float amount)
+    public void Heal(float amount)
+    {
+        if (IsDead) return;
+
+        if (Mathf.Approximately(amount, 1f))
         {
-            if (IsDead) return;
+            bool turnedOn = (hearts != null) && hearts.TurnOnLastOff();
+            if (turnedOn) currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
+            else currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
 
-            if (Mathf.Approximately(amount, 1f))
-            {
-                bool turnedOn = (hearts != null) && hearts.TurnOnLastOff();
-                if (turnedOn) currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
-                else currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
-
-                NotifyHealthChanged();
-                return;
-            }
-
-            // 특수 회복량은 기존 로직
-            currentHP = Mathf.Clamp(currentHP + Mathf.RoundToInt(amount), 0, MaxHP);
             NotifyHealthChanged();
+            return;
         }
+
+        // 특수 회복량은 기존 로직
+        currentHP = Mathf.Clamp(currentHP + Mathf.RoundToInt(amount), 0, MaxHP);
+        NotifyHealthChanged();
+    }
 
     //데미지 처리함수
     public void ApplyDamage(float damage = 1f)
     {
-        if(IsInvincibleExternal || IsDead) return;
+        if (IsInvincibleExternal || IsDead) return;
 
         if (Mathf.Approximately(damage, 1f))
         {
-            OnHit();             
+            OnHit();
             return;
         }
 
@@ -143,9 +148,9 @@ public class PlayerCharacter : BaseCharacter
     {
         isDead = true;
         base.Die();
-        
+
         //애니메이션 호출
-        GetComponent<Animator>().SetBool("isDead",isDead);
+        GetComponent<Animator>().SetBool("isDead", isDead);
     }
 
     //데미지 처리
@@ -169,9 +174,9 @@ public class PlayerCharacter : BaseCharacter
         ApplyDamage(finalDamage);
     }
 
-   private void OnHit()
-{
-    bool twoHit = (ItemEffects != null && ItemEffects.IsTwoHitDefenseActive);
+    private void OnHit()
+    {
+        bool twoHit = (ItemEffects != null && ItemEffects.IsTwoHitDefenseActive);
 
         if (twoHit)
         {
@@ -182,7 +187,7 @@ public class PlayerCharacter : BaseCharacter
 
         bool turnedOff = (hearts != null) && hearts.TurnOffFirstOn();
         if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
-        else           currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
+        else currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
 
         NotifyHealthChanged();
         if (currentHP > 0) Hit(); else if (!IsDead) Die();

@@ -4,6 +4,21 @@ using UnityEngine.UI;
 
 public class UI_InGame : MonoBehaviour
 {
+    #region [Singleton]
+    public static UI_InGame Instance { get; private set; }
+
+    private void SingleTon()
+    {
+        Instance = this;
+    }
+
+    private void EmptySingleton()
+    {
+        if (Instance != null)
+            Instance = null;
+    }
+    #endregion
+
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private Image xpBar;
@@ -17,6 +32,7 @@ public class UI_InGame : MonoBehaviour
 
     private void Awake()
     {
+        SingleTon();
         hearts = GetComponentInChildren<Hearts>();
     }
 
@@ -30,6 +46,7 @@ public class UI_InGame : MonoBehaviour
 
     private void OnDestroy()
     {
+        EmptySingleton();
         UnsubscribeOnClickEvents();
     }
 
@@ -69,8 +86,26 @@ public class UI_InGame : MonoBehaviour
         coinText.text = coin.ToString();
     }
 
-    public void SetXPBar(float fillAmount)
+    public void SetXPBar(int currentExp, int maxExp, bool animate = true)
     {
-        xpBar.fillAmount = fillAmount;
+        if (xpBar == null)
+        {
+            Debug.LogWarning("XP bar Image is not assigned.");
+            return;
+        }
+
+        float target = (maxExp <= 0) ? 0f : Mathf.Clamp01((float)currentExp / maxExp);
+
+#if DOTWEEN_ENABLED
+    if (animate)
+    {
+        xpBar.DOKill();                         // stop previous tweens if any
+        xpBar.DOFillAmount(target, 0.25f)       // requires using DG.Tweening;
+             .SetEase(Ease.OutCubic);
+        return;
+    }
+#endif
+
+        xpBar.fillAmount = target;
     }
 }
