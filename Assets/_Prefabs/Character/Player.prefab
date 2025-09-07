@@ -242,6 +242,8 @@ MonoBehaviour:
   parryLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  ParryFX: {fileID: 8300000, guid: 21cfc4fd1fd48b842bd5b72a92004de2, type: 3}
+  parryVFX: {fileID: 2024609680853542576, guid: ae4855d4dd3d7bf4691dcd3407ae3078, type: 3}
   firePoint: {fileID: 3283408029046618267}
   fireCooldown: 0.15
   autoFire: 1
