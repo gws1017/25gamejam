@@ -99,10 +99,10 @@ public class MonsterCharacter : BaseCharacter
         float applyDamage = 0;
 
         var bullet = collision.GetComponent<Bullet>();
-        if(bullet != null && bullet.causerObject != gameObject)
+        if(bullet != null && bullet.Causer != gameObject)
         {
-            if (bullet.causerObject != null && 
-                bullet.causerObject.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
+            if (bullet.Causer != null && 
+                bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
             applyDamage += bullet.Damage;
         }
         currentHP -= applyDamage;

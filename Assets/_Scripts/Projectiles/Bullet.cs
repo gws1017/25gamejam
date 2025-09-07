@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour, IParryable
 
     [SerializeField] LayerMask ignoreMask; 
 
-    public GameObject causerObject; // 발사자
+    public GameObject Causer { get; private set; } // 발사자
     protected Rigidbody2D rb;
     protected Coroutine lifeRoutine;
 
@@ -43,14 +43,14 @@ public class Bullet : MonoBehaviour, IParryable
         if (lifeRoutine != null) StopCoroutine(lifeRoutine);
         rb.linearVelocity = Vector2.zero;
         ignoreObjects.Clear();
-        causerObject = null;
+        Causer = null;
     }
 
     // 탄환 초기화(데미지/발사자 설정). 스폰 직후에 반드시 호출.
     public void Init(float dmg, GameObject causer)
     {
         damage = dmg;
-        causerObject = causer;
+        Causer = causer;
         AddIgnoreObject(causer); // 스폰 직후 발사자와는 충돌하지 않도록 등록
     }
 
