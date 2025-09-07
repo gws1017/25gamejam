@@ -11,6 +11,8 @@ public class PlayerItemEffects : MonoBehaviour
     [Header("States")]
     [SerializeField] private bool isInvincible = false;
 
+    public bool IsTwoHitDefenseActive { get; private set; }
+
     [Space]
     [SerializeField] private ItemEvents itemEvents;
 
@@ -90,18 +92,23 @@ public class PlayerItemEffects : MonoBehaviour
         itemEvents.InvokeOnAttackBoostExpired();
     }
 
-    // 방어력 40% 상승 10초
     private void HandleDefenseBoostBought(object sender, System.EventArgs e)
     {
         if (defenseBoostCoroutine != null) StopCoroutine(defenseBoostCoroutine);
-        defenseBoostCoroutine = StartCoroutine(DefenseBoostTimer(1.4f, 10f));
+        defenseBoostCoroutine = StartCoroutine(DefenseTwoHitTimer(10f));
     }
 
-    private IEnumerator DefenseBoostTimer(float multiplier, float duration)
+    private IEnumerator DefenseTwoHitTimer(float duration)
     {
-        defenseMultiplier *= multiplier;
+        // 시작: 두 번 맞아야 하트 1칸 모드 ON
+        IsTwoHitDefenseActive = true;
+
+        // 지정 시간 유지
         yield return new WaitForSeconds(duration);
-        defenseMultiplier /= multiplier;
-        itemEvents.InvokeOnDefenseBoostExpired();
+
+        // 종료: 원복
+        IsTwoHitDefenseActive = false;
+        itemEvents.InvokeOnDefenseBoostExpired();   // 공격 버프와 동일한 '만료' 알림 패턴
+        defenseBoostCoroutine = null;
     }
 }

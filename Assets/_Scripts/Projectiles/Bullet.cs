@@ -5,27 +5,31 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IParryable
 {
-    [SerializeField] private float speed = 8f;     // 탄환 속도
-    [SerializeField] private float lifetime = 3f;  // 탄환 생존 시간(초)
-    [SerializeField] private float damage = 1f;    // 탄환 기본 데미지
+    [SerializeField] protected float speed = 8f;     // 탄환 속도
+    [SerializeField] protected float lifetime = 3f;  // 탄환 생존 시간(초)
+    [SerializeField] protected float damage = 1f;    // 탄환 기본 데미지
 
     // 충돌 처리 무시할 오브젝트 등록(본인, 무기등)
     [SerializeField] private List<GameObject> ignoreObjects = new List<GameObject>();
 
+    [SerializeField] LayerMask ignoreMask; 
+
     public GameObject causerObject; // 발사자
-    private Rigidbody2D rb;
-    private Coroutine lifeRoutine;
+    protected Rigidbody2D rb;
+    protected Coroutine lifeRoutine;
 
     public float Speed => speed;
     public float Damage => damage;
     public bool CanBeParried { get; private set; } = true; // 패링 가능 여부
 
-    private void Awake()
+    protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
+    protected virtual void Start() { }
+
+    protected void OnEnable()
     {
         // 풀에서 재사용될 때 상태 초기화
         CanBeParried = true;
@@ -33,7 +37,7 @@ public class Bullet : MonoBehaviour, IParryable
         lifeRoutine = StartCoroutine(LifeTimer()); // 타이머 시작
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         // 풀로 되돌아갈 때 깔끔히 리셋
         if (lifeRoutine != null) StopCoroutine(lifeRoutine);
@@ -73,10 +77,14 @@ public class Bullet : MonoBehaviour, IParryable
             ignoreObjects.Add(obj);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         // 투사체 끼리는 충돌체크 하지 말 것
         if (collision.CompareTag("Projectile")) return;
+
+        // 무시할 레이어에 속한 오브젝트와의 충돌은 무시
+        int playerLayer = LayerMask.NameToLayer("Player");
+        if (collision.gameObject.layer == playerLayer) return; // 무시
 
         // 충돌 처리 무시 오브젝트 체크
         foreach (var ignore in ignoreObjects)

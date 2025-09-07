@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public class PlayerCharacter : BaseCharacter
 {
@@ -30,7 +31,14 @@ public class PlayerCharacter : BaseCharacter
     // lazy initialization
     public PlayerItemEffects ItemEffects => playerItemEffects ??= GetComponent<PlayerItemEffects>();
 
+    [Space]
+    [SerializeField] private Hearts hearts;
+
+    public event Action<float, float> OnHealthChanged; // (currentHP, maxHP)
+    private void NotifyHealthChanged() => OnHealthChanged?.Invoke(currentHP, maxHP);
+
     public bool IsInvincibleExternal { get; set; } = false;
+    private int hitBuffer = 0; 
 
     private int maxLevel = 1000;
     private Coroutine DamageDelayCorutine;
@@ -43,7 +51,7 @@ public class PlayerCharacter : BaseCharacter
     public PlayerController PlayerController => playerController;
     public PlayerItemEffects PlayerItemEffects => playerItemEffects;
 
-    private void Awake()
+    protected override void Awake()
     {
         SingleTon();
 
@@ -88,35 +96,47 @@ public class PlayerCharacter : BaseCharacter
         }
     }
 
-    public float FinalDamage()
-    {
-        return 0.0f;
-    }
+    /// <summary>
+    /// 체력을 회복한다. (양수만 허용, 오버힐 방지, 사망 시 무시)
+    /// </summary>
+       public void Heal(float amount)
+        {
+            if (IsDead) return;
+
+            if (Mathf.Approximately(amount, 1f))
+            {
+                bool turnedOn = (hearts != null) && hearts.TurnOnLastOff();
+                if (turnedOn) currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
+                else currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
+
+                NotifyHealthChanged();
+                return;
+            }
+
+            // 특수 회복량은 기존 로직
+            currentHP = Mathf.Clamp(currentHP + Mathf.RoundToInt(amount), 0, MaxHP);
+            NotifyHealthChanged();
+        }
 
     //데미지 처리함수
     public void ApplyDamage(float damage = 1f)
     {
-        // (무적이면 데미지 무시)
-        if (IsInvincibleExternal) return;
+        if(IsInvincibleExternal || IsDead) return;
 
-        // 방어 배수 반영: 들어온 피해 × (1 / DefenseMultiplier)
-        float defenseMultiplier = (ItemEffects != null) ? 
-                                   ItemEffects.DefenseMultiplier : 1f;
-        float damageTakenMultiplier = 1f / Mathf.Max(0.0001f, defenseMultiplier); // 예: 1.4배 방어 ⇒ 약 0.714배 피해
-        float finalDamage = damage * damageTakenMultiplier;
-
-        currentHP -= finalDamage;
-        currentHP = Mathf.Clamp(currentHP, 0, MaxHP);
-
-        if (currentHP > 0)
+        if (Mathf.Approximately(damage, 1f))
         {
-            Hit();
+            OnHit();             
+            return;
         }
-        else
-        {
-            if (IsDead == false)
-                Die();
-        }
+
+        float defenseMul = (ItemEffects != null) ? ItemEffects.DefenseMultiplier : 1f;
+        float takenMul = 1f / Mathf.Max(0.0001f, defenseMul);
+        int finalDamage = Mathf.Max(1, Mathf.RoundToInt(damage * takenMul));
+
+        int before = (int)currentHP;
+        currentHP = Mathf.Clamp(currentHP - finalDamage, 0, MaxHP);
+        if (currentHP != before) NotifyHealthChanged();
+        if (currentHP > 0) Hit(); else if (!IsDead) Die();
     }
 
     public override void Die()
@@ -133,6 +153,12 @@ public class PlayerCharacter : BaseCharacter
     {
         float finalDamage = 0;
 
+        if (collision.gameObject.name == "playerBullet(Clone)")
+        {
+            Debug.Log("Player Bullet Collision - Ignore");
+            return;
+        }
+
         //탄환 데미지 적용
         var bullet = collision.GetComponent<Bullet>();
         if (bullet != null && bullet.causerObject != gameObject)
@@ -141,6 +167,30 @@ public class PlayerCharacter : BaseCharacter
         }
 
         ApplyDamage(finalDamage);
+    }
+
+   private void OnHit()
+{
+    bool twoHit = (ItemEffects != null && ItemEffects.IsTwoHitDefenseActive);
+
+        if (twoHit)
+        {
+            hitBuffer++;
+            if (hitBuffer < 2) return; // 첫 타 흡수(변화 없음)
+            hitBuffer = 0;
+        }
+
+        bool turnedOff = (hearts != null) && hearts.TurnOffFirstOn();
+        if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
+        else           currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
+
+        NotifyHealthChanged();
+        if (currentHP > 0) Hit(); else if (!IsDead) Die();
+    }
+
+    public void OnHealOne(Hearts hearts)
+    {
+        hearts.TurnOnLastOff();          // 마지막에 꺼진 칸 켜기
     }
 
     //근접 공격 데미지 처리 
@@ -164,4 +214,16 @@ public class PlayerCharacter : BaseCharacter
         yield return new WaitForSeconds(time);
         DamageDelayCorutine = null;
     }
+
+    [ContextMenu("Heal1")]
+    public void Heal1()
+    {
+        Heal(1);
+    }
+
+    [ContextMenu("Hit Once")]
+    public void CM_HitOnce() => ApplyDamage(1f);
+
+    [ContextMenu("Hit x2")]
+    public void CM_HitTwice() { ApplyDamage(1f); ApplyDamage(1f); }
 }

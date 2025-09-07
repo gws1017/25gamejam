@@ -34,7 +34,6 @@ public class PlayerController : BaseController
     [SerializeField] private Vector3 dirVec;
     [SerializeField] private int lastHorzDir = 1;
 
-
     private Animator anim;
 
     private PlayerItemEffects playerItemEffects;
