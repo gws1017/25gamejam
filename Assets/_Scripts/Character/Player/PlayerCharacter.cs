@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerCharacter : BaseCharacter
 {
@@ -8,6 +9,7 @@ public class PlayerCharacter : BaseCharacter
     [SerializeField] private int currentExp;
     [SerializeField] private int maxExp;
     private int maxLevel = 1000;
+    private Coroutine DamageDelayCorutine;
 
     private bool isDead = false;
     public int CurrentExp => currentExp;
@@ -85,13 +87,29 @@ public class PlayerCharacter : BaseCharacter
         {
             finalDamage += bullet.Damage;
         }
-        //몬스터 근접공격 데미지 적용
-        var monster = collision.GetComponent<MonsterCharacter>();
-        if (monster != null)
-        {
-            finalDamage += monster.Damage ;
-        }
 
         ApplyDamage(finalDamage);
+    }
+
+    //근접 공격 데미지 처리 
+    //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (DamageDelayCorutine == null)
+        {
+            var mob = collision.GetComponent<MonsterCharacter>();
+            if (mob != null)
+            {
+                DamageDelayCorutine = StartCoroutine(DamageDelayCoroutine(mob.AttackCoolTime));
+            }
+        }
+    }
+
+    IEnumerator DamageDelayCoroutine(float time)
+    {
+        ApplyDamage();
+        yield return new WaitForSeconds(time);
+        DamageDelayCorutine = null;
     }
 }
