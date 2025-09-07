@@ -6,18 +6,18 @@ public class Bullet : MonoBehaviour, IParryable
     [SerializeField] private float speed = 1f;
     [SerializeField] private float lifetime = 3f;
 
-    [SerializeField] private int damage = 1;
+    [SerializeField] private float damage = 1;
     [SerializeField] private List<GameObject> ignoreObjects = new List<GameObject>(); //충돌 처리 무시할 오브젝트 등록(본인, 무기등)
 
     public GameObject causerObject;
     private Rigidbody2D rb;
 
-    public int Damage => damage;
+    public float Damage => damage;
 
 
     public bool CanBeParried { get; private set; } = true;
 
-    public void Init(int dmg, GameObject causer)
+    public void Init(float dmg, GameObject causer)
     {
         damage = dmg;
         causerObject = causer;
