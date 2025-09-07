@@ -169,9 +169,9 @@ public class PlayerCharacter : BaseCharacter
         ApplyDamage(finalDamage);
     }
 
-   private void OnHit()
-{
-    bool twoHit = (ItemEffects != null && ItemEffects.IsTwoHitDefenseActive);
+    private void OnHit()
+    {
+        bool twoHit = (ItemEffects != null && ItemEffects.IsTwoHitDefenseActive);
 
         if (twoHit)
         {
@@ -182,10 +182,15 @@ public class PlayerCharacter : BaseCharacter
 
         bool turnedOff = (hearts != null) && hearts.TurnOffFirstOn();
         if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
-        else           currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
+        else currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
 
         NotifyHealthChanged();
         if (currentHP > 0) Hit(); else if (!IsDead) Die();
+    }
+
+    public void OnHealOne(Hearts hearts)
+    {
+        hearts.TurnOnLastOff();          // 마지막에 꺼진 칸 켜기
     }
 
     public void OnHealOne(Hearts hearts)

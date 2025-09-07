@@ -212,12 +212,13 @@ MonoBehaviour:
   speed: 0
   currentHP: 3
   maxHP: 3
-  level: 1
+  level: 20
   currentExp: 0
   maxExp: 100
-  playerWallet: {fileID: 0}
-  playerController: {fileID: 0}
-  playerItemEffects: {fileID: 0}
+  playerWallet: {fileID: 7371109065487142118}
+  playerController: {fileID: 8492088418331964841}
+  playerItemEffects: {fileID: 3314668463926008621}
+  hearts: {fileID: 0}
 --- !u!114 &8492088418331964841
 MonoBehaviour:
   m_ObjectHideFlags: 0
