@@ -184,7 +184,7 @@ public class PlayerCharacter : BaseCharacter
         if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
         else currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
 
-        NotifyHealthChanged();
+        hearts.TurnOffFirstOn();
         if (currentHP > 0) Hit(); else if (!IsDead) Die();
     }
 
