@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8492088418331964841}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!95 &1184673213780422232
@@ -204,6 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacter
   damage: 5
+  defense: 0
+  speed: 0
   currentHP: 3
   maxHP: 3
   level: 1
@@ -249,11 +251,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1775348898390377317, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.587
       objectReference: {fileID: 0}
     - target: {fileID: 1775348898390377317, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.645
       objectReference: {fileID: 0}
     - target: {fileID: 1775348898390377317, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -295,6 +297,10 @@ PrefabInstance:
       propertyPath: damage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5478018335763619390, guid: 0f0b8c8ebb0b0d54293a4dea1840f93c, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

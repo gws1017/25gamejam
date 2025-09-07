@@ -150,7 +150,6 @@ public class PlayerController : BaseController
     {
         if(Input.GetButtonDown("MouseR"))
         {
-            Debug.Log("MouseR");
             if(robot != null)
                 robot.ActiveParry();
         }

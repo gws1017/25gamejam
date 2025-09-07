@@ -8,7 +8,7 @@ public class AIController : BaseController
 
     [SerializeField] protected Vector2 targetDir;
     [SerializeField] protected float moveSpeed = 2f;
-    [SerializeField] protected int spriteDir = 1; // 1 : right -1 : left
+    [SerializeField] protected int spriteDir = 1; // 1 : left -1 : right
     public enum AIState
     {
         Move,

@@ -1,12 +1,18 @@
 using UnityEngine;
+using System.Collections;
+using static AIController;
 
 public class MonsterCharacter : BaseCharacter
 {
     protected AIController controller;
     [SerializeField] protected int dropExp = 1;
     [SerializeField] protected float attackRange = 2f;
+    [SerializeField] protected float attackCoolTime = 1f;
+    [SerializeField] protected string attackTrigger = "Idle";
+    protected bool isAttacking = false;
 
     public float AttackRange => attackRange;
+    public float AttackCoolTime => attackCoolTime;
     public int DropExp => dropExp;
 
     protected override void Awake()
@@ -43,6 +49,18 @@ public class MonsterCharacter : BaseCharacter
         //오브젝트 풀링 사용시 변경 필요
 
         Destroy(gameObject);
+    }
+
+    protected IEnumerator AttackDelayCorutine()
+    {
+        GetComponent<Animator>().SetTrigger(attackTrigger);
+
+        yield return new WaitForSeconds(attackCoolTime);
+
+        isAttacking = false;
+
+        controller.ChangeState(AIController.AIState.Move);
+        GetComponent<Animator>().SetTrigger(AIState.Move.ToString());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

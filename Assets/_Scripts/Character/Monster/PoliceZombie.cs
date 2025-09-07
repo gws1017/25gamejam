@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using static AIController;
 
@@ -6,9 +5,7 @@ public class PoliceZombie : MonsterCharacter
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Sprite bulletSprite;
-    [SerializeField] private float attackCoolTime = 1f;
 
-    private bool isAttacking = false;
 
     public override void Attack()
     {
@@ -26,18 +23,7 @@ public class PoliceZombie : MonsterCharacter
         bulletObject.GetComponent<SpriteRenderer>().sprite = bulletSprite;
 
         StartCoroutine(AttackDelayCorutine());
-        
     }
 
-    IEnumerator AttackDelayCorutine()
-    {
-        GetComponent<Animator>().SetTrigger("Idle");
 
-        yield return new WaitForSeconds(attackCoolTime);
-
-        isAttacking = false;
-
-        controller.ChangeState(AIController.AIState.Move);
-        GetComponent<Animator>().SetTrigger("Move");
-    }
 }
