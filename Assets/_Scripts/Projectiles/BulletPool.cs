@@ -14,7 +14,7 @@ public class BulletPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        container = new GameObject("BulletPool_Container").transform; // 풀 게임오브젝트 정리용 빈 오브젝트
+        container = new GameObject("playerBullet").transform; // 풀 게임오브젝트 정리용 빈 오브젝트
         container.SetParent(transform);
         Prewarm(initialSize); // 시작할 때 미리 생성(Instantiate는 여기서 한 번만)
     }

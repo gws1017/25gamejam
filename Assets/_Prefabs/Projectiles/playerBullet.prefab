@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: damage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 736425438467673309, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+      propertyPath: ignoreMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 4738730770246755910, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
       propertyPath: m_Size.x
       value: 0.8849961
