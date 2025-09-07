@@ -20,7 +20,7 @@ public class PoliceZombie : MonsterCharacter
 
         bulletObject.Init(damage, gameObject);
         bulletObject.AddIgnoreObject(gameObject); // 본인 무시
-        bulletObject.GetComponent<SpriteRenderer>().sprite = bulletSprite;
+        
 
         StartCoroutine(AttackDelayCorutine());
     }

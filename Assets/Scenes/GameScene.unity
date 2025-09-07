@@ -3634,7 +3634,7 @@ GameObject:
   - component: {fileID: 701754298}
   - component: {fileID: 701754297}
   m_Layer: 0
-  m_Name: PoolManager
+  m_Name: MonsterPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3655,6 +3655,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 1029707707262696306, guid: f648686672cefff46b6b739ab5543d17, type: 3}
   - {fileID: 7226998442595843064, guid: db57e40041784f94d963bcad1063ccce, type: 3}
+  maxPoolSizes: 9600000064000000
 --- !u!4 &701754298
 Transform:
   m_ObjectHideFlags: 0
@@ -3663,12 +3664,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701754296}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.88975, y: 2.56219, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.14, y: -1.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1208850473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &738615812
 GameObject:
@@ -5288,6 +5289,7 @@ Transform:
   - {fileID: 1344514766}
   - {fileID: 170363482}
   - {fileID: 381306604}
+  - {fileID: 701754298}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1228683661
@@ -7328,6 +7330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1169768120856526575, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3314668463926008621, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: itemEvents
       value: 
@@ -7371,6 +7377,10 @@ PrefabInstance:
     - target: {fileID: 3586394016731827960, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4937450051273496298, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: spawnInterval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8492088418331964841, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: cam
@@ -10317,4 +10327,3 @@ SceneRoots:
   - {fileID: 487923859}
   - {fileID: 88951431}
   - {fileID: 1208850473}
-  - {fileID: 701754298}

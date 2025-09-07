@@ -35,11 +35,20 @@ public class AIController : BaseController
         isPlayer = false;
 
         owner = GetComponent<MonsterCharacter>();
-        spriteRenderer.sortingOrder = 1;
     }
     private void OnEnable()
     {
         targetPlayer = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        spriteRenderer.sortingOrder = 1;
+        rigidBody2D.simulated = true;
+        collide.enabled = true;
+        ChangeState(AIState.Move);
+    }
+    private void OnDisable()
+    {
+        collide.enabled = false;
+        rigidBody2D.simulated = false;
+        spriteRenderer.sortingOrder = -1;
     }
     protected virtual void Start()
     {
@@ -49,6 +58,8 @@ public class AIController : BaseController
     protected virtual void FixedUpdate()
     {
         if (targetPlayer == null) return;
+        if(!owner.IsLive) return;
+
         targetDir = (targetPlayer.position - rigidBody2D.position);
 
         switch (currentState)

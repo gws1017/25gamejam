@@ -10,10 +10,12 @@ public class MonsterCharacter : BaseCharacter
     [SerializeField] protected float attackCoolTime = 1f;
     [SerializeField] protected string attackTrigger = "Idle";
     protected bool isAttacking = false;
+    protected bool isLive = true;
 
     public float AttackRange => attackRange;
     public float AttackCoolTime => attackCoolTime;
     public int DropExp => dropExp;
+    public bool IsLive => isLive;
 
     public void  SetSpeed(int value)
     {
@@ -39,6 +41,13 @@ public class MonsterCharacter : BaseCharacter
         
     }
 
+    private void OnEnable()
+    {
+        isLive = true;
+        controller.enabled = true;
+        currentHP = MaxHP;
+    }
+
     public virtual void Spawn()
     {
         //몬스터 등장시 실행할 함수 작성
@@ -51,10 +60,10 @@ public class MonsterCharacter : BaseCharacter
 
     public override void Die()
     {
+        if (isLive == false) return;
         base.Die();
-        //오브젝트 풀링 사용시 변경 필요
-
-        Destroy(gameObject);
+        isLive = false;
+        gameObject.SetActive(false);
     }
 
     protected IEnumerator AttackDelayCorutine()
@@ -72,12 +81,18 @@ public class MonsterCharacter : BaseCharacter
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //플레이어 공격은 투사체 밖에 없다
-        if (!collision.CompareTag("Projectile")) return;
+        if (!collision.CompareTag("Projectile") || !isLive) return;
+        if (collision.CompareTag("Enemy")) return; //적끼리 체크 X
+
+        
+
         float applyDamage = 0;
 
         var bullet = collision.GetComponent<Bullet>();
         if(bullet != null && bullet.causerObject != gameObject)
         {
+            if (bullet.causerObject != null && 
+                bullet.causerObject.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
             applyDamage += bullet.Damage;
         }
         currentHP -= applyDamage;

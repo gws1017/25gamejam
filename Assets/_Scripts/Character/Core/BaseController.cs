@@ -4,6 +4,7 @@ public class BaseController : MonoBehaviour
 {
     protected Rigidbody2D rigidBody2D;
     protected SpriteRenderer spriteRenderer;
+    protected BoxCollider2D collide;
 
     protected bool isPlayer;
 
@@ -11,6 +12,7 @@ public class BaseController : MonoBehaviour
     {
         rigidBody2D =  GetComponent<Rigidbody2D>();
         spriteRenderer =  GetComponent<SpriteRenderer>();
+        collide =  GetComponent<BoxCollider2D>();
     }
     void Start()
     {
