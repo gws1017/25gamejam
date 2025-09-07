@@ -64,7 +64,8 @@ public class PlayerCharacter : BaseCharacter
 
     void Start()
     {
-
+        UI_InGame.Instance.SetLevel(level);
+        UI_InGame.Instance.SetXPBar(currentExp, maxExp);
     }
 
     // Update is called once per frame
@@ -85,15 +86,19 @@ public class PlayerCharacter : BaseCharacter
         LevelUp();
         currentExp = Mathf.Clamp(currentExp, 0, maxExp);
 
+        if (UI_InGame.Instance != null)
+            UI_InGame.Instance.SetXPBar(currentExp, maxExp);
     }
 
     public void LevelUp()
     {
-        if (currentExp >= maxExp || level <= maxLevel)
+        if (currentExp >= maxExp && level <= maxLevel)
         {
             currentExp -= maxExp;
             level++;
         }
+
+        UI_InGame.Instance.SetLevel(level);
     }
 
     /// <summary>
