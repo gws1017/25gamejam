@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,15 +97,13 @@ public class UI_InGame : MonoBehaviour
 
         float target = (maxExp <= 0) ? 0f : Mathf.Clamp01((float)currentExp / maxExp);
 
-#if DOTWEEN_ENABLED
-    if (animate)
-    {
-        xpBar.DOKill();                         // stop previous tweens if any
-        xpBar.DOFillAmount(target, 0.25f)       // requires using DG.Tweening;
-             .SetEase(Ease.OutCubic);
-        return;
-    }
-#endif
+        if (animate)
+        {
+            xpBar.DOKill();                         // stop previous tweens if any
+            xpBar.DOFillAmount(target, 0.25f)       // requires using DG.Tweening;
+                 .SetEase(Ease.OutCubic);
+            return;
+        }
 
         xpBar.fillAmount = target;
     }

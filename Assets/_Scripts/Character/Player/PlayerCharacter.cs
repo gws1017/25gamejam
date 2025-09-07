@@ -151,11 +151,25 @@ public class PlayerCharacter : BaseCharacter
 
         //애니메이션 호출
         GetComponent<Animator>().SetBool("isDead", isDead);
+
+        GameManager.Instance.SetState(GameManager.GameState.GameOver);
     }
 
     //데미지 처리
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //근접 공격 데미지 처리 
+        //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
+        if (DamageDelayCorutine == null)
+        {
+            var mob = collision.GetComponent<MonsterCharacter>();
+            if (mob != null)
+            {
+                DamageDelayCorutine = StartCoroutine(DamageDelayCoroutine(mob.AttackCoolTime));
+                return;
+            }
+        }
+
         float finalDamage = 0;
 
         if (collision.gameObject.name == "playerBullet(Clone)")
@@ -196,21 +210,6 @@ public class PlayerCharacter : BaseCharacter
     public void OnHealOne(Hearts hearts)
     {
         hearts.TurnOnLastOff();          // 마지막에 꺼진 칸 켜기
-    }
-
-    //근접 공격 데미지 처리 
-    //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-
-        if (DamageDelayCorutine == null)
-        {
-            var mob = collision.GetComponent<MonsterCharacter>();
-            if (mob != null)
-            {
-                DamageDelayCorutine = StartCoroutine(DamageDelayCoroutine(mob.AttackCoolTime));
-            }
-        }
     }
 
     IEnumerator DamageDelayCoroutine(float time)

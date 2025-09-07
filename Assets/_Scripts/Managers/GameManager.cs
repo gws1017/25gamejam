@@ -97,6 +97,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("PauseGameWithDelay called.");
     }
 
+    public void PauseGameWithDelay_ForDyingAnim()
+    {
+        this.StartCoroutineHelper(ref coroutine_PauseGame, PauseGameCoroutine_ForDyingAnim());
+        Debug.Log("PauseGameWithDelay called.");
+    }
+
     public void ResumeGame()
     {
         if (!isGamePaused) return;
@@ -138,7 +144,7 @@ public class GameManager : MonoBehaviour
             SetState(GameState.GamePlaying);
     }
 
-    private void SetState(GameState newState)
+    public void SetState(GameState newState)
     {
         currentGameState = newState;
         OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(newState));
@@ -157,6 +163,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 TurnOffClickBlocker();
+                OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+                PauseGameWithDelay_ForDyingAnim();
                 break;
         }
     }
@@ -164,6 +172,12 @@ public class GameManager : MonoBehaviour
     private IEnumerator PauseGameCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
+        PauseGame();
+    }
+
+    private IEnumerator PauseGameCoroutine_ForDyingAnim()
+    {
+        yield return new WaitForSeconds(0.8f);
         PauseGame();
     }
 
