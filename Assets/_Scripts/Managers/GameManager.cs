@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private float countdownToStartTimer = 3f;
     private bool isGamePaused = false;
 
+    public PoolManager pool;
     public GameState currentGameState;
     public enum GameState
     {

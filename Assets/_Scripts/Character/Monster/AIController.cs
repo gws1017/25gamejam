@@ -35,7 +35,20 @@ public class AIController : BaseController
         isPlayer = false;
 
         owner = GetComponent<MonsterCharacter>();
+    }
+    private void OnEnable()
+    {
         targetPlayer = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        spriteRenderer.sortingOrder = 1;
+        rigidBody2D.simulated = true;
+        collide.enabled = true;
+        ChangeState(AIState.Move);
+    }
+    private void OnDisable()
+    {
+        collide.enabled = false;
+        rigidBody2D.simulated = false;
+        spriteRenderer.sortingOrder = -1;
     }
     protected virtual void Start()
     {
@@ -45,6 +58,8 @@ public class AIController : BaseController
     protected virtual void FixedUpdate()
     {
         if (targetPlayer == null) return;
+        if(!owner.IsLive) return;
+
         targetDir = (targetPlayer.position - rigidBody2D.position);
 
         switch (currentState)
@@ -53,7 +68,6 @@ public class AIController : BaseController
                 CalculateAIMovement();
                 break;
             case AIState.Attack:
-                LookAtPlayer();
                 owner.Attack();
                 break;
              case AIState.Dead:
@@ -61,6 +75,13 @@ public class AIController : BaseController
                 owner.Die();
                 break;
         }
+    }
+    private void LateUpdate()
+    {
+        if (targetPlayer == null) return;
+        if (!owner.IsLive) return;
+
+        LookAtPlayer();
     }
 
     protected virtual void CalculateAIMovement()
@@ -70,14 +91,12 @@ public class AIController : BaseController
 
     protected void LookAtPlayer()
     {
-        Vector2 playerDir = (targetPlayer.position - rigidBody2D.position).normalized;
-
         if (spriteRenderer != null)
         {
-            if(spriteDir == 1)
-                spriteRenderer.flipX = playerDir.x > 0f;
-            if(spriteDir == -1)
-                spriteRenderer.flipX = playerDir.x < 0f;
+            if (spriteDir == -1)
+                spriteRenderer.flipX = targetPlayer.position.x < rigidBody2D.position.x;
+            else if(spriteDir == 1)
+                spriteRenderer.flipX = targetPlayer.position.x > rigidBody2D.position.x;
         }
     }
 

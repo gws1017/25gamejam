@@ -89,7 +89,7 @@ public class PlayerCharacter : BaseCharacter
 
     public void LevelUp()
     {
-        if (currentExp >= maxExp || level <= maxLevel)
+        if (currentExp >= maxExp && level <= maxLevel)
         {
             currentExp -= maxExp;
             level++;
