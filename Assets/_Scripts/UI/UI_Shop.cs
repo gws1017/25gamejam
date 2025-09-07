@@ -23,10 +23,15 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     private Button[] itemButtons;
 
     private ItemEvents itemEvents;
+    private GameManager gameManager;
+    private SoundEvents soundEvents;    
 
     private void Start()
     {
         itemEvents = ItemEvents.Instance;
+        gameManager = GameManager.Instance;
+        soundEvents = SoundEvents.Instance;
+
         SubscribeOnClickEvents();
         InitalizeButtonsArray();
     }
@@ -96,7 +101,8 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     private void ExecutePurchaseProcess(Action itemEventAction)
     {
         // Play Button Click SFX
-        SoundEvents.Instance.InvokeOnPlayButtonFx();
+        soundEvents.InvokeOnPlayButtonFx();
+
         BuyItem();
 
         itemEventAction?.Invoke();
@@ -109,6 +115,8 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     public void Hide()
     {
         contentParents.SetActive(false);
+
+        gameManager.ResumeGame();
     }
 
     public void Show()
@@ -117,17 +125,19 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         doTweenPopup.Show();
 
         // Play popup open SFX
-        SoundEvents.Instance.InvokeOnPlayUIPopupFx();
+        soundEvents.InvokeOnPlayUIPopupFx();
+
+        gameManager.PauseGameWithDelay();
     }
 
     public void SubscribeOnClickEvents()
     {
         exitButton.onClick.AddListener(() =>
         {
-            doTweenPopup.Hide(Hide);
-
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
+
+            doTweenPopup.Hide(Hide);
         });
 
         // 아이템 버튼 onClick 이벤트 등록

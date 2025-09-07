@@ -7,11 +7,15 @@ public class UI_Skill : MonoBehaviour, IToggleUI
     public void Hide()
     {
         contentParents.SetActive(false);
+
+        GameManager.Instance.ResumeGame();
     }
 
     public void Show()
     {
         contentParents.SetActive(true);
+
+        GameManager.Instance.PauseGameWithDelay();
     }
 
     public void SubscribeOnClickEvents()

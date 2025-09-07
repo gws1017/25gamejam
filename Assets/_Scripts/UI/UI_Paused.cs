@@ -11,10 +11,16 @@ public class UI_Paused : MonoBehaviour, IToggleUI
     [SerializeField] private Button quitGameButton;
     [Space]
     [SerializeField] private DoTween_Popup doTweenPopup;
+    [SerializeField] private UI_SoundSettings ui_SoundSettings;
 
+    private GameManager gameManager;
+    private SoundEvents soundEvents;
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
+        soundEvents = SoundEvents.Instance;
+
         SubscribeOnClickEvents();
         Debug.Log("UI_Paused started and click events subscribed.");
     }
@@ -29,6 +35,8 @@ public class UI_Paused : MonoBehaviour, IToggleUI
     public void Hide()
     {
         contentParents.SetActive(false);
+
+        gameManager.ResumeGame();
     }
 
     public void Show()
@@ -37,43 +45,43 @@ public class UI_Paused : MonoBehaviour, IToggleUI
         doTweenPopup.Show();
 
         // Play popup open SFX
-        SoundEvents.Instance.InvokeOnPlayUIPopupFx();
+        soundEvents.InvokeOnPlayUIPopupFx();
+
+        gameManager.PauseGameWithDelay();
     }
 
     public void SubscribeOnClickEvents()
     {
         exitButton.onClick.AddListener(() =>
         {
-            // TODO : GameManager에서 Time.timeScale을 1로 설정하는 메서드 호출
-
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
 
             doTweenPopup.Hide(Hide);
         });
 
         resumeButton.onClick.AddListener(() =>
         {
-            // TODO : GameManager에서 Time.timeScale을 1로 설정하는 메서드 호출
-
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
 
-            Hide();
+            doTweenPopup.Hide(Hide);
         });
 
         soundSettingsButton.onClick.AddListener(() =>
         {
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
 
-            UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_SoundSettings);
+            Hide();
+
+            ui_SoundSettings.Show();
         });
 
         quitGameButton.onClick.AddListener(() =>
         {
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
 
             SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
         });

@@ -12,6 +12,8 @@ public class UI_InGame : MonoBehaviour
 
     // References
     private Hearts hearts;
+    private GameManager gameManager;
+    private SoundEvents soundEvents;    
 
     private void Awake()
     {
@@ -20,6 +22,9 @@ public class UI_InGame : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
+        soundEvents = SoundEvents.Instance;
+
         SubscribeOnClickEvents();
     }
 
@@ -34,7 +39,7 @@ public class UI_InGame : MonoBehaviour
         shopButton.onClick.AddListener(() =>
         {
             // Play Button Click SFX
-            SoundEvents.Instance.InvokeOnPlayButtonFx();
+            soundEvents.InvokeOnPlayButtonFx();
 
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Shop);
         });

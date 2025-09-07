@@ -100,7 +100,7 @@ public class UI_StateManager : MonoBehaviour
         // Then, set the current state
         currentState = newState;
 
-        // Finally, show only the currentState
+        // Finally, show only the currentGameState
         UIStateDictionary[currentState].Show();
     }
     #endregion

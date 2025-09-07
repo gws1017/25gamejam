@@ -5,16 +5,16 @@ using UnityEngine;
 public class DoTween_Popup : MonoBehaviour
 {
     [Header("Popup Settings")]
-    [SerializeField] private float popupFadeDuration = 0.25f;
-    [SerializeField] private float popupScaleDuration = 0.3f;
-    [SerializeField] private Ease showEase = Ease.OutBack;
-    [SerializeField] private Ease hideEase = Ease.InBack;
+    [SerializeField] protected float popupFadeDuration = 0.25f;
+    [SerializeField] protected float popupScaleDuration = 0.3f;
+    [SerializeField] protected Ease showEase = Ease.OutBack;
+    [SerializeField] protected Ease hideEase = Ease.InBack;
 
-    private CanvasGroup canvasGroup;
-    private RectTransform rectTransform;
-    private Vector3 originalScale;
+    protected CanvasGroup canvasGroup;
+    protected RectTransform rectTransform;
+    protected Vector3 originalScale;
 
-    private void Awake()
+    protected void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         rectTransform = GetComponent<RectTransform>();
@@ -23,26 +23,26 @@ public class DoTween_Popup : MonoBehaviour
         StartHidden();
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         // Kill all tweens to prevent memory leaks
         canvasGroup.DOKill();
         rectTransform.DOKill();
     }
 
-    private void StartHidden()
+    protected void StartHidden()
     {
         ResetState();
         gameObject.SetActive(false);
     }
 
-    private void ResetState()
+    protected void ResetState()
     {
         canvasGroup.alpha = 0f;
         rectTransform.localScale = Vector3.zero;
     }
 
-    public void Show()
+    public virtual void Show()
     {
         gameObject.SetActive(true);
 
@@ -58,7 +58,7 @@ public class DoTween_Popup : MonoBehaviour
                       SetUpdate(true);
     }
 
-    public void Show(Action callBack)
+    public virtual void Show(Action callBack)
     {
         // Invoke callback if provided
         callBack?.Invoke();
@@ -76,7 +76,7 @@ public class DoTween_Popup : MonoBehaviour
                       SetUpdate(true);
     }
 
-    public void Hide(Action callBack)
+    public virtual void Hide(Action callBack)
     {
         // Animate fade out and scale down
         canvasGroup.DOFade(0f, popupFadeDuration).

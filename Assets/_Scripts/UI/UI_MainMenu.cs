@@ -64,7 +64,6 @@ public class UI_MainMenu : MonoBehaviour
             SoundEvents.Instance.InvokeOnPlayButtonFx();
 
             ui_SoundSettings.Show();
-            ui_SoundSettings.GetDoTweenPopup().Show();
         });
     }
 
