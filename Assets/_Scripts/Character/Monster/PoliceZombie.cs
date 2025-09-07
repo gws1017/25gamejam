@@ -5,6 +5,7 @@ public class PoliceZombie : MonsterCharacter
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Sprite bulletSprite;
+    [SerializeField] private AudioClip ShootFx;
 
 
     public override void Attack()
@@ -20,7 +21,8 @@ public class PoliceZombie : MonsterCharacter
 
         bulletObject.Init(damage, gameObject);
         bulletObject.AddIgnoreObject(gameObject); // 본인 무시
-        
+
+        SoundManager.Instance.PlaySoundFX(ShootFx,0.1f);
 
         StartCoroutine(AttackDelayCorutine());
     }

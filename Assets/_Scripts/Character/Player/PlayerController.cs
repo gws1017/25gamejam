@@ -19,6 +19,7 @@ public class PlayerController : BaseController
     [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
     [SerializeField] private float fireCooldown = 0.001f; // 연사 간격(초)
     [SerializeField] private bool autoFire = true;       // true: 스페이스 꾹=연사, false: 단발
+    [SerializeField] private AudioClip ShootFx;            
     private float fireTimer;                             // 쿨다운 타이머
 
 
@@ -245,7 +246,7 @@ public class PlayerController : BaseController
         Bullet bullet = BulletPool.Instance.Spawn(firePoint.position, Quaternion.identity);
         bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
-
+        SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);
         fireTimer = fireCooldown;   // 쿨다운 재시작
     }
 

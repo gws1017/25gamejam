@@ -245,6 +245,7 @@ MonoBehaviour:
   firePoint: {fileID: 3283408029046618267}
   fireCooldown: 0.15
   autoFire: 1
+  ShootFx: {fileID: 8300000, guid: 65347271207ca6242a2110afd2cf244a, type: 3}
   horizontalAxis: 0
   verticalAxis: 0
   mouseWorld: {x: 0, y: 0, z: 0}

@@ -6,6 +6,7 @@ public class RobotSpirit : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Transform firePointTransform;   // 총구 위치(비워두면 현재 트랜스폼 사용)
     [SerializeField] private Camera targetCamera;            // 마우스 기준 카메라(비워두면 Camera.main)
+    [SerializeField] private AudioClip ShootFx;            
 
     [Header("Combat Values")]
     [SerializeField] private int damageAmount = 5;           // 로봇 정령 탄환 데미지
@@ -49,6 +50,7 @@ public class RobotSpirit : MonoBehaviour
         bullet.AddIgnoreObject(gameObject);    // 본인(로봇 정령) 무시
         if (transform.parent != null) bullet.AddIgnoreObject(playerObject); // 플레이어 무시
 
+        SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);
         bullet.Fire(fireDirection);            // 마우스 방향으로 직선 발사
     }
 

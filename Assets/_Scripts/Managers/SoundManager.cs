@@ -110,6 +110,13 @@ public class SoundManager : MonoBehaviour
         bgmSource.Stop();
     }
 
+    /// <summary> Public method to play a sound effect with adjustable volume.</summary>
+    public void PlaySoundFX(AudioClip clip,float volume = 1)
+    {
+        if (!clip) return;
+        PlaySFX(clip, volume);
+    }
+
     #region Internal Logic
     private void SoundEvents_OnPlayUIPopupFx(object sender, System.EventArgs e)
     {

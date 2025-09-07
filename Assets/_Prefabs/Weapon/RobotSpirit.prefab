@@ -103,9 +103,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c44171fe8228a45b184c16e30c1d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RobotSpirit
-  bulletPrefab: {fileID: 0}
-  damage: 5
-  parryTime: 0.2
+  firePointTransform: {fileID: 0}
+  targetCamera: {fileID: 0}
+  ShootFx: {fileID: 8300000, guid: 87a63e86d5c36fa418490e9fbd21ed87, type: 3}
+  damageAmount: 5
+  parryTimeSeconds: 0.2
   isParrying: 0
   hasParried: 0
   detectedParryTarget: 0
