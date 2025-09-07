@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO.Pipes;
 using UnityEngine;
 
@@ -86,7 +87,7 @@ public class PlayerController : BaseController
         var robot = GetComponentInChildren<RobotSpirit>();
         if (robot != null && robot.IsParrying)
         {
-            CanParry();
+            TryParry();
         }
     }
     //키입력 체크
@@ -142,29 +143,59 @@ public class PlayerController : BaseController
         CheckParryKey();
     }
 
+    private List<Collider2D> FilterOutSelfHits(IEnumerable<Collider2D> input)
+    {
+        List<Collider2D> result = new List<Collider2D>();
 
-    private void CanParry()
+        foreach (var hit in input)
+        {
+            var parryable = hit.GetComponent<IParryable>();
+            if (parryable == null || parryable.Causer != gameObject)
+            {
+                result.Add(hit);
+            }
+            else
+            {
+                // 자기 총알 → 감지 플래그만 초기화하고 무시
+                robot.ClearParryFlags();
+            }
+        }
+
+        return result;
+    }
+
+    private void TryParry()
     {
         var hits = Physics2D.OverlapCircleAll(transform.position, parryDistance + parryDistanceOffset, parryLayerMask);
         var parrySuccess = Physics2D.OverlapCircleAll(transform.position, parryDistance, parryLayerMask);
 
-        robot.detectedParryTarget = hits.Length > 0; //패링가능한 타겟 감지
+        List<Collider2D> validHits = FilterOutSelfHits(hits);
+        List<Collider2D> validParries = FilterOutSelfHits(parrySuccess);
 
-        foreach (var hit in parrySuccess)
+        robot.detectedParryTarget = validHits.Count > 0; //패링가능한 타겟 감지
+        foreach (var hit in validParries)
         {
-            var parryable = hit.GetComponent<IParryable>();
-            if (parryable != null && parryable.CanBeParried && robot.hasParried == false)
+            IParryable parryable = hit.GetComponent<IParryable>();
+            if (parryable == null || !parryable.CanBeParried || robot.hasParried)
+                continue;
+
+            // 패링 성공
+            Vector3 contact = hit.ClosestPoint(transform.position);
+            Debug.Log("패링 성공");
+            robot.hasParried = true;
+            parryable.OnParried(contact);
+
+            // 시각/청각 연출
+            SoundManager.Instance.PlaySoundFX(ParryFX, 0.6f);
+            Instantiate(parryVFX, contact, Quaternion.identity);
+
+            // 투사체 재반사
+            if (parryable is Bullet bullet)
             {
-                Debug.Log("패링 성공");
-                robot.hasParried = true;
-                parryable.OnParried(hit.ClosestPoint(transform.position));
-                SoundManager.Instance.PlaySoundFX(ParryFX, 0.6f);
-                Instantiate(parryVFX, hit.ClosestPoint(transform.position), Quaternion.identity);
-                //투사체 패링이면 발사자 변경
-                if (parryable is not Bullet bullet) return;
                 bullet.Init(robot.Damage, gameObject);
             }
         }
+        
     }
 
     private void CheckParryKey()

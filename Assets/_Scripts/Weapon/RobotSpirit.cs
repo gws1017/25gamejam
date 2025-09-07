@@ -19,7 +19,7 @@ public class RobotSpirit : MonoBehaviour
     public bool hasParried = false;                          // 패링 연속 입력 방지
     public bool detectedParryTarget = false;                 // 패링 중 대상 감지 여부
 
-    public bool IsParrying => isParrying;
+    public bool IsParrying { get => isParrying; set => isParrying = value; }
     public int Damage => damageAmount;
 
     // 공격: 마우스 월드 위치를 향해 발사 (angle 파라미터는 더 이상 사용하지 않음)
