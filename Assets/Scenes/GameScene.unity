@@ -4178,17 +4178,6 @@ RectTransform:
   m_AnchoredPosition: {x: 85, y: 0}
   m_SizeDelta: {x: 130, y: 150}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &944681231 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4506500013607845088, guid: 403c286980744b4489dc302184f86ed9, type: 3}
-  m_PrefabInstance: {fileID: 1068043346195757728}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &977874435
 GameObject:
   m_ObjectHideFlags: 0
@@ -6687,17 +6676,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8760950032044450442, guid: 403c286980744b4489dc302184f86ed9, type: 3}
   m_PrefabInstance: {fileID: 1367365133}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1367365135 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4506500013607845088, guid: 403c286980744b4489dc302184f86ed9, type: 3}
-  m_PrefabInstance: {fileID: 1367365133}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1367365136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6149687824255028866, guid: 403c286980744b4489dc302184f86ed9, type: 3}
@@ -6715,7 +6693,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ac622381585e043bce466963d12b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  heartFill: {fileID: 1367365135}
+  heartFillObject: {fileID: 0}
+  heartFillGraphic: {fileID: 0}
+  useDoTween: 1
+  healPopDuration: 0.18
+  healSettleDuration: 0.1
+  damagePunchDuration: 0.14
+  damagePunchScale: {x: -0.22, y: -0.22}
+  rotatePunchZ: 10
+  fadeInDuration: 0.1
+  fadeOutDuration: 0.12
+  flashDuration: 0.06
+  healEase: 27
+  damageEase: 9
+  healFlashColor: {r: 1, g: 0.95, b: 0.6, a: 1}
+  damageFlashColor: {r: 1, g: 0.4, b: 0.4, a: 1}
 --- !u!1 &1401128564
 GameObject:
   m_ObjectHideFlags: 0
@@ -6957,17 +6949,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8760950032044450442, guid: 403c286980744b4489dc302184f86ed9, type: 3}
   m_PrefabInstance: {fileID: 1455717862}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1455717864 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4506500013607845088, guid: 403c286980744b4489dc302184f86ed9, type: 3}
-  m_PrefabInstance: {fileID: 1455717862}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1455717865 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6149687824255028866, guid: 403c286980744b4489dc302184f86ed9, type: 3}
@@ -6985,7 +6966,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ac622381585e043bce466963d12b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  heartFill: {fileID: 1455717864}
+  heartFillObject: {fileID: 0}
+  heartFillGraphic: {fileID: 0}
+  useDoTween: 1
+  healPopDuration: 0.18
+  healSettleDuration: 0.1
+  damagePunchDuration: 0.14
+  damagePunchScale: {x: -0.22, y: -0.22}
+  rotatePunchZ: 10
+  fadeInDuration: 0.1
+  fadeOutDuration: 0.12
+  flashDuration: 0.06
+  healEase: 27
+  damageEase: 9
+  healFlashColor: {r: 1, g: 0.95, b: 0.6, a: 1}
+  damageFlashColor: {r: 1, g: 0.4, b: 0.4, a: 1}
 --- !u!1 &1456838605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7330,30 +7325,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 395398805236737927, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: level
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 395398805236737927, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: maxExp
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 395398805236737927, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: currentExp
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1169768120856526575, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3314668463926008621, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: itemEvents
-      value: 
-      objectReference: {fileID: 1344514767}
-    - target: {fileID: 3422760712241731026, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3586394016731827960, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7394,10 +7365,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4937450051273496298, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
-      propertyPath: spawnInterval
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 3834704160276179367, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
+      propertyPath: targetCamera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 8492088418331964841, guid: 5d57a036d8d832f46a67407a31451d9e, type: 3}
       propertyPath: cam
       value: 
@@ -9532,7 +9503,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ac622381585e043bce466963d12b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  heartFill: {fileID: 944681231}
+  heartFillObject: {fileID: 0}
+  heartFillGraphic: {fileID: 0}
+  useDoTween: 1
+  healPopDuration: 0.18
+  healSettleDuration: 0.1
+  damagePunchDuration: 0.14
+  damagePunchScale: {x: -0.22, y: -0.22}
+  rotatePunchZ: 10
+  fadeInDuration: 0.1
+  fadeOutDuration: 0.12
+  flashDuration: 0.06
+  healEase: 27
+  damageEase: 9
+  healFlashColor: {r: 1, g: 0.95, b: 0.6, a: 1}
+  damageFlashColor: {r: 1, g: 0.4, b: 0.4, a: 1}
 --- !u!1001 &2065723428
 PrefabInstance:
   m_ObjectHideFlags: 0

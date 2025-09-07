@@ -15,6 +15,7 @@ public class Spawner : MonoBehaviour
     private GameObject SpawnBossObject;
     private int level;
     private float spawnTimer;
+    private bool bossSpawnedThisCycle = false;
 
     private void Awake()
     {
@@ -26,28 +27,30 @@ public class Spawner : MonoBehaviour
     {
         spawnTimer += Time.deltaTime;
         level = GetComponentInParent<PlayerCharacter>().Level;
+
         if (level % 10 == 0)
         {
             spawnInterval = 5.0f;
 
-            Debug.Log("보스 소환중...");
-
-            //보스 없으면 소환
-            if (SpawnBossObject == null)
-                SpawnBossMonster();
-            else
+            if (!bossSpawnedThisCycle)
             {
-                //있으면 살아있는지 체크
-                if(SpawnBossObject.gameObject.activeSelf == false)
-                {
-                    //죽어있으면 연결해제
-                    SpawnBossObject = null;
-                }
+                SpawnBossMonster();
+                bossSpawnedThisCycle = true;
             }
-
         }
         else
+        {
             spawnInterval = 1.0f;
+
+            // 다음 보스 사이클 대비 초기화
+            if (SpawnBossObject != null && !SpawnBossObject.activeSelf)
+            {
+                SpawnBossObject = null;
+            }
+
+            bossSpawnedThisCycle = false; // 보스 스폰 플래그 초기화
+        }
+
         float interval = spawnInterval - 0.1f * ((level - 1) % 10);
         if (spawnTimer > interval)
         {
@@ -73,6 +76,7 @@ public class Spawner : MonoBehaviour
         SpawnBossObject = Instantiate(bossPrefabs[lv]);
         if (SpawnBossObject == null) return;
         SpawnBossObject.transform.position = bossSpawnPoint[lv+1].position;
+        Debug.Log("보스 소환중...");
 
         PowerUp(SpawnBossObject,true);
     }

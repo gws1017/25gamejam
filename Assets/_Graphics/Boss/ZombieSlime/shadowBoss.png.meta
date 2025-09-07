@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8870919290576b145809f77575b0d31d
+guid: 6496eb4031e18a34595c8ff146ac2be5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1250188282441070641
-    second: Die 6_0
+      213: 5105673261889529133
+    second: "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30(\uBCF4\uC2A4\uC6A9)_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Die 6_0
+      name: "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30(\uBCF4\uC2A4\uC6A9)_0"
       rect:
         serializedVersion: 2
-        x: 62
-        y: 61
-        width: 135
-        height: 130
+        x: 3
+        y: 4
+        width: 131
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc78eb2816076aee0800000000000000
-      internalID: -1250188282441070641
+      spriteID: d25a22ad7cefad640800000000000000
+      internalID: 5105673261889529133
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Die 6_0: -1250188282441070641
+      "\uADF8\uB9BC\uC790 \uACF1\uD558\uAE30(\uBCF4\uC2A4\uC6A9)_0": 5105673261889529133
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b7ab9ebccf385fd4b9d0b435eed28c92
+guid: 869d997f005e37840bc0b8b62cad24e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1414889003363512733
-    second: Die 3_0
+      213: -8492048405695327441
+    second: Die4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -74,7 +74,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Die 3_0
+      name: Die4_0
       rect:
         serializedVersion: 2
-        x: 72
-        y: 105
-        width: 127
-        height: 122
+        x: 65
+        y: 94
+        width: 132
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d91b61a5d02b2a310800000000000000
-      internalID: 1414889003363512733
+      spriteID: f239b13c7fe262a80800000000000000
+      internalID: -8492048405695327441
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Die 3_0: 1414889003363512733
+      Die4_0: -8492048405695327441
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
