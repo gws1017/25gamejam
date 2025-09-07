@@ -6,40 +6,54 @@ public class PoliceZombie : MonsterCharacter
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Sprite bulletSprite;
     [SerializeField] private AudioClip ShootFx;
+    [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
 
 
     public override void Attack()
     {
         if (isAttacking) return;
-        if (controller == null) return;                     // 타겟 방향 계산용 컨트롤러 필요
-        if (BulletPool.Instance == null) return;            // 풀 준비 안 됨
+        if (BulletPool_Police.Instance == null) return;
         base.Attack();
         isAttacking = true;
 
-        // 1) 발사 방향: "적 → 플레이어" (controller.TargetDir이 그 벡터를 제공한다고 가정)
-        Vector2 targetDir = controller.TargetDir;
-        if (targetDir.sqrMagnitude < 0.0001f)
+        // 플레이어 싱글톤이 없다면 안전 종료
+        var player = PlayerCharacter.Instance;
+        if (player == null)
         {
-            // 안전장치: 타겟 방향이 0이면, 바라보는 방향/오른쪽 등 기본값 사용
-            targetDir = transform.right;
+#if UNITY_EDITOR
+            Debug.LogWarning("[PoliceZombie] PlayerCharacter.Instance is null");
+#endif
+            isAttacking = false;
+            return;
         }
-        targetDir.Normalize();
 
-        // 2) 스폰 위치/회전: 반드시 "적의 firePoint" 기준
-        Vector3 spawnPos = (firePoint != null) ? firePoint.position : transform.position;
-        float angleDeg = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
+        // 1) 발사 원점(반드시 적의 firePoint)
+        Vector3 origin = (firePoint != null) ? firePoint.position : transform.position;
+
+        // 2) "적 → 플레이어" 방향 계산
+        Vector3 playerPos = player.transform.position;
+        Vector2 dir = (playerPos - origin);
+        if (dir.sqrMagnitude < 0.0001f)
+        {
+            // 혹시 완전히 겹쳐있거나 0벡터면 바라보는 방향으로 대체
+            dir = transform.right;
+        }
+        dir.Normalize();
+
+        // 3) 스폰 회전(스프라이트가 오른쪽을 기본으로 본다고 가정)
+        float angleDeg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(angleDeg, Vector3.forward);
 
-        // 3) 풀에서 탄환 꺼내기 → 초기화 → 자기 자신 무시 → 발사
-        Bullet bullet = BulletPool.Instance.Spawn(poolIndexForEnemyBullet, spawnPos, rot);
+        // 4) 풀에서 탄환 꺼내기 → 초기화 → 자기 자신 무시 → 발사
+        Bullet bullet = BulletPool_Police.Instance.Spawn(origin, rot);
         if (bullet != null)
         {
-            bullet.Init(damage, gameObject);       // 사수/데미지 설정
-            bullet.AddIgnoreObject(gameObject);    // 발사자 충돌 무시
-            bullet.Fire(targetDir);                // 방향/속도 부여(탄환은 위치를 바꾸지 않음)
+            bullet.Init(damage, gameObject);        // 데미지/사수 설정
+            bullet.AddIgnoreObject(gameObject);     // 자기 자신 무시
+            bullet.Fire(dir);                       // 이동 시작(위치 변경은 하지 않음)
         }
 
-        // 4) 사운드 & 쿨다운
+        // 5) 사운드 & 공격 딜레이
         SoundManager.Instance.PlaySoundFX(ShootFx, 0.1f);
         StartCoroutine(AttackDelayCorutine());
     }

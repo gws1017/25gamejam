@@ -231,3 +231,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
   bulletSprite: {fileID: 21300000, guid: 79f3ac7135f1f3744980b4501bea0025, type: 3}
   ShootFx: {fileID: 8300000, guid: ed4530eb65c7e794a83eeacd07e6a4a3, type: 3}
+  firePoint: {fileID: 8358743569709098932}
