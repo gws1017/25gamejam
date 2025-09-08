@@ -247,6 +247,7 @@ MonoBehaviour:
   attackCoolTime: 1
   attackTrigger: Idle
   powerUpMultiplier: 0.1
+  hitVFX: {fileID: 779097749719715931, guid: 4fcf0de36d53bbc4a92dfc7ba4c4774f, type: 3}
   monsterDieFX: {fileID: 8300000, guid: 645ec782a4f4a564ba4715a6f0d4f9a0, type: 3}
   zombieBulletPrefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
   firePoint: {fileID: 2209632217826320307}

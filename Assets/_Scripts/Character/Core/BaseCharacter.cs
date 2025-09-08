@@ -32,7 +32,7 @@ public class BaseCharacter : MonoBehaviour
     }
 
     //필요시 파라미터 변경
-    public virtual void Hit()
+    public virtual void Hit(Vector2 HitPoint)
     {
 
     }

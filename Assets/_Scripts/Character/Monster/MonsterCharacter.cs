@@ -10,6 +10,7 @@ public class MonsterCharacter : BaseCharacter
     [SerializeField] protected float attackCoolTime = 1f;
     [SerializeField] protected string attackTrigger = "Idle";
     [SerializeField] protected float powerUpMultiplier = 0.1f;
+    [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected AudioClip monsterDieFX;
     protected bool isAttacking = false;
     protected bool isLive = true;
@@ -19,7 +20,7 @@ public class MonsterCharacter : BaseCharacter
     public int DropExp => dropExp;
     public bool IsLive => isLive;
 
-    public void  SetSpeed(int value)
+    public void SetSpeed(int value)
     {
         speed = value;
         controller.SetSpeed = value;
@@ -68,6 +69,13 @@ public class MonsterCharacter : BaseCharacter
     {
         //몬스터 공격시 실행할 함수 작성
     }
+    public override void Hit(Vector2 HitPoint)
+    {
+        base.Hit(HitPoint);
+        if (isLive == false) return;
+        Vector3 hit3 = new Vector3(HitPoint.x, HitPoint.y, 0);
+        Instantiate(hitVFX, hit3, Quaternion.identity);
+    }
 
     public override void Die()
     {
@@ -97,23 +105,23 @@ public class MonsterCharacter : BaseCharacter
         if (!collision.CompareTag("Projectile") || !isLive) return;
         if (collision.CompareTag("Enemy")) return; //적끼리 체크 X
 
-        
+
 
         float applyDamage = 0;
+        Vector2 hitPoint = collision.ClosestPoint(transform.position);
 
         var bullet = collision.GetComponent<Bullet>();
-        if(bullet != null && bullet.Causer != gameObject)
+        if (bullet != null && bullet.Causer != gameObject)
         {
-            if (bullet.Causer != null && 
+            if (bullet.Causer != null &&
                 bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
             applyDamage += bullet.Damage;
         }
         currentHP -= applyDamage;
 
-        if(currentHP > 0)
+        if (currentHP > 0)
         {
-            //
-            Hit();
+            Hit(hitPoint);
         }
         else
         {

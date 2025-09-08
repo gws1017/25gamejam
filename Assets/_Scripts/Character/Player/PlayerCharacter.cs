@@ -143,7 +143,7 @@ public class PlayerCharacter : BaseCharacter
         int before = (int)currentHP;
         currentHP = Mathf.Clamp(currentHP - finalDamage, 0, MaxHP);
         if (currentHP != before) NotifyHealthChanged();
-        if (currentHP > 0) Hit(); else if (!IsDead) Die();
+        if (currentHP > 0) Hit(Vector2.zero); else if (!IsDead) Die();
     }
 
     public override void Die()
@@ -206,7 +206,7 @@ public class PlayerCharacter : BaseCharacter
         if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
         else currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
 
-        if (currentHP > 0) Hit(); else if (!IsDead) Die();
+        if (currentHP > 0) Hit(Vector2.zero); else if (!IsDead) Die();
     }
 
     public void OnHealOne(Hearts hearts)

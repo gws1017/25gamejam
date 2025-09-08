@@ -228,4 +228,5 @@ MonoBehaviour:
   attackCoolTime: 2
   attackTrigger: Idle
   powerUpMultiplier: 0.1
+  hitVFX: {fileID: 779097749719715931, guid: 4fcf0de36d53bbc4a92dfc7ba4c4774f, type: 3}
   monsterDieFX: {fileID: 8300000, guid: 645ec782a4f4a564ba4715a6f0d4f9a0, type: 3}
