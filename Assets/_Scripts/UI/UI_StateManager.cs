@@ -28,6 +28,7 @@ public class UI_StateManager : MonoBehaviour
         UI_Skill,
         UI_GameOver,
         UI_SoundSettings,
+        UI_Tutorial,
     }
 
     private UIState currentState;
@@ -38,6 +39,7 @@ public class UI_StateManager : MonoBehaviour
     [SerializeField] private MonoBehaviour ui_Skill;
     [SerializeField] private MonoBehaviour ui_GameOver;
     [SerializeField] private MonoBehaviour ui_SoundSettings;
+    [SerializeField] private MonoBehaviour ui_Tutorial;
 
     private readonly Dictionary<UIState, IToggleUI> UIStateDictionary = new();
 
@@ -66,6 +68,7 @@ public class UI_StateManager : MonoBehaviour
         TryAdd(UIState.UI_Skill, ui_Skill);
         TryAdd(UIState.UI_GameOver, ui_GameOver);
         TryAdd(UIState.UI_SoundSettings, ui_SoundSettings);
+        TryAdd(UIState.UI_Tutorial, ui_Tutorial);
     }
 
     private void TryAdd(UIState state, MonoBehaviour UIComponent)

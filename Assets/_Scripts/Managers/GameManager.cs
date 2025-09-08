@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.CountdownToStart:
-                TurnOnClickBlocker();
+                // TurnOnClickBlocker();
                 break;
             case GameState.GamePlaying:
                 TurnOffClickBlocker();
