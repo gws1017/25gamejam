@@ -46,9 +46,9 @@ GameObject:
   - component: {fileID: 5985317782372220220}
   - component: {fileID: 8177602734306345351}
   - component: {fileID: 87311880212391647}
+  - component: {fileID: 8089265591075543225}
   - component: {fileID: 9196988966477607017}
   - component: {fileID: 6155493384743665826}
-  - component: {fileID: 8089265591075543225}
   m_Layer: 0
   m_Name: ZombieSlime
   m_TagString: Enemy
@@ -203,6 +203,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.4108725, y: 1.8632584}
   m_EdgeRadius: 0
+--- !u!95 &8089265591075543225
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115483976116657050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 994f3310e58017e40865f5ffe72452fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9196988966477607017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +248,7 @@ MonoBehaviour:
   attackTrigger: Idle
   powerUpMultiplier: 0.1
   zombieBulletPrefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+  firePoint: {fileID: 2209632217826320307}
 --- !u!114 &6155493384743665826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,28 +271,6 @@ MonoBehaviour:
   - 90
   - 180
   - 270
---- !u!95 &8089265591075543225
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4115483976116657050}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 994f3310e58017e40865f5ffe72452fc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5117509847629364085
 GameObject:
   m_ObjectHideFlags: 0
