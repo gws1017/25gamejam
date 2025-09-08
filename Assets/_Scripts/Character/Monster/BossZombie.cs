@@ -39,7 +39,7 @@ public class BossZombie : MonsterCharacter
         base.Attack();
 
         if (controller == null) return;
-        if (BulletPool_Boss.Instance == null) return;
+        if (BulletPoolManager.Instance == null) return;
 
         Vector2 origin = (firePoint != null) ? firePoint.position : transform.position;
         Vector2 playerPos = controller.TargetPlayer.transform.position;
@@ -55,7 +55,7 @@ public class BossZombie : MonsterCharacter
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        Bullet bullet = BulletPool_Boss.Instance.Spawn(origin, rot);
+        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Boss,origin, rot);
         if (bullet != null)
         {
             bullet.Init(damage, gameObject);

@@ -12,7 +12,7 @@ public class PoliceZombie : MonsterCharacter
     public override void Attack()
     {
         if (isAttacking) return;
-        if (BulletPool_Police.Instance == null) return;
+        if (BulletPoolManager.Instance == null) return;
         base.Attack();
         isAttacking = true;
 
@@ -45,7 +45,7 @@ public class PoliceZombie : MonsterCharacter
         Quaternion rot = Quaternion.AngleAxis(angleDeg, Vector3.forward);
 
         // 4) 풀에서 탄환 꺼내기 → 초기화 → 자기 자신 무시 → 발사
-        Bullet bullet = BulletPool_Police.Instance.Spawn(origin, rot);
+        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Police, origin, rot);
         if (bullet != null)
         {
             bullet.Init(damage, gameObject);        // 데미지/사수 설정

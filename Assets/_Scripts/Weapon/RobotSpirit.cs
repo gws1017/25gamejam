@@ -42,8 +42,8 @@ public class RobotSpirit : MonoBehaviour
         Vector2 fireDirection = (mouseWorldPosition - spawnWorldPosition).normalized;
 
         // 5) 풀에서 탄환 꺼내 초기화 후 발사
-        if (BulletPool.Instance == null) return;
-        Bullet bullet = BulletPool.Instance.Spawn(spawnWorldPosition, Quaternion.identity);
+        if (BulletPoolManager.Instance == null) return;
+        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Player, spawnWorldPosition, Quaternion.identity);
         GameObject playerObject = transform.parent != null ? transform.parent.gameObject : gameObject;
 
         bullet.Init(damageAmount, playerObject);
