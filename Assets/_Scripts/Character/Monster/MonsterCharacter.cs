@@ -10,6 +10,7 @@ public class MonsterCharacter : BaseCharacter
     [SerializeField] protected float attackCoolTime = 1f;
     [SerializeField] protected string attackTrigger = "Idle";
     [SerializeField] protected float powerUpMultiplier = 0.1f;
+    [SerializeField] protected AudioClip monsterDieFX;
     protected bool isAttacking = false;
     protected bool isLive = true;
 
@@ -72,6 +73,7 @@ public class MonsterCharacter : BaseCharacter
     {
         if (isLive == false) return;
         base.Die();
+        SoundManager.Instance.PlaySoundFX(monsterDieFX);
         isLive = false;
         PlayerCharacter.Instance.PlayerWallet.AddGold(10);
         gameObject.SetActive(false);

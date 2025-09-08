@@ -3,6 +3,7 @@ using UnityEngine;
 public class Hearts : MonoBehaviour
 {
     [SerializeField] private Heart[] hearts;
+    [SerializeField] private AudioClip heartFX;
 
     public void Awake() => SetHearts();
 
@@ -49,6 +50,7 @@ public class Hearts : MonoBehaviour
     // 오른쪽부터 첫 '꺼진' 하트 켜기(자연스러운 복구)
     public bool TurnOnLastOff()
     {
+        SoundManager.Instance.PlaySoundFX(heartFX);
         if (hearts == null) return false;
         for (int i = hearts.Length - 1; i >= 0; i--)
         {
