@@ -7,7 +7,7 @@ public class PlayerWallet : MonoBehaviour
 
     private void Start()
     {
-        currentGold = 5000; // 초기 골드 설정 (테스트용)
+        UI_InGame.Instance.SetCoin(currentGold);
     }
 
     public bool HasEnough(int price) => currentGold >= price;
@@ -16,11 +16,18 @@ public class PlayerWallet : MonoBehaviour
     {
         if (currentGold < price) return false;
         currentGold -= price;
+
+        if (UI_InGame.Instance != null)
+            UI_InGame.Instance.SetCoin(currentGold);
+
         return true;
     }
 
     public void AddGold(int amount)
     {
         currentGold += Mathf.Max(0, amount);
+
+        if (UI_InGame.Instance != null)
+            UI_InGame.Instance.SetCoin(currentGold);
     }
 }

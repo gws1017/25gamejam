@@ -157,6 +157,16 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         item_AddHeart.onClick.AddListener(() =>
             TryPurchase(price_AddHeart, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnAddHeartItemBought);
+
+                // 플레이어의 하트가 꽉 차있다면 구매 불가
+                if (PlayerCharacter.Instance.CurrentHP >= PlayerCharacter.Instance.MaxHP)
+                {
+                    // 골드 환불
+                    playerWallet.AddGold(price_AddHeart);
+                    UnityEngine.Debug.Log("AddHeart Item Purchase Failed - Full HP");
+                    return;
+                }
+
                 PlayerCharacter.Instance.Heal(1);
                 UnityEngine.Debug.Log("AddHeart Item Purchased");
             }));

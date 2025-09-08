@@ -73,6 +73,7 @@ public class MonsterCharacter : BaseCharacter
         if (isLive == false) return;
         base.Die();
         isLive = false;
+        PlayerCharacter.Instance.PlayerWallet.AddGold(10);
         gameObject.SetActive(false);
     }
 
