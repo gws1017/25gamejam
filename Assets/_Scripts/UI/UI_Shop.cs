@@ -208,9 +208,9 @@ public class UI_Shop : MonoBehaviour, IToggleUI
 
         item_AddHeart.onClick.RemoveAllListeners();
         item_Invincibility.onClick.RemoveAllListeners();
-        item_EnemySpeedDown.onClick.RemoveAllListeners();
+        // item_EnemySpeedDown.onClick.RemoveAllListeners();
         item_AttackBoost.onClick.RemoveAllListeners();
-        item_EnemyDefensePowerDown.onClick.RemoveAllListeners();
+        // item_EnemyDefensePowerDown.onClick.RemoveAllListeners();
         item_DefenseBoost.onClick.RemoveAllListeners();
     }
     #endregion
