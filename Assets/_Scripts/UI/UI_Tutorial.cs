@@ -10,8 +10,8 @@ public class UI_Tutorial : MonoBehaviour, IToggleUI
     [Space]
     [SerializeField] private DoTween_Popup doTweenPopup;
 
-    private GameManager gameManager;
-    private SoundEvents soundEvents;
+    [SerializeField]  private GameManager gameManager;
+    [SerializeField]  private SoundEvents soundEvents;
 
     private void Start()
     {
@@ -49,6 +49,8 @@ public class UI_Tutorial : MonoBehaviour, IToggleUI
         {
             soundEvents.InvokeOnPlayButtonFx();
             doTweenPopup.Hide(Hide);
+
+            Debug.Log("Tutorial Exit Button Clicked.");
         });
     }
 

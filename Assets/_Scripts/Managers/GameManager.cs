@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        ManageGameState();
+        // ManageGameState();
     }
 
     private void OnDestroy()
