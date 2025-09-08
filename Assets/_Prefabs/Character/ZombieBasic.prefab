@@ -227,3 +227,5 @@ MonoBehaviour:
   attackRange: 0.5
   attackCoolTime: 2
   attackTrigger: Idle
+  powerUpMultiplier: 0.1
+  monsterDieFX: {fileID: 8300000, guid: 645ec782a4f4a564ba4715a6f0d4f9a0, type: 3}
