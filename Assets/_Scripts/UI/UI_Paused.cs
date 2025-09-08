@@ -9,9 +9,11 @@ public class UI_Paused : MonoBehaviour, IToggleUI
     [SerializeField] private Button currentStateButton;
     [SerializeField] private Button soundSettingsButton;
     [SerializeField] private Button quitGameButton;
+    [SerializeField] private Button tutorialButton;
     [Space]
     [SerializeField] private DoTween_Popup doTweenPopup;
     [SerializeField] private UI_SoundSettings ui_SoundSettings;
+    [SerializeField] private UI_Tutorial ui_Tutorial;
 
     private GameManager gameManager;
     private SoundEvents soundEvents;
@@ -76,6 +78,15 @@ public class UI_Paused : MonoBehaviour, IToggleUI
             Hide();
 
             ui_SoundSettings.Show();
+        });
+
+        tutorialButton.onClick.AddListener(() =>
+        {
+            // Play Button Click SFX
+            soundEvents.InvokeOnPlayButtonFx();
+            Hide();
+            
+            ui_Tutorial.Show();
         });
 
         quitGameButton.onClick.AddListener(() =>

@@ -98,6 +98,11 @@ public class PlayerController : BaseController
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Shop);
         }
 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Paused);
+        }
+
         // 1) 수평/수직 입력 읽기
         horizontalAxis = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
         verticalAxis = Input.GetAxisRaw("Vertical");   // -1, 0, 1
