@@ -159,10 +159,10 @@ public class GameManager : MonoBehaviour
                 // TurnOnClickBlocker();
                 break;
             case GameState.GamePlaying:
-                TurnOffClickBlocker();
+                //TurnOffClickBlocker();
                 break;
             case GameState.GameOver:
-                TurnOffClickBlocker();
+                //TurnOffClickBlocker();
                 OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
                 PauseGameWithDelay_ForDyingAnim();
                 break;
