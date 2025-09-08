@@ -167,11 +167,11 @@ public class UI_Shop : MonoBehaviour, IToggleUI
                 UnityEngine.Debug.Log("Invincibility Item Purchased");
             }));
 
-        item_EnemySpeedDown.onClick.AddListener(() =>
-            TryPurchase(price_EnemySpeedDown, () => {
-                ExecutePurchaseProcess(itemEvents.InvokeOnEnemySpeedDownBought);
-                UnityEngine.Debug.Log("EnemySpeedDown Item Purchased");
-            }));
+        //item_EnemySpeedDown.onClick.AddListener(() =>
+        //    TryPurchase(price_EnemySpeedDown, () => {
+        //        ExecutePurchaseProcess(itemEvents.InvokeOnEnemySpeedDownBought);
+        //        UnityEngine.Debug.Log("EnemySpeedDown Item Purchased");
+        //    }));
 
         item_AttackBoost.onClick.AddListener(() =>
             TryPurchase(price_AttackBoost, () => {
@@ -179,11 +179,11 @@ public class UI_Shop : MonoBehaviour, IToggleUI
                 UnityEngine.Debug.Log("AttackBoost Item Purchased");
             }));
 
-        item_EnemyDefensePowerDown.onClick.AddListener(() =>
-            TryPurchase(price_EnemyDefensePowerDown, () => {
-                ExecutePurchaseProcess(itemEvents.InvokeOnEnemyDefenseDownBought);
-                UnityEngine.Debug.Log("EnemyDefensePowerDown Item Purchased");
-            }));
+        //item_EnemyDefensePowerDown.onClick.AddListener(() =>
+        //    TryPurchase(price_EnemyDefensePowerDown, () => {
+        //        ExecutePurchaseProcess(itemEvents.InvokeOnEnemyDefenseDownBought);
+        //        UnityEngine.Debug.Log("EnemyDefensePowerDown Item Purchased");
+        //    }));
 
         item_DefenseBoost.onClick.AddListener(() =>
             TryPurchase(price_DefenseBoost, () => {

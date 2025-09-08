@@ -93,6 +93,11 @@ public class PlayerController : BaseController
     //키입력 체크
     void CheckInput()
     {
+        if (Input.GetKey(KeyCode.E))
+        {
+            UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Shop);
+        }
+
         // 1) 수평/수직 입력 읽기
         horizontalAxis = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
         verticalAxis = Input.GetAxisRaw("Vertical");   // -1, 0, 1
