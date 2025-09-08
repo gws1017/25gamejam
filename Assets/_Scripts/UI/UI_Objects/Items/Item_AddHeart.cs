@@ -16,29 +16,28 @@ public class Item_AddHeart : Item
 
     private void OnBought(object sender, System.EventArgs e)
     {
+        // 구매 버튼 클릭 → 이벤트 수신 → 효과 적용
         ApplyItemEffects();
     }
 
     public override void ApplyItemEffects()
     {
-        // 최대 체력 +1, 현재 체력 +1 회복(상한 클램프)
         var player = PlayerCharacter.Instance;
-
         if (player == null) return;
 
-        player.GetType(); // 의도적으로 컴파일러 경고 회피 없음
+        // 풀피면 구매 불가라면 여기서 리턴
+        if (player.CurrentHP >= player.MaxHP) return;
 
-        var newMax = player.MaxHP + 1f;
-        var newCurrent = Mathf.Clamp(player.CurrentHP + 1f, 0f, newMax);
-
-        // BaseCharacter의 필드가 protected이므로 직접 접근이 어려우면 Setter를 추가하세요.
-        // 여기서는 간단히 리플렉션 없이 SerializeField 접근을 위해 보조 메서드가 있다고 가정합니다.
-        // 게임잼 간소화: 아래 메서드를 PlayerCharacter에 추가해 두면 가장 깔끔합니다.
-        //    public void SetHP(float current, float max) { currentHP = current; maxHP = max; }
-        player.SendMessage("SetHP", new object[] { newCurrent, newMax }, SendMessageOptions.DontRequireReceiver);
+        // 하트 1칸 회복 (PlayerCharacter가 하트 토글/HP갱신 처리)
+        player.Heal(1f);
     }
 
     public override void RemoveItemEffects() { }
 
-    public override bool CheckItemPurchasability() => true;
+    // “하트가 닳았을 때만” 구매 가능
+    public override bool CheckItemPurchasability()
+    {
+        var p = PlayerCharacter.Instance;
+        return p != null && p.CurrentHP < p.MaxHP;
+    }
 }

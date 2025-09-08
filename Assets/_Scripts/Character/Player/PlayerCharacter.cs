@@ -104,22 +104,23 @@ public class PlayerCharacter : BaseCharacter
     /// <summary>
     /// 체력을 회복한다. (양수만 허용, 오버힐 방지, 사망 시 무시)
     /// </summary>
+    // 하트 1칸 회복
     public void Heal(float amount)
     {
         if (IsDead) return;
 
         if (Mathf.Approximately(amount, 1f))
         {
-            bool turnedOn = (hearts != null) && hearts.TurnOnLastOff();
-            if (turnedOn) currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
-            else currentHP = Mathf.Clamp(currentHP + 1, 0, MaxHP);
+            // 하트 켜기(비어있는 가장 왼쪽/가장 최근 꺼진 칸을 켠다)
+            if (hearts != null) hearts.TurnOnLastOff();
 
+            currentHP = Mathf.Clamp(currentHP + 1f, 0f, MaxHP);
             NotifyHealthChanged();
             return;
         }
 
-        // 특수 회복량은 기존 로직
-        currentHP = Mathf.Clamp(currentHP + Mathf.RoundToInt(amount), 0, MaxHP);
+        // 그 외 특수 회복량(필요시)
+        currentHP = Mathf.Clamp(currentHP + Mathf.RoundToInt(amount), 0f, MaxHP);
         NotifyHealthChanged();
     }
 
@@ -160,14 +161,14 @@ public class PlayerCharacter : BaseCharacter
     {
         //근접 공격 데미지 처리 
         //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
-        if (DamageDelayCorutine == null)
+        if (collision.gameObject.TryGetComponent<MonsterCharacter>(out var mob))
         {
-            var mob = collision.GetComponent<MonsterCharacter>();
-            if (mob != null)
+            if (DamageDelayCorutine == null)
             {
                 DamageDelayCorutine = StartCoroutine(DamageDelayCoroutine(mob.AttackCoolTime));
-                return;
+                Debug.Log("Melee Attack Collision - Apply Damage with Delay");
             }
+            return;
         }
 
         float finalDamage = 0;
@@ -183,9 +184,10 @@ public class PlayerCharacter : BaseCharacter
         if (bullet != null && bullet.Causer != gameObject)
         {
             finalDamage += bullet.Damage;
-        }
+            ApplyDamage(finalDamage);
 
-        ApplyDamage(finalDamage);
+            Debug.Log("Bullet Collision - Apply Damage: " + finalDamage);
+        }
     }
 
     private void OnHit()
@@ -203,7 +205,6 @@ public class PlayerCharacter : BaseCharacter
         if (turnedOff) currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP);
         else currentHP = Mathf.Clamp(currentHP - 1, 0, MaxHP); // 안전
 
-        hearts.TurnOffFirstOn();
         if (currentHP > 0) Hit(); else if (!IsDead) Die();
     }
 
