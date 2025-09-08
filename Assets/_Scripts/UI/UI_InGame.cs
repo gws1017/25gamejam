@@ -84,7 +84,7 @@ public class UI_InGame : MonoBehaviour
 
     public void SetCoin(int coin)
     {
-        coinText.text = coin.ToString();
+        coinText.text = coin.ToString("N0");
     }
 
     public void SetXPBar(int currentExp, int maxExp, bool animate = true)
