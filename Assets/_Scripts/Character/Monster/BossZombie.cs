@@ -2,21 +2,17 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BossZombie : MonsterCharacter
 {
     
     [SerializeField] private GameObject zombieBulletPrefab;
+    [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
 
     void Start()
     {
         attackRange = 3f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public override void PowerUp(int count)
@@ -43,13 +39,30 @@ public class BossZombie : MonsterCharacter
         base.Attack();
 
         if (controller == null) return;
+        if (BulletPoolManager.Instance == null) return;
 
-        Vector2 targetDir = controller.TargetDir;
+        Vector2 origin = (firePoint != null) ? firePoint.position : transform.position;
+        Vector2 playerPos = controller.TargetPlayer.transform.position;
+
+        Vector2 targetDir = (playerPos - origin);
+        if (targetDir.sqrMagnitude < 0.0001f)
+        {
+            // 혹시 완전히 겹쳐있거나 0벡터면 바라보는 방향으로 대체
+            targetDir = transform.right;
+        }
+        targetDir.Normalize();
+
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
-        var bulletObject = Instantiate(zombieBulletPrefab, transform.position, Quaternion.AngleAxis(angle, Vector3.forward)).GetComponent<Bullet>();
+        Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        bulletObject.Init(damage,gameObject);
-        bulletObject.AddIgnoreObject(gameObject); // 본인 무시
+        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Boss,origin, rot);
+        if (bullet != null)
+        {
+            bullet.Init(damage, gameObject);
+            bullet.AddIgnoreObject(gameObject); // 본인 무시
+            bullet.Fire(targetDir);
+        }
+
         controller.ChangeState(AIController.AIState.Move);
         GetComponent<Animator>().SetTrigger("Move");
 

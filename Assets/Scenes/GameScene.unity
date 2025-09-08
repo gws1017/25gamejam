@@ -1999,7 +1999,7 @@ GameObject:
   - component: {fileID: 381306604}
   - component: {fileID: 381306605}
   m_Layer: 0
-  m_Name: PlayerBulletPool
+  m_Name: BulletPoolManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2029,11 +2029,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 381306603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc0d2f460bec944198149bc6634bc2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 793ba947a7a346042a4f73b078fc775d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletPool
-  bulletPrefab: {fileID: 4173380444589992040, guid: f20f8442ddf2f5e4899341339898ba76, type: 3}
-  initialSize: 20
+  m_EditorClassIdentifier: Assembly-CSharp::BulletPoolManager
+  playerBulletPrefab: {fileID: 4173380444589992040, guid: f20f8442ddf2f5e4899341339898ba76, type: 3}
+  bossBulletPrefab: {fileID: 4173380444589992040, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
+  policeBulletPrefab: {fileID: 736425438467673309, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+  playerBulletSize: 20
+  bossBulletSize: 20
+  policeBulletSize: 20
 --- !u!1 &391383100
 GameObject:
   m_ObjectHideFlags: 0
@@ -3921,7 +3925,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 381306604}
-  - {fileID: 1339106804}
   m_Father: {fileID: 1208850473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818625086
@@ -7255,52 +7258,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.1358404, y: 6.366868}
   m_EdgeRadius: 0
---- !u!1 &1339106803
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1339106804}
-  - component: {fileID: 1339106805}
-  m_Layer: 0
-  m_Name: PoliceBulletPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1339106804
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339106803}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 795599088}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1339106805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339106803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625ba0703eccd1c4f9a1b556408bfa40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletPool_Police
-  bulletPrefab: {fileID: 736425438467673309, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
-  initialSize: 20
 --- !u!1 &1343178733
 GameObject:
   m_ObjectHideFlags: 0

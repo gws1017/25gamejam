@@ -198,6 +198,7 @@ public class PlayerController : BaseController
             if (parryable is Bullet bullet)
             {
                 bullet.Init(robot.Damage, gameObject);
+                //bullet.Fire();
             }
         }
         
@@ -256,7 +257,7 @@ public class PlayerController : BaseController
     /// </summary>
     private void TryShoot()
     {
-        if (firePoint == null || BulletPool.Instance == null) return; // 세팅 안 되었으면 종료
+        if (firePoint == null || BulletPoolManager.Instance == null) return; // 세팅 안 되었으면 종료
         if (fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
 
         if (playerCharacter == null) return;
@@ -282,7 +283,7 @@ public class PlayerController : BaseController
 #endif
 
         // 풀에서 탄환 꺼내기 → 초기화 → 발사
-        Bullet bullet = BulletPool.Instance.Spawn(firePoint.position, Quaternion.identity);
+        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Player, firePoint.position, Quaternion.identity);
         bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
         SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);
