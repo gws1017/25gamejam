@@ -116,6 +116,7 @@ public class PlayerCharacter : BaseCharacter
 
             currentHP = Mathf.Clamp(currentHP + 1f, 0f, MaxHP);
             NotifyHealthChanged();
+            hearts.SetHearts();
             return;
         }
 

@@ -28,7 +28,7 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     [SerializeField] private int price_DefenseBoost = 100;
 
     private float nextPurchaseAllowedTime = 0f;
-    private float itemPurchaseCooldown = 5f;
+    private float itemPurchaseCooldown = 1f;
     private Button[] itemButtons;
 
     private ItemEvents itemEvents;
@@ -157,6 +157,7 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         item_AddHeart.onClick.AddListener(() =>
             TryPurchase(price_AddHeart, () => {
                 ExecutePurchaseProcess(itemEvents.InvokeOnAddHeartItemBought);
+                PlayerCharacter.Instance.Heal(1);
                 UnityEngine.Debug.Log("AddHeart Item Purchased");
             }));
 
