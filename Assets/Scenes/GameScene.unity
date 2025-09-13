@@ -978,7 +978,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 701754298}
   - {fileID: 2104332271}
   m_Father: {fileID: 1208850473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -995,7 +994,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   clickBlocker: {fileID: 2134785952}
-  pool: {fileID: 701754297}
   currentGameState: 0
 --- !u!1 &178263896
 GameObject:
@@ -2000,6 +1998,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381306604}
   - component: {fileID: 381306605}
+  - component: {fileID: 381306606}
   m_Layer: 0
   m_Name: BulletPoolManager
   m_TagString: Untagged
@@ -2040,6 +2039,34 @@ MonoBehaviour:
   playerBulletSize: 20
   bossBulletSize: 20
   policeBulletSize: 20
+--- !u!114 &381306606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381306603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5d04dd5239ac545860ec3269565646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoolManager
+  poolEntryList:
+  - key: PlayerBullet
+    prefab: {fileID: 6460520366897129754, guid: f20f8442ddf2f5e4899341339898ba76, type: 3}
+    size: 20
+  - key: BossBullet
+    prefab: {fileID: 6460520366897129754, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
+    size: 20
+  - key: PoliceBullet
+    prefab: {fileID: 7672723523971845551, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+    size: 20
+  - key: PoliceZombie
+    prefab: {fileID: 8358743569709098932, guid: db57e40041784f94d963bcad1063ccce, type: 3}
+    size: 20
+  - key: BasicZombie
+    prefab: {fileID: 5592279740880252219, guid: f648686672cefff46b6b739ab5543d17, type: 3}
+    size: 20
 --- !u!1 &391383100
 GameObject:
   m_ObjectHideFlags: 0
@@ -3642,54 +3669,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.74509805}
   m_EffectDistance: {x: -15, y: -15}
   m_UseGraphicAlpha: 1
---- !u!1 &701754296
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 701754298}
-  - component: {fileID: 701754297}
-  m_Layer: 0
-  m_Name: MonsterPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &701754297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 701754296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f5d04dd5239ac545860ec3269565646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PoolManager
-  prefabs:
-  - {fileID: 1029707707262696306, guid: f648686672cefff46b6b739ab5543d17, type: 3}
-  - {fileID: 7226998442595843064, guid: db57e40041784f94d963bcad1063ccce, type: 3}
-  maxPoolSizes: 9600000064000000
---- !u!4 &701754298
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 701754296}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.14, y: -1.53, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 170363482}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &738615812
 GameObject:
   m_ObjectHideFlags: 0

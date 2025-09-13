@@ -7,31 +7,44 @@ public class GenericPool<T> where T : Component
     private Transform container;
     private T prefab;
 
-    public GenericPool(T prefab, int initialSize, Transform containerParent = null)
+    //풀 생성
+    public GenericPool(T prefab, int initialSize, Transform parent = null)
     {
+        //프리팹 및 풀 컨테이너 등록
         this.prefab = prefab;
         container = new GameObject($"{typeof(T).Name}_Pool").transform;
-        if (containerParent != null)
-            container.SetParent(containerParent);
+        if (parent != null)
+            container.SetParent(parent);
 
+        //객체 미리 생성
         for (int i = 0; i < initialSize; i++)
         {
-            var obj = GameObject.Instantiate(prefab, container);
+            T obj = GameObject.Instantiate(prefab, container);
             obj.gameObject.SetActive(false);
             pool.Enqueue(obj);
         }
     }
 
-    public T Spawn(Vector3 position, Quaternion rotation)
+    public T Spawn(Vector3 position, Quaternion rotation,string poolKey = null)
     {
         T obj = pool.Count > 0 ? pool.Dequeue() : GameObject.Instantiate(prefab, container);
         obj.transform.SetPositionAndRotation(position, rotation);
         obj.gameObject.SetActive(true);
+
+        if(obj is IPoolable poolableObj)
+        {
+            if(poolKey != null)
+                poolableObj.poolKey = poolKey;
+            poolableObj.OnSpawn();
+        }
         return obj;
     }
 
     public void Despawn(T obj)
     {
+        if (obj is IPoolable poolableObj)
+            poolableObj.OnDespawn();
+
         obj.gameObject.SetActive(false);
         pool.Enqueue(obj);
     }

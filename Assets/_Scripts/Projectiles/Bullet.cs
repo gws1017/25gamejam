@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IParryable
+public class Bullet : MonoBehaviour, IParryable, IPoolable
 {
     [SerializeField] protected float speed = 8f;     // 탄환 속도
     [SerializeField] protected float lifetime = 3f;  // 탄환 생존 시간(초)
     [SerializeField] protected float damage = 1f;    // 탄환 기본 데미지
     // 충돌 처리 무시할 오브젝트 등록(본인, 무기등)
     [SerializeField] private List<GameObject> ignoreObjects = new List<GameObject>();
-    [SerializeField] private BulletType bulletType;
+    [SerializeField] private string poolkey;
 
     [SerializeField] LayerMask ignoreMask; 
 
@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour, IParryable
     public float Speed => speed;
     public float Damage => damage;
     public bool CanBeParried { get; private set; } = true; // 패링 가능 여부
+    public string poolKey { get; set; }
 
     protected void Awake()
     {
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviour, IParryable
 
     protected virtual void Start() { }
 
-    protected void OnEnable()
+    public void OnSpawn()
     {
         // 풀에서 재사용될 때 상태 초기화
         CanBeParried = true;
@@ -37,13 +38,23 @@ public class Bullet : MonoBehaviour, IParryable
         lifeRoutine = StartCoroutine(LifeTimer()); // 타이머 시작
     }
 
-    protected void OnDisable()
+    public void OnDespawn()
     {
         // 풀로 되돌아갈 때 깔끔히 리셋
         if (lifeRoutine != null) StopCoroutine(lifeRoutine);
         rb.linearVelocity = Vector2.zero;
         ignoreObjects.Clear();
         Causer = null;
+    }
+
+    protected void OnEnable()
+    {
+        
+    }
+
+    protected void OnDisable()
+    {
+        
     }
 
     // 탄환 초기화(데미지/발사자 설정). 스폰 직후에 반드시 호출.
@@ -67,7 +78,7 @@ public class Bullet : MonoBehaviour, IParryable
     private IEnumerator LifeTimer()
     {
         yield return new WaitForSeconds(lifetime);
-        BulletPoolManager.Instance.Despawn(bulletType,this);
+        PoolManager.Instance.Get<Bullet>(poolkey).Despawn(this);
     }
 
     // 무시할 오브젝트(충돌 제외) 동적 등록
@@ -91,7 +102,7 @@ public class Bullet : MonoBehaviour, IParryable
             if (ignore == collision.gameObject) return;
 
         // 데미지 계산/적용은 피격자 쪽에서 처리하고, 탄환은 여기서 수거
-        BulletPoolManager.Instance.Despawn(bulletType,this);
+        PoolManager.Instance.Get<Bullet>(poolkey).Despawn(this);
     }
 
     // 패링 처리(기존 설계 유지): 반사 방향으로 재가속 + 수명 리셋 + 무시목록 초기화
@@ -106,5 +117,7 @@ public class Bullet : MonoBehaviour, IParryable
         lifeRoutine = StartCoroutine(LifeTimer()); // 수명 재시작
         ignoreObjects.Clear(); // 원래 사수도 다시 맞도록 초기화
     }
+
+    
 }
 

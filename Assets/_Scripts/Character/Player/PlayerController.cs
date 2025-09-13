@@ -288,7 +288,7 @@ public class PlayerController : BaseController
 #endif
 
         // 풀에서 탄환 꺼내기 → 초기화 → 발사
-        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Player, firePoint.position, Quaternion.identity);
+        Bullet bullet = PoolManager.Instance.Get<Bullet>("PlayerBullet").Spawn( firePoint.position, Quaternion.identity, "PlayerBullet");
         bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
         SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);

@@ -55,7 +55,7 @@ public class BossZombie : MonsterCharacter
         float angle = Mathf.Atan2(targetDir.y, targetDir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Boss,origin, rot);
+        Bullet bullet = PoolManager.Instance.Get<Bullet>("BossBullet").Spawn(origin, rot, "BossBullet");
         if (bullet != null)
         {
             bullet.Init(damage, gameObject);

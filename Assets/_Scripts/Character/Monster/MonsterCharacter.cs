@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using static AIController;
 
-public class MonsterCharacter : BaseCharacter
+public class MonsterCharacter : BaseCharacter,IPoolable
 {
     protected AIController controller;
     [SerializeField] protected int dropExp = 1;
@@ -19,6 +19,8 @@ public class MonsterCharacter : BaseCharacter
     public float AttackCoolTime => attackCoolTime;
     public int DropExp => dropExp;
     public bool IsLive => isLive;
+
+    public string poolKey { get; set; }
 
     public void SetSpeed(int value)
     {
@@ -40,9 +42,16 @@ public class MonsterCharacter : BaseCharacter
 
     private void OnEnable()
     {
+    }
+    public void OnSpawn()
+    {
         isLive = true;
         controller.enabled = true;
         currentHP = MaxHP;
+    }
+
+    public void OnDespawn()
+    {
     }
 
     public virtual void PowerUp(int count)
@@ -128,4 +137,6 @@ public class MonsterCharacter : BaseCharacter
             controller.ChangeState(AIController.AIState.Dead);
         }
     }
+
+
 }

@@ -3,50 +3,61 @@ using System.Collections.Generic;
 
 public class PoolManager : MonoBehaviour
 {
-    public GameObject[] prefabs;      //스폰할 프리팹 모음
-    public int[] maxPoolSizes;         //프리팹별 최대 스폰 제한
+    #region [Singleton]
+    public static PoolManager Instance { get; private set; }
+    private void SingleTon()
+    {
+        Instance = this;
+    }
+    private void EmptySingleton()
+    {
+        if (Instance != null)
+            Instance = null;
+    }
+    #endregion
 
-    private List<GameObject>[] pools; //실제 객체 보관 풀
-
+    [System.Serializable]
+    public class PoolEntry
+    {
+        public string key;
+        public Component prefab;
+        public int size = 20;
+    }
+    [SerializeField] private List<PoolEntry> poolEntryList = new List<PoolEntry>();
+    private Dictionary<string, object> pools = new();
 
     private void Awake()
     {
-        //풀 초기화
-        pools = new List<GameObject>[prefabs.Length];
+        SingleTon();
 
-        for(int i =0; i<pools.Length; ++i)
+        foreach(var entry in poolEntryList)
         {
-            pools[i] = new List<GameObject>();
+            var type = entry.prefab.GetType();
+            var method = typeof(PoolManager).GetMethod(nameof(RegisterGeneric), System.Reflection.BindingFlags.NonPublic |
+                System.Reflection.BindingFlags.Instance)?.MakeGenericMethod(type);
+            method?.Invoke(this, new object[] { entry.key, entry.prefab, entry.size });
+
+            //var entryPool = new GenericPool<Component>(entry.prefab,entry.size, transform);
+            //PoolManager.Instance.Register(entry.key, entryPool);
         }
+        
+    }
+    private void RegisterGeneric<T>(string key, Component prefab, int size) where T : Component
+    {
+        var pool = new GenericPool<T>((T)prefab, size, transform);
+        Register(key, pool);
+    }
+    //신규 오브젝트 풀 등록
+    public void Register<T>(string key, GenericPool<T> pool) where T : Component
+    {
+        pools[key] = pool;
     }
 
-    //하나 꺼내오기
-    public GameObject GetObject(int index)
+    //오브젝트 꺼내오기
+    public GenericPool<T> Get<T>(string key) where T : Component
     {
-        GameObject select = null;
-
-        foreach (GameObject item in pools[index])
-        {
-            if(!item.activeSelf)
-            {
-                select = item;
-                select.SetActive(true);
-                break;
-            }
-        }
-
-        //없으면 생성
-        if(!select)
-        {
-            if (pools[index].Count >= maxPoolSizes[index])
-            {
-                Debug.Log($"[PoolManager] Pool index {index} has reached its maximum size of {maxPoolSizes[index]}.");
-                return null;
-            }
-            select = Instantiate(prefabs[index], transform);
-            pools[index].Add(select);
-        }
-        return select;
+        if (pools.Count <= 0) return null;
+        return pools[key] as GenericPool<T>;
     }
 
 }

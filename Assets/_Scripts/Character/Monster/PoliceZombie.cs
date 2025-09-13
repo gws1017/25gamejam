@@ -45,7 +45,7 @@ public class PoliceZombie : MonsterCharacter
         Quaternion rot = Quaternion.AngleAxis(angleDeg, Vector3.forward);
 
         // 4) 풀에서 탄환 꺼내기 → 초기화 → 자기 자신 무시 → 발사
-        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Police, origin, rot);
+        Bullet bullet = PoolManager.Instance.Get<Bullet>("PoliceBullet").Spawn(origin, rot, "PoliceBullet");
         if (bullet != null)
         {
             bullet.Init(damage, gameObject);        // 데미지/사수 설정

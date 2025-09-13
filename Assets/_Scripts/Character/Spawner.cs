@@ -7,6 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform bossSpawnPointRoot;
     [SerializeField] private float spawnInterval = 1.0f; //소환 간격 기준 시간(1레벨)
 
+    [SerializeField] private string[] monsterKeys;
     [SerializeField] private GameObject[] bossPrefabs;
     
     private Transform[] bossSpawnPoint;
@@ -51,6 +52,7 @@ public class Spawner : MonoBehaviour
             bossSpawnedThisCycle = false; // 보스 스폰 플래그 초기화
         }
 
+        //레벨이 오를수록 스폰 간격 감소(10레벨에서 초기화)
         float interval = spawnInterval - 0.1f * ((level - 1) % 10);
         if (spawnTimer > interval)
         {
@@ -61,9 +63,9 @@ public class Spawner : MonoBehaviour
 
     void Spawn()
     {
-        PoolManager pool = GameManager.Instance.pool;
-
-        GameObject monsterObject = pool.GetObject(Random.Range(0,pool.prefabs.Length));
+        string randKey = monsterKeys[Random.Range(0, monsterKeys.Length)];
+        var pool = PoolManager.Instance.Get<MonsterCharacter>(randKey);
+        var monsterObject = pool.Spawn(transform.position,Quaternion.identity,randKey);
         if (monsterObject == null) return;
         monsterObject.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
 
@@ -78,9 +80,9 @@ public class Spawner : MonoBehaviour
         SpawnBossObject.transform.position = bossSpawnPoint[lv+1].position;
         Debug.Log("보스 소환중...");
 
-        PowerUp(SpawnBossObject,true);
+        PowerUp(SpawnBossObject.GetComponent<MonsterCharacter>(),true);
     }
-    void PowerUp(GameObject monsterObject, bool isBoss = false)
+    void PowerUp(MonsterCharacter monsterObject, bool isBoss = false)
     {
         //플레이어 레벨 기준으로 몬스터 강화
         int powerUpCount = level / 10;
@@ -88,8 +90,7 @@ public class Spawner : MonoBehaviour
         //보스는 20레벨 부터 강화
         if (isBoss) powerUpCount--;
 
-        var monster = monsterObject.GetComponent<MonsterCharacter>();
-        if (monster == null) return;
-        monster.PowerUp(powerUpCount);
+        if (monsterObject == null) return;
+        monsterObject.PowerUp(powerUpCount);
     }
 }

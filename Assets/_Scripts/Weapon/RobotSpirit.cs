@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
+using static UnityEngine.UI.Image;
 
 public class RobotSpirit : MonoBehaviour
 {
@@ -42,8 +44,9 @@ public class RobotSpirit : MonoBehaviour
         Vector2 fireDirection = (mouseWorldPosition - spawnWorldPosition).normalized;
 
         // 5) 풀에서 탄환 꺼내 초기화 후 발사
-        if (BulletPoolManager.Instance == null) return;
-        Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Player, spawnWorldPosition, Quaternion.identity);
+        if (PoolManager.Instance == null) return;
+        Bullet bullet = PoolManager.Instance.Get<Bullet>("PlayerBullet").Spawn(spawnWorldPosition, Quaternion.identity, "PlayerBullet");
+
         GameObject playerObject = transform.parent != null ? transform.parent.gameObject : gameObject;
 
         bullet.Init(damageAmount, playerObject);
