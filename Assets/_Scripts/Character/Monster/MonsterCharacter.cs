@@ -111,7 +111,7 @@ public class MonsterCharacter : BaseCharacter
         Vector2 hitPoint = collision.ClosestPoint(transform.position);
 
         var bullet = collision.GetComponent<Bullet>();
-        if (bullet != null) return;
+        if (bullet == null) return;
 
         if (bullet.Causer != null && bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
         if( bullet.Causer != gameObject)
