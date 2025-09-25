@@ -228,11 +228,23 @@ public class PlayerController : BaseController
 
     private void CheckAttack()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (autoFire)
         {
-            robot.Attack(mouseAngle);
-            Debug.Log("Attack");
+            if (Input.GetButton("Fire1"))
+            {
+                robot.Attack(mouseAngle);
+                Debug.Log("Attack");
+            }
         }
+        else
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                robot.Attack(mouseAngle);
+                Debug.Log("Attack");
+            }
+        }
+            
 
         if (autoFire)
         {
