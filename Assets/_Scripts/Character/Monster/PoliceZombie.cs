@@ -51,11 +51,14 @@ public class PoliceZombie : MonsterCharacter
             bullet.Init(damage, gameObject);        // 데미지/사수 설정
             bullet.AddIgnoreObject(gameObject);     // 자기 자신 무시
             bullet.Fire(dir);                       // 이동 시작(위치 변경은 하지 않음)
+                                                    // 5) 사운드 & 공격 딜레이
+            SoundManager.Instance.PlaySoundFX(ShootFx, 0.1f);
+            Debug.Log("Zombie shoot");
+
+            StartCoroutine(AttackDelayCorutine());
         }
 
-        // 5) 사운드 & 공격 딜레이
-        SoundManager.Instance.PlaySoundFX(ShootFx, 0.1f);
-        StartCoroutine(AttackDelayCorutine());
+        
     }
 
 

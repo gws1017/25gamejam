@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   speed: 3
-  lifetime: 3
+  lifetime: 10
   damage: 1
   ignoreObjects: []
   bulletType: 2
