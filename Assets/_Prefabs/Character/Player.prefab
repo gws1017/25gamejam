@@ -237,8 +237,8 @@ MonoBehaviour:
   robot: {fileID: 0}
   speed: 4
   radius: 1
-  parryDistance: 1
-  parryDistanceOffset: 2
+  parryDistance: 0.5
+  parryDistanceOffset: 0.7
   parryLayerMask:
     serializedVersion: 2
     m_Bits: 1024

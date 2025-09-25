@@ -12,8 +12,8 @@ public class PlayerController : BaseController
     [Header("Property")]
     [SerializeField] private float speed = 4f; // 플레이어 이동속도
     [SerializeField] private float radius = 2f; // 로봇 정령 회전 반지름
-    [SerializeField] private float parryDistance = 1f; // 패링 허용 거리
-    [SerializeField] private float parryDistanceOffset = 2f; // 패링 실패 오프셋값
+    [Tooltip("패링 허용 거리")][SerializeField] private float parryDistance = 1f; 
+    [Tooltip("패링 실패 대상 거리")][SerializeField] private float parryDistanceOffset = 2f;
     [SerializeField] private LayerMask parryLayerMask; //패링 객체 탐색용 마스크
     [SerializeField] private AudioClip ParryFX;            
     [SerializeField] private GameObject parryVFX;
@@ -177,7 +177,7 @@ public class PlayerController : BaseController
     private void TryParry()
     {
         if (robot == null) return;
-
+        if (robot.IsParrying == false) return;
         //패링 기준 위치 수정
         Vector3 parryOrigin = robot.transform.position;
         
@@ -188,6 +188,7 @@ public class PlayerController : BaseController
         List<Collider2D> validParries = FilterOutSelfHits(parrySuccess);
 
         robot.detectedParryTarget = validHits.Count > 0; //패링가능한 타겟 감지
+        bool hasParried = false;
         foreach (var hit in validParries)
         {
             IParryable parryable = hit.GetComponent<IParryable>();
@@ -195,9 +196,10 @@ public class PlayerController : BaseController
                 continue;
 
             // 패링 성공
+            hasParried = true;
             Vector3 contact = hit.ClosestPoint(parryOrigin);
-            Debug.Log("패링 성공");
-            robot.hasParried = true;
+            //Debug.Log("패링 성공");
+            //robot.DeactiveParry();
             parryable.OnParried(contact);
 
             // 시각/청각 연출
@@ -210,8 +212,9 @@ public class PlayerController : BaseController
                 bullet.Init(robot.Damage, gameObject);
                 //bullet.Fire();
             }
+            robot.IsParrying = false; // 연속 패링입력 방지
         }
-        
+        robot.hasParried = hasParried; //한번이라도 성공했는지 체크
     }
 
     private void CheckParryKey()

@@ -67,6 +67,13 @@ public class RobotSpirit : MonoBehaviour
         if (parryCoroutine != null) return;
         parryCoroutine = StartCoroutine(ActivateParryCoroutine());
     }
+    public void DeactiveParry()
+    {
+        StopCoroutine(parryCoroutine);
+        parryCoroutine = null;
+        ClearParryFlags();
+        isParrying = false;
+    }
 
     private IEnumerator ActivateParryCoroutine()
     {
