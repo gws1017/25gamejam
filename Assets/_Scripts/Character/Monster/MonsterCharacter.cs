@@ -13,7 +13,7 @@ public class MonsterCharacter : BaseCharacter
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected AudioClip monsterDieFX;
     protected bool isAttacking = false;
-    protected bool isLive = true;
+    protected bool isLive = false;
 
     public float AttackRange => attackRange;
     public float AttackCoolTime => attackCoolTime;
@@ -36,12 +36,13 @@ public class MonsterCharacter : BaseCharacter
         //플레이어 한테 입히는 데미지 1로 고정
         //플레이어는 체력 3을 갖고, 3번 히트시 게임오버
         damage = 1;
+        if(controller)controller.ChangeState(AIState.Move);
     }
 
     private void OnEnable()
     {
-        isLive = true;
         controller.enabled = true;
+        controller.ChangeState(AIState.Move);
         currentHP = MaxHP;
     }
 
@@ -58,10 +59,13 @@ public class MonsterCharacter : BaseCharacter
         //dropExp = Mathf.CeilToInt(((float)dropExp * pm));
 
         currentHP = maxHP;
+        controller.UpdateRigidBodyPosition();
+        Spawn();
     }
 
     public virtual void Spawn()
     {
+        isLive = true;
         //몬스터 등장시 실행할 함수 작성
     }
 
@@ -82,6 +86,7 @@ public class MonsterCharacter : BaseCharacter
         if (isLive == false) return;
         base.Die();
         SoundManager.Instance.PlaySoundFX(monsterDieFX);
+        isAttacking = false;
         isLive = false;
         PlayerCharacter.Instance.PlayerWallet.AddGold(10);
         gameObject.SetActive(false);
