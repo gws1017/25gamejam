@@ -201,7 +201,7 @@ public class PlayerController : BaseController
             parryable.OnParried(contact);
 
             // 시각/청각 연출
-            SoundManager.Instance.PlaySoundFX(ParryFX, 0.6f);
+            SoundManager.Instance.PlaySoundFX(ParryFX, 1.5f);
             Instantiate(parryVFX, contact, Quaternion.identity);
 
             // 투사체 재반사
