@@ -176,8 +176,13 @@ public class PlayerController : BaseController
 
     private void TryParry()
     {
-        var hits = Physics2D.OverlapCircleAll(transform.position, parryDistance + parryDistanceOffset, parryLayerMask);
-        var parrySuccess = Physics2D.OverlapCircleAll(transform.position, parryDistance, parryLayerMask);
+        if (robot == null) return;
+
+        //패링 기준 위치 수정
+        Vector3 parryOrigin = robot.transform.position;
+        
+        var hits = Physics2D.OverlapCircleAll(parryOrigin, parryDistance + parryDistanceOffset, parryLayerMask);
+        var parrySuccess = Physics2D.OverlapCircleAll(parryOrigin, parryDistance, parryLayerMask);
 
         List<Collider2D> validHits = FilterOutSelfHits(hits);
         List<Collider2D> validParries = FilterOutSelfHits(parrySuccess);
@@ -190,7 +195,7 @@ public class PlayerController : BaseController
                 continue;
 
             // 패링 성공
-            Vector3 contact = hit.ClosestPoint(transform.position);
+            Vector3 contact = hit.ClosestPoint(parryOrigin);
             Debug.Log("패링 성공");
             robot.hasParried = true;
             parryable.OnParried(contact);
