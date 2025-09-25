@@ -96,7 +96,7 @@ public class MonsterCharacter : BaseCharacter
         isAttacking = false;
 
         controller.ChangeState(AIController.AIState.Move);
-        GetComponent<Animator>().SetTrigger(AIState.Move.ToString());
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

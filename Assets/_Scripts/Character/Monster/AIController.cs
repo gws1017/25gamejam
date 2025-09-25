@@ -126,10 +126,19 @@ public class AIController : BaseController
     }
     protected virtual void OnStateEnter(AIState state)
     {
-        switch(state)
+        var anim = GetComponent<Animator>();
+
+        switch (state)
         {
+            case AIState.Move:
+                if (anim != null) anim.SetTrigger(AIState.Move.ToString());
+                break;
             case AIState.Spawn:
-                owner.Spawn(); 
+                owner.Spawn();
+                if (anim != null)
+                {
+                    anim.SetTrigger("Idle");
+                }
                 break;
         }
     }
