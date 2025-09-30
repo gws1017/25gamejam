@@ -233,7 +233,6 @@ public class PlayerController : BaseController
             if (Input.GetButton("Fire1"))
             {
                 robot.Attack(mouseAngle);
-                Debug.Log("Attack");
             }
         }
         else
@@ -241,7 +240,6 @@ public class PlayerController : BaseController
             if (Input.GetButtonDown("Fire1"))
             {
                 robot.Attack(mouseAngle);
-                Debug.Log("Attack");
             }
         }
             
@@ -304,7 +302,7 @@ public class PlayerController : BaseController
         float finalBulletDamage = baseDamage * attackMultiplier;
 
 #if UNITY_EDITOR
-        Debug.Log($"[Shoot] BaseDamage={baseDamage}, AttackMultiplier={attackMultiplier}, FinalBulletDamage={finalBulletDamage}");
+        //Debug.Log($"[Shoot] BaseDamage={baseDamage}, AttackMultiplier={attackMultiplier}, FinalBulletDamage={finalBulletDamage}");
 #endif
 
         // 풀에서 탄환 꺼내기 → 초기화 → 발사

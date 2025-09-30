@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour, IParryable
         // 시각적 정렬(선택): 이동 방향을 바라보게 회전
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Debug.Log("Fire");
+        // Debug.Log("Fire");
     }
 
     // 생존 시간 경과 시 풀로 반환

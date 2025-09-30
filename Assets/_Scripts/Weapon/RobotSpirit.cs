@@ -91,8 +91,9 @@ public class RobotSpirit : MonoBehaviour
         // 주변에 패링 타겟이 있었으나 거리가 멀어 실패한 경우
         if (hasParried == false && detectedParryTarget)
         {
-            Debug.Log("패링 실패");
-            GetComponentInParent<PlayerCharacter>().ApplyDamage();
+            // 패링 실패시 데미지 적용 대신 코인 10 삭감
+            GetComponentInParent<PlayerCharacter>().PlayerWallet.TrySpend(10);
+            Debug.Log($"패링 실패: {GetComponentInParent<PlayerCharacter>().PlayerWallet.CurrentGold}");
         }
         parryCoroutine = null;
     }
