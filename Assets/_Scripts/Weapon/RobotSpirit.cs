@@ -7,7 +7,7 @@ public class RobotSpirit : MonoBehaviour
     [SerializeField] private Transform firePointTransform;   // 총구 위치(비워두면 현재 트랜스폼 사용)
     [SerializeField] private Camera targetCamera;            // 마우스 기준 카메라(비워두면 Camera.main)
     [SerializeField] private AudioClip ShootFx;
-    [SerializeField] private float fireCooldown = 0.003f; // 연사 간격(초)
+    [SerializeField] private float fireCooldown = 0.3f; // 연사 간격(초)
     private float fireTimer;
 
     [Header("Combat Values")]
@@ -25,9 +25,9 @@ public class RobotSpirit : MonoBehaviour
     public int Damage => damageAmount;
 
     // 공격: 마우스 월드 위치를 향해 발사 (angle 파라미터는 더 이상 사용하지 않음)
-    public void Attack(float _ignoredAngle)
+    public void Attack(float _ignoredAngle,bool auto = true)
     {
-        if (fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
+        if (auto && fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
 
         // 1) 총구 위치 계산
         Vector3 spawnWorldPosition = (firePointTransform != null ? firePointTransform.position : transform.position);

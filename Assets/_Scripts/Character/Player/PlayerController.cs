@@ -12,17 +12,17 @@ public class PlayerController : BaseController
     [Header("Property")]
     [SerializeField] private float speed = 4f; // 플레이어 이동속도
     [SerializeField] private float radius = 2f; // 로봇 정령 회전 반지름
-    [Tooltip("패링 허용 거리")][SerializeField] private float parryDistance = 1f; 
+    [Tooltip("패링 허용 거리")][SerializeField] private float parryDistance = 1f;
     [Tooltip("패링 실패 대상 거리")][SerializeField] private float parryDistanceOffset = 2f;
     [SerializeField] private LayerMask parryLayerMask; //패링 객체 탐색용 마스크
-    [SerializeField] private AudioClip ParryFX;            
+    [SerializeField] private AudioClip ParryFX;
     [SerializeField] private GameObject parryVFX;
 
     [Header("Player Shooting")]
     [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
     [SerializeField] private float fireCooldown = 0.001f; // 연사 간격(초)
     [SerializeField] private bool autoFire = true;       // true: 스페이스 꾹=연사, false: 단발
-    [SerializeField] private AudioClip ShootFx;            
+    [SerializeField] private AudioClip ShootFx;
     private float fireTimer;                             // 쿨다운 타이머
 
 
@@ -70,7 +70,7 @@ public class PlayerController : BaseController
         if (player == null) return;
         if (player.IsDead == true)
         {
-            if(robot != null)
+            if (robot != null)
                 robot.ClearParryFlags();
             rigidBody2D.linearVelocity = Vector3.zero;
             return;
@@ -99,7 +99,7 @@ public class PlayerController : BaseController
         //Vector2 moveVec = isHorizonMove ? new Vector2(horizontalAxis, 0) : new Vector2(0, verticalAxis);
         Vector2 moveVec = new Vector2(horizontalAxis, 0);
         rigidBody2D.linearVelocity = moveVec * speed;
-        
+
         var robot = GetComponentInChildren<RobotSpirit>();
         if (robot != null && robot.IsParrying)
         {
@@ -209,7 +209,7 @@ public class PlayerController : BaseController
         if (robot.IsParrying == false) return;
         //패링 기준 위치 수정
         Vector3 parryOrigin = robot.transform.position;
-        
+
         var hits = Physics2D.OverlapCircleAll(parryOrigin, parryDistance + parryDistanceOffset, parryLayerMask);
         var parrySuccess = Physics2D.OverlapCircleAll(parryOrigin, parryDistance, parryLayerMask);
 
@@ -248,39 +248,33 @@ public class PlayerController : BaseController
 
     private void CheckParryKey()
     {
-        if(Input.GetButtonDown("MouseR"))
+        if (Input.GetButtonDown("MouseR"))
         {
-            if(robot != null)
+            if (robot != null)
                 robot.ActiveParry();
         }
     }
 
     private void CheckAttack()
     {
-        if (autoFire)
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (Input.GetButton("Fire1"))
-            {
-                robot.Attack(mouseAngle);
-            }
+            robot.Attack(mouseAngle,auto: false);
         }
-        else
+        else if(Input.GetButton("Fire1"))
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                robot.Attack(mouseAngle);
-            }
+            robot.Attack(mouseAngle,auto: true);
         }
-            
+        
 
         if (autoFire)
         {
-            if (Input.GetKey(KeyCode.Space)) 
+            if (Input.GetKey(KeyCode.Space))
                 TryShoot();
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space)) 
+            if (Input.GetKeyDown(KeyCode.Space))
                 TryShoot();
         }
     }
@@ -317,8 +311,8 @@ public class PlayerController : BaseController
         // 발사 방향 결정(수평만):
         // - lastHorzDir 은 기존 CheckInput()에서 갱신됨(좌:-1, 우:1)
         // - 정지 상태에서 쏘면 마지막 바라본 방향으로 발사
-        int facingDirection = lastHorzDir != 0 ? 
-                              lastHorzDir : (spriteRenderer != null && spriteRenderer.flipX ? 
+        int facingDirection = lastHorzDir != 0 ?
+                              lastHorzDir : (spriteRenderer != null && spriteRenderer.flipX ?
                                                                             -1 : 1);
         Vector2 fireDirection = new Vector2(facingDirection, 0f);           // 수평 직선 방향(정규화 불필요: (+-1,0))
 
@@ -326,7 +320,7 @@ public class PlayerController : BaseController
         Vector3 spawnPos = firePoint.position;
 
         float baseDamage = playerCharacter.Damage;                              // 탄환 데미지 = 플레이어 공격력
-        float attackMultiplier = (playerItemEffects != null) ? 
+        float attackMultiplier = (playerItemEffects != null) ?
                                  playerItemEffects.AttackMultiplier : 1f;
         float finalBulletDamage = baseDamage * attackMultiplier;
 
@@ -338,7 +332,7 @@ public class PlayerController : BaseController
         Bullet bullet = BulletPoolManager.Instance.Spawn(BulletType.Player, firePoint.position, Quaternion.identity);
         bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
-        SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);
+        SoundManager.Instance.PlaySoundFX(ShootFx, 0.5f);
         fireTimer = fireCooldown;   // 쿨다운 재시작
     }
 
