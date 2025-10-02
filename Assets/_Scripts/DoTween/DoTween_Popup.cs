@@ -51,7 +51,8 @@ public class DoTween_Popup : MonoBehaviour
 
         // Animate fade in and scale up
         canvasGroup.DOFade(1f, popupFadeDuration).
-                    SetEase(showEase);
+                    SetEase(showEase).
+                      SetUpdate(true);
 
         rectTransform.DOScale(originalScale, popupScaleDuration).
                       SetEase(showEase).
@@ -69,7 +70,8 @@ public class DoTween_Popup : MonoBehaviour
 
         // Animate fade in and scale up
         canvasGroup.DOFade(1f, popupFadeDuration).
-                    SetEase(showEase);
+                    SetEase(showEase).
+                      SetUpdate(true);
 
         rectTransform.DOScale(originalScale, popupScaleDuration).
                       SetEase(showEase).

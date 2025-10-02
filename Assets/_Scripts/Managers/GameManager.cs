@@ -171,13 +171,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PauseGameCoroutine()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSecondsRealtime(0.05f);
         PauseGame();
     }
 
     private IEnumerator PauseGameCoroutine_ForDyingAnim()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSecondsRealtime(0.8f);
         PauseGame();
     }
 
