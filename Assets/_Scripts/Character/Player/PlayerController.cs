@@ -43,6 +43,8 @@ public class PlayerController : BaseController
     private PlayerItemEffects playerItemEffects;
     private PlayerCharacter playerCharacter;
 
+    private bool inputEnabled = true;
+
     protected override void Awake()
     {
         base.Awake();
@@ -50,6 +52,11 @@ public class PlayerController : BaseController
         robot = GetComponentInChildren<RobotSpirit>();
         playerItemEffects = GetComponent<PlayerItemEffects>();
         playerCharacter = GetComponent<PlayerCharacter>();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGamePaused += (_, __) => inputEnabled = false;
+            GameManager.Instance.OnGameResumed += (_, __) => inputEnabled = true;
+        }
     }
     void Start()
     {
@@ -58,6 +65,7 @@ public class PlayerController : BaseController
 
     void Update()
     {
+        
         var player = GetComponent<PlayerCharacter>();
         if (player == null) return;
         if (player.IsDead == true)
@@ -67,6 +75,12 @@ public class PlayerController : BaseController
             rigidBody2D.linearVelocity = Vector3.zero;
             return;
         }
+
+        //UI키입력은 일시정지와 관계없음
+        CheckUIInput();
+
+        if (!CheckEnableInput()) return;
+
         CheckInput();
 
         RotateRobot();
@@ -80,6 +94,8 @@ public class PlayerController : BaseController
         if (player == null) return;
         if (player.IsDead == true) return;
 
+        if (!CheckEnableInput()) return;
+
         //Vector2 moveVec = isHorizonMove ? new Vector2(horizontalAxis, 0) : new Vector2(0, verticalAxis);
         Vector2 moveVec = new Vector2(horizontalAxis, 0);
         rigidBody2D.linearVelocity = moveVec * speed;
@@ -90,8 +106,17 @@ public class PlayerController : BaseController
             TryParry();
         }
     }
-    //키입력 체크
-    void CheckInput()
+
+    private bool CheckEnableInput()
+    {
+        
+        if (!inputEnabled)
+            rigidBody2D.linearVelocity = Vector2.zero; // 잔여 속도제거하여 튀는 거 방지
+        return inputEnabled;
+    }
+
+    //UI 관련 키입력 체크
+    private void CheckUIInput()
     {
         if (Input.GetKey(KeyCode.E))
         {
@@ -102,7 +127,11 @@ public class PlayerController : BaseController
         {
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Paused);
         }
-
+    }
+    //키입력 체크
+    private void CheckInput()
+    {
+        
         // 1) 수평/수직 입력 읽기
         horizontalAxis = Input.GetAxisRaw("Horizontal"); // -1, 0, 1
         verticalAxis = Input.GetAxisRaw("Vertical");   // -1, 0, 1
