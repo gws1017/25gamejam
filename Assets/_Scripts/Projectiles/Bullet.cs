@@ -72,6 +72,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
         // 시각적 정렬(선택): 이동 방향을 바라보게 회전
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        // Debug.Log("Fire");
     }
 
     // 생존 시간 경과 시 풀로 반환
@@ -92,6 +93,8 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     {
         // 투사체 끼리는 충돌체크 하지 말 것
         if (collision.CompareTag("Projectile")) return;
+        // 이동제한용 벽과는 충돌체크 무시
+        if (collision.CompareTag("Wall")) return;
 
         // 무시할 레이어에 속한 오브젝트와의 충돌은 무시
         int playerLayer = LayerMask.NameToLayer("Player");
@@ -100,6 +103,12 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
         // 충돌 처리 무시 오브젝트 체크
         foreach (var ignore in ignoreObjects)
             if (ignore == collision.gameObject) return;
+
+        if (Causer == null) return;
+        //발사자와 충돌자같으면 무시
+        if (Causer == collision.gameObject) return;
+        //발사자와 충돌자와 같은팀이면(적) 무시
+        if (Causer.CompareTag("Enemy") && collision.gameObject.CompareTag("Enemy")) return;
 
         // 데미지 계산/적용은 피격자 쪽에서 처리하고, 탄환은 여기서 수거
         PoolManager.Instance.Get<Bullet>(poolkey).Despawn(this);

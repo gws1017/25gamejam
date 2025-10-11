@@ -224,7 +224,7 @@ MonoBehaviour:
   currentHP: 15
   maxHP: 15
   dropExp: 20
-  attackRange: 2
+  attackRange: 5
   attackCoolTime: 2
   attackTrigger: Idle
   powerUpMultiplier: 0.1

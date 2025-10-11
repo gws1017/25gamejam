@@ -27,7 +27,14 @@ public class Spawner : MonoBehaviour
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        level = GetComponentInParent<PlayerCharacter>().Level;
+
+        var player = PlayerCharacter.Instance;
+        if (player == null)
+        {
+            Debug.Log("Player is Null");
+            return;
+        }
+        level = player.Level;
 
         if (level % 10 == 0)
         {
@@ -68,7 +75,6 @@ public class Spawner : MonoBehaviour
         var monsterObject = pool.Spawn(transform.position,Quaternion.identity,randKey);
         if (monsterObject == null) return;
         monsterObject.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-
         PowerUp(monsterObject);
     }
 

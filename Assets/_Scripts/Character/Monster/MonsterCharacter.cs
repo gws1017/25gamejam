@@ -13,7 +13,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
     [SerializeField] protected GameObject hitVFX;
     [SerializeField] protected AudioClip monsterDieFX;
     protected bool isAttacking = false;
-    protected bool isLive = true;
+    protected bool isLive = false;
 
     public float AttackRange => attackRange;
     public float AttackCoolTime => attackCoolTime;
@@ -38,15 +38,18 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         //플레이어 한테 입히는 데미지 1로 고정
         //플레이어는 체력 3을 갖고, 3번 히트시 게임오버
         damage = 1;
+        if(controller)controller.ChangeState(AIState.Move);
     }
 
     private void OnEnable()
     {
+        OnSpawn();
     }
     public void OnSpawn()
     {
         isLive = true;
         controller.enabled = true;
+        controller.ChangeState(AIState.Move);
         currentHP = MaxHP;
     }
 
@@ -67,10 +70,13 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         //dropExp = Mathf.CeilToInt(((float)dropExp * pm));
 
         currentHP = maxHP;
+        controller.UpdateRigidBodyPosition();
+        Spawn();
     }
 
     public virtual void Spawn()
     {
+        isLive = true;
         //몬스터 등장시 실행할 함수 작성
     }
 
@@ -91,6 +97,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         if (isLive == false) return;
         base.Die();
         SoundManager.Instance.PlaySoundFX(monsterDieFX);
+        isAttacking = false;
         isLive = false;
         PlayerCharacter.Instance.PlayerWallet.AddGold(10);
         gameObject.SetActive(false);
@@ -105,7 +112,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         isAttacking = false;
 
         controller.ChangeState(AIController.AIState.Move);
-        GetComponent<Animator>().SetTrigger(AIState.Move.ToString());
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -120,12 +127,15 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         Vector2 hitPoint = collision.ClosestPoint(transform.position);
 
         var bullet = collision.GetComponent<Bullet>();
-        if (bullet != null && bullet.Causer != gameObject)
+        if (bullet == null) return;
+
+        if (bullet.Causer != null && bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
+        if( bullet.Causer != gameObject)
         {
-            if (bullet.Causer != null &&
-                bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
             applyDamage += bullet.Damage;
         }
+
+        if (applyDamage <= 0) return;
         currentHP -= applyDamage;
 
         if (currentHP > 0)

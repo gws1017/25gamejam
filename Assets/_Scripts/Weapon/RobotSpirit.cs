@@ -8,7 +8,9 @@ public class RobotSpirit : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Transform firePointTransform;   // 총구 위치(비워두면 현재 트랜스폼 사용)
     [SerializeField] private Camera targetCamera;            // 마우스 기준 카메라(비워두면 Camera.main)
-    [SerializeField] private AudioClip ShootFx;            
+    [SerializeField] private AudioClip ShootFx;
+    [SerializeField] private float fireCooldown = 0.3f; // 연사 간격(초)
+    private float fireTimer;
 
     [Header("Combat Values")]
     [SerializeField] private int damageAmount = 5;           // 로봇 정령 탄환 데미지
@@ -25,8 +27,10 @@ public class RobotSpirit : MonoBehaviour
     public int Damage => damageAmount;
 
     // 공격: 마우스 월드 위치를 향해 발사 (angle 파라미터는 더 이상 사용하지 않음)
-    public void Attack(float _ignoredAngle)
+    public void Attack(float _ignoredAngle,bool auto = true)
     {
+        if (auto && fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
+
         // 1) 총구 위치 계산
         Vector3 spawnWorldPosition = (firePointTransform != null ? firePointTransform.position : transform.position);
 
@@ -55,6 +59,7 @@ public class RobotSpirit : MonoBehaviour
 
         SoundManager.Instance.PlaySoundFX(ShootFx,0.5f);
         bullet.Fire(fireDirection);            // 마우스 방향으로 직선 발사
+        fireTimer = fireCooldown;
     }
 
     // 패링 상태 초기화
@@ -70,6 +75,13 @@ public class RobotSpirit : MonoBehaviour
         if (parryCoroutine != null) return;
         parryCoroutine = StartCoroutine(ActivateParryCoroutine());
     }
+    public void DeactiveParry()
+    {
+        StopCoroutine(parryCoroutine);
+        parryCoroutine = null;
+        ClearParryFlags();
+        isParrying = false;
+    }
 
     private IEnumerator ActivateParryCoroutine()
     {
@@ -82,9 +94,19 @@ public class RobotSpirit : MonoBehaviour
         // 주변에 패링 타겟이 있었으나 거리가 멀어 실패한 경우
         if (hasParried == false && detectedParryTarget)
         {
-            Debug.Log("패링 실패");
-            GetComponentInParent<PlayerCharacter>().ApplyDamage();
+            // 패링 실패시 데미지 적용 대신 코인 10 삭감
+            GetComponentInParent<PlayerCharacter>().PlayerWallet.TrySpend(10);
+            Debug.Log($"패링 실패: {GetComponentInParent<PlayerCharacter>().PlayerWallet.CurrentGold}");
         }
         parryCoroutine = null;
+    }
+
+    private void Update()
+    {
+        FireCoolDownTimer();
+    }
+    private void FireCoolDownTimer()
+    {
+        fireTimer -= Time.deltaTime;
     }
 }

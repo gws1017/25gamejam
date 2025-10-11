@@ -106,6 +106,7 @@ MonoBehaviour:
   firePointTransform: {fileID: 0}
   targetCamera: {fileID: 0}
   ShootFx: {fileID: 8300000, guid: 87a63e86d5c36fa418490e9fbd21ed87, type: 3}
+  fireCooldown: 0.3
   damageAmount: 5
   parryTimeSeconds: 0.2
   isParrying: 0

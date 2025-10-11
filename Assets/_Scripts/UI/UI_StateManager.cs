@@ -97,9 +97,11 @@ public class UI_StateManager : MonoBehaviour
         // If the newState is not in the dictionary, return early
         if (!UIStateDictionary.ContainsKey(newState)) return;
 
+        GameManager.Instance.PauseGame();
         // First, hide all UI components
         HideAll();
 
+        GameManager.Instance.PauseGame();
         // Then, set the current state
         currentState = newState;
 

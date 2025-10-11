@@ -34,6 +34,20 @@ public class UI_Paused : MonoBehaviour, IToggleUI
 
 
     #region Internal Logic
+    /*************************************************************************************************
+    * UI 닫기 오버로딩 함수 추가
+    * - resumeGame=true : 정상 종료(게임 재개)
+    * - resumeGame=false: 다른 UI로 전환 시 재개 금지
+    *
+    * @author  박해성
+    * @date    2025-10-02
+     *************************************************************************************************/
+    public void Hide(bool resumeGame = true)
+    {
+        contentParents.SetActive(false);
+
+        if (resumeGame) gameManager.ResumeGame();
+    }
     public void Hide()
     {
         contentParents.SetActive(false);
@@ -75,7 +89,7 @@ public class UI_Paused : MonoBehaviour, IToggleUI
             // Play Button Click SFX
             soundEvents.InvokeOnPlayButtonFx();
 
-            Hide();
+            Hide(false); // 재개 X (틈 방지)
 
             ui_SoundSettings.Show();
         });
@@ -84,8 +98,8 @@ public class UI_Paused : MonoBehaviour, IToggleUI
         {
             // Play Button Click SFX
             soundEvents.InvokeOnPlayButtonFx();
-            Hide();
-            
+            Hide(false); // 재개 X (틈 방지)
+
             ui_Tutorial.Show();
         });
 

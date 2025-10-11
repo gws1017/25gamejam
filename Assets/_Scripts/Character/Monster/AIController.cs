@@ -6,7 +6,9 @@ public class AIController : BaseController
     protected Rigidbody2D targetPlayer;
     protected MonsterCharacter owner;
 
-    [SerializeField] protected Vector2 targetDir;
+    [SerializeField] protected Vector2 toTargetVector;
+    [SerializeField] protected Vector2 targetDirection;
+    [SerializeField] protected float targetDistance;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] protected int spriteDir = 1; // 1 : left -1 : right
     public enum AIState
@@ -22,12 +24,18 @@ public class AIController : BaseController
 
     //Getter
     public Rigidbody2D TargetPlayer => targetPlayer;
-    public Vector2 TargetDir => targetDir;
+    public Vector2 TargetDir => targetDirection;
     public float MoveSpeed => moveSpeed;
 
     //Setter
 
     public float SetSpeed { set => moveSpeed = value;}
+
+
+    public void UpdateRigidBodyPosition()
+    {
+        rigidBody2D.position = (Vector2)transform.position;
+    }
 
     protected override void Awake()
     {
@@ -59,8 +67,11 @@ public class AIController : BaseController
     {
         if (targetPlayer == null) return;
         if(!owner.IsLive) return;
+        if (gameObject.activeSelf == false) return;
 
-        targetDir = (targetPlayer.position - rigidBody2D.position);
+        toTargetVector = (targetPlayer.position - rigidBody2D.position);
+        targetDirection = toTargetVector.normalized;
+        targetDistance = toTargetVector.magnitude;
 
         switch (currentState)
         {
@@ -102,9 +113,9 @@ public class AIController : BaseController
 
     private void MoveToTarget()
     {
-        Vector2 nextVec = targetDir.normalized * moveSpeed * Time.fixedDeltaTime;
+        Vector2 nextVec = targetDirection * moveSpeed * Time.fixedDeltaTime;
         //공격사거리까지 이동
-        if (targetDir.magnitude >= owner.AttackRange)
+        if (targetDistance > owner.AttackRange)
         {
             rigidBody2D.MovePosition(rigidBody2D.position + nextVec);
             rigidBody2D.linearVelocity = Vector2.zero;
@@ -126,10 +137,19 @@ public class AIController : BaseController
     }
     protected virtual void OnStateEnter(AIState state)
     {
-        switch(state)
+        var anim = GetComponent<Animator>();
+
+        switch (state)
         {
+            case AIState.Move:
+                if (anim != null) anim.SetTrigger(AIState.Move.ToString());
+                break;
             case AIState.Spawn:
-                owner.Spawn(); 
+                owner.Spawn();
+                if (anim != null)
+                {
+                    anim.SetTrigger("Idle");
+                }
                 break;
         }
     }
