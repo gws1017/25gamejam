@@ -173,6 +173,9 @@ MonoBehaviour:
   monsterSpawnPointRoot: {fileID: 6226524196126717752}
   bossSpawnPointRoot: {fileID: 1522143703256898000}
   spawnInterval: 1
+  monsterKeys:
+  - BasicZombie
+  - PoliceZombie
   bossPrefabs:
   - {fileID: 4115483976116657050, guid: 6f50cf8d5610150469e716e88104d4f5, type: 3}
 --- !u!1 &4046368110345411389

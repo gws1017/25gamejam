@@ -12,7 +12,7 @@ public class GenericPool<T> where T : Component
     {
         //프리팹 및 풀 컨테이너 등록
         this.prefab = prefab;
-        container = new GameObject($"{typeof(T).Name}_Pool").transform;
+        container = new GameObject($"{prefab.name}_Pool").transform;
         if (parent != null)
             container.SetParent(parent);
 

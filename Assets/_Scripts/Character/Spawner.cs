@@ -1,6 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************************************************************************************
+ * 파일: Spawner.cs
+ * 역할: 플레이어 레벨/주기에 따라 몬스터/보스 스폰
+ * 에디터 세팅:
+ *   - monsterSpawnPointRoot / bossSpawnPointRoot: 자식 트랜스폼이 실제 스폰 지점
+ *   - monsterKeys: PoolManager에 등록된 key 문자열과 동일하게 입력
+ *   - bossPrefabs: 보스 단계 인덱스에 맞춰 배열로 등록
+ * 동작:
+ *   - 일반: monsterKeys → PoolManager.Get(key) → Spawn()
+ *   - 보스: 레벨 10의 배수마다 bossPrefabs[n] Instantiate
+ *****************************************************************************************/
+
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Transform monsterSpawnPointRoot;
@@ -71,8 +83,8 @@ public class Spawner : MonoBehaviour
     void Spawn()
     {
         string randKey = monsterKeys[Random.Range(0, monsterKeys.Length)];
-        var pool = PoolManager.Instance.Get<MonsterCharacter>(randKey);
-        var monsterObject = pool.Spawn(transform.position,Quaternion.identity,randKey);
+        var pool = PoolManager.Instance.Get(randKey);
+        var monsterObject = pool.Spawn(transform.position,Quaternion.identity,randKey).GetComponent<MonsterCharacter>();
         if (monsterObject == null) return;
         monsterObject.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
         PowerUp(monsterObject);

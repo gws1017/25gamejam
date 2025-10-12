@@ -995,7 +995,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   clickBlocker: {fileID: 2134785952}
-  pool: {fileID: 701754297}
   currentGameState: 0
 --- !u!1 &178263896
 GameObject:
@@ -3653,7 +3652,7 @@ GameObject:
   - component: {fileID: 701754298}
   - component: {fileID: 701754297}
   m_Layer: 0
-  m_Name: MonsterPool
+  m_Name: PoolManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3671,10 +3670,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f5d04dd5239ac545860ec3269565646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
-  prefabs:
-  - {fileID: 1029707707262696306, guid: f648686672cefff46b6b739ab5543d17, type: 3}
-  - {fileID: 7226998442595843064, guid: db57e40041784f94d963bcad1063ccce, type: 3}
-  maxPoolSizes: 9600000064000000
+  poolEntryList:
+  - key: BasicZombie
+    prefab: {fileID: 1029707707262696306, guid: f648686672cefff46b6b739ab5543d17, type: 3}
+    size: 150
+  - key: PoliceZombie
+    prefab: {fileID: 7226998442595843064, guid: db57e40041784f94d963bcad1063ccce, type: 3}
+    size: 100
+  - key: PlayerBullet
+    prefab: {fileID: 5371210269570226003, guid: f20f8442ddf2f5e4899341339898ba76, type: 3}
+    size: 20
+  - key: PoliceBullet
+    prefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+    size: 100
+  - key: BossBullet
+    prefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
+    size: 20
 --- !u!4 &701754298
 Transform:
   m_ObjectHideFlags: 0
@@ -3987,7 +3998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &795599088
 Transform:
   m_ObjectHideFlags: 0

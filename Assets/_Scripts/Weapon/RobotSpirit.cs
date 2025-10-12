@@ -49,7 +49,7 @@ public class RobotSpirit : MonoBehaviour
 
         // 5) 풀에서 탄환 꺼내 초기화 후 발사
         if (PoolManager.Instance == null) return;
-        Bullet bullet = PoolManager.Instance.Get<Bullet>("PlayerBullet").Spawn(spawnWorldPosition, Quaternion.identity, "PlayerBullet");
+        Bullet bullet = PoolManager.Instance.Spawn<Bullet>(spawnWorldPosition, Quaternion.identity, "PlayerBullet");
 
         GameObject playerObject = transform.parent != null ? transform.parent.gameObject : gameObject;
 

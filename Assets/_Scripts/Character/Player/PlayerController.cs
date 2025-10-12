@@ -303,7 +303,7 @@ public class PlayerController : BaseController
     /// </summary>
     private void TryShoot()
     {
-        if (firePoint == null || BulletPoolManager.Instance == null) return; // 세팅 안 되었으면 종료
+        if (firePoint == null || PoolManager.Instance == null) return; // 세팅 안 되었으면 종료
         if (fireTimer > 0f) return;                                   // 쿨다운 중이면 무시
 
         if (playerCharacter == null) return;
@@ -329,7 +329,7 @@ public class PlayerController : BaseController
 #endif
 
         // 풀에서 탄환 꺼내기 → 초기화 → 발사
-        Bullet bullet = PoolManager.Instance.Get<Bullet>("PlayerBullet").Spawn( firePoint.position, Quaternion.identity, "PlayerBullet");
+        Bullet bullet = PoolManager.Instance.Spawn<Bullet>( firePoint.position, Quaternion.identity, "PlayerBullet");
         bullet.Init(finalBulletDamage, gameObject); // 사수 등록(자기 자신 피격 방지)
         bullet.Fire(fireDirection);
         SoundManager.Instance.PlaySoundFX(ShootFx, 0.5f);

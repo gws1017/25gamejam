@@ -10,8 +10,6 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     [SerializeField] protected float damage = 1f;    // 탄환 기본 데미지
     // 충돌 처리 무시할 오브젝트 등록(본인, 무기등)
     [SerializeField] private List<GameObject> ignoreObjects = new List<GameObject>();
-    [SerializeField] private string poolkey;
-
     [SerializeField] LayerMask ignoreMask; 
 
     public GameObject Causer { get; private set; } // 발사자
@@ -79,7 +77,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     private IEnumerator LifeTimer()
     {
         yield return new WaitForSeconds(lifetime);
-        PoolManager.Instance.Get<Bullet>(poolkey).Despawn(this);
+        PoolManager.Instance.Get(poolKey).Despawn(this);
     }
 
     // 무시할 오브젝트(충돌 제외) 동적 등록
@@ -111,7 +109,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
         if (Causer.CompareTag("Enemy") && collision.gameObject.CompareTag("Enemy")) return;
 
         // 데미지 계산/적용은 피격자 쪽에서 처리하고, 탄환은 여기서 수거
-        PoolManager.Instance.Get<Bullet>(poolkey).Despawn(this);
+        PoolManager.Instance.Get(poolKey).Despawn(this);
     }
 
     // 패링 처리(기존 설계 유지): 반사 방향으로 재가속 + 수명 리셋 + 무시목록 초기화
