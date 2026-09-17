@@ -111,7 +111,7 @@ public class UI_Shop : MonoBehaviour, IToggleUI
 
         performPurchaseAndFireEvent?.Invoke();
         StartPurchaseCooldown();
-        doTweenPopup.Hide(Hide);
+        doTweenPopup.Hide(() => Hide(true));
     }
 
     private void ExecutePurchaseProcess(Action itemEventAction)
@@ -128,11 +128,11 @@ public class UI_Shop : MonoBehaviour, IToggleUI
     private void StartPurchaseCooldown() => nextPurchaseAllowedTime = Time.unscaledTime + itemPurchaseCooldown;
 
     #region Interface Logic
-    public void Hide()
+    public void Hide(bool resumeGame)
     {
         contentParents.SetActive(false);
 
-        gameManager.ResumeGame();
+        if (resumeGame) gameManager.ResumeGame();
     }
 
     public void Show()
@@ -151,7 +151,7 @@ public class UI_Shop : MonoBehaviour, IToggleUI
         exitButton.onClick.AddListener(() =>
         {
             soundEvents.InvokeOnPlayButtonFx();
-            doTweenPopup.Hide(Hide);
+            doTweenPopup.Hide(() => Hide(true));
         });
 
         item_AddHeart.onClick.AddListener(() =>

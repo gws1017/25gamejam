@@ -35,9 +35,10 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
             Show();
     }
 
-    public void Hide()
+    public void Hide(bool resumeGame)
     {
-        GameManager.Instance.ResumeGame(); // 게임 재개
+        if (resumeGame)
+            GameManager.Instance.ResumeGame(); // 게임 재개
         contentParents.SetActive(false);
     }
 
@@ -55,7 +56,7 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
             // Play Button Click SFX
             SoundEvents.Instance.InvokeOnPlayButtonFx();
 
-            Hide();
+            Hide(true);
 
             // 메인메뉴로 이동
             SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
@@ -68,7 +69,7 @@ public class UI_GameOver : MonoBehaviour, IToggleUI
             // Play Button Click SFX
             SoundEvents.Instance.InvokeOnPlayButtonFx();
 
-            Hide();
+            Hide(true);
 
             // 게임씬 재로딩
             SceneManager.LoadScene(SceneLoader.Scene.GameScene.ToString());

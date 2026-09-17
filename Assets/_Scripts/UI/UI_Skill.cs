@@ -4,11 +4,11 @@ public class UI_Skill : MonoBehaviour, IToggleUI
 {
     [SerializeField] private GameObject contentParents;
 
-    public void Hide()
+    public void Hide(bool resumeGame)
     {
         contentParents.SetActive(false);
 
-        GameManager.Instance.ResumeGame();
+        if (resumeGame) GameManager.Instance.ResumeGame();
     }
 
     public void Show()

@@ -51,7 +51,7 @@ public class UI_StateManager : MonoBehaviour
     private void Start()
     {
         Build_UIStateDictionary();
-        HideAll();
+        HideAll(false);
     }
 
     private void OnDestroy()
@@ -83,12 +83,12 @@ public class UI_StateManager : MonoBehaviour
         UIStateDictionary[state] = pausedUI;
     }
 
-    private void HideAll()
+    private void HideAll(bool resumeGame)
     {
         // Hide all UI components in the dictionary
         foreach (var pausedUI in UIStateDictionary.Values)
         {
-            pausedUI.Hide();
+            pausedUI.Hide(resumeGame);
         }
     }
 
@@ -98,10 +98,10 @@ public class UI_StateManager : MonoBehaviour
         if (!UIStateDictionary.ContainsKey(newState)) return;
 
         GameManager.Instance.PauseGame();
-        // First, hide all UI components
-        HideAll();
 
-        GameManager.Instance.PauseGame();
+        // 다른 UI로 전환하는 것이므로 재개하지 않고 숨김
+        HideAll(false);
+
         // Then, set the current state
         currentState = newState;
 

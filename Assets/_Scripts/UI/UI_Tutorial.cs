@@ -25,11 +25,11 @@ public class UI_Tutorial : MonoBehaviour, IToggleUI
         UnsubscribeOnClickEvents();
     }
 
-    public void Hide()
+    public void Hide(bool resumeGame)
     {
         contentParents.SetActive(false);
 
-        gameManager.ResumeGame();
+        if (resumeGame) gameManager.ResumeGame();
     }
 
     public void Show()
@@ -48,7 +48,7 @@ public class UI_Tutorial : MonoBehaviour, IToggleUI
         exitButton.onClick.AddListener(() =>
         {
             soundEvents.InvokeOnPlayButtonFx();
-            doTweenPopup.Hide(Hide);
+            doTweenPopup.Hide(() => Hide(true));
 
             Debug.Log("Tutorial Exit Button Clicked.");
         });

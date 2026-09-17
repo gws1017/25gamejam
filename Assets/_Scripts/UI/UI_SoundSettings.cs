@@ -28,7 +28,7 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
 
         SubscribeOnClickEvents();
 
-        Hide();
+        Hide(false);
     }
 
     private void OnDestroy()
@@ -50,7 +50,7 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
             // Play Button Click SFX
             SoundEvents.Instance.InvokeOnPlayButtonFx();
 
-            doTweenPopup.Hide(Hide);
+            doTweenPopup.Hide(() => Hide(true));
         });
     }
 
@@ -68,12 +68,12 @@ public class UI_SoundSettings : MonoBehaviour, IToggleUI
             currentScene = SceneState.GameScene;
     }
 
-    public void Hide()
+    public void Hide(bool resumeGame)
     {
         contentParent.SetActive(false);
 
         // 현재 씬이 게임씬일 경우에만
-        if (currentScene == SceneState.GameScene)
+        if (resumeGame && currentScene == SceneState.GameScene)
             GameManager.Instance.ResumeGame();
     }
 
