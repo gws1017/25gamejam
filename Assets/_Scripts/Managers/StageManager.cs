@@ -100,7 +100,10 @@ public class StageManager : MonoBehaviour
     {
         killCount = 0;
 
-        if (currentStage >= finalStage)
+        // 무한모드는 finalStage 개념이 없음 — 계속 진행 (보스도 계속 순환)
+        bool isStoryMode = SceneLoader.GetGameMode() == SceneLoader.GameMode.Story;
+
+        if (isStoryMode && currentStage >= finalStage)
         {
             Debug.Log("모든 스테이지 클리어");
             OnAllStagesCleared?.Invoke();

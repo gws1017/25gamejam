@@ -15,7 +15,27 @@ public static class SceneLoader
         EndingScene,
     }
 
+    public enum GameMode
+    {
+        Story,
+        Infinite,
+    }
+
     private static Scene targetScene = Scene.MainMenuScene;
+
+    // 메인메뉴를 거치지 않고 GameScene에서 바로 Play한 경우(에디터 테스트 등)를 위해
+    // 기본값은 Story로 둔다.
+    private static GameMode selectedMode = GameMode.Story;
+
+    public static void SetGameMode(GameMode mode)
+    {
+        selectedMode = mode;
+    }
+
+    public static GameMode GetGameMode()
+    {
+        return selectedMode;
+    }
 
     public static void LoadScene(Scene targetScene)
     {

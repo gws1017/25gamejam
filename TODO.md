@@ -51,8 +51,15 @@
 - [x] 몬스터 사망 이벤트 추가 (`MonsterCharacter.OnMonsterDied` — 킬카운트/보스 클리어 판정 공용)
 - [x] `Spawner`가 플레이어 레벨 대신 `StageManager.CurrentStage` 참조하도록 전환 (`bossPrefabs[0]` 고정 버그 해소)
 - [x] 스테이지 번호 UI 표시 (`UI_InGame.SetStage`)
-- [ ] 기본(스토리) 모드 / 무한모드 모드 선택 진입점 추가 (타이틀 또는 메인메뉴에서 선택)
-- [ ] 무한모드를 별도 모드로 분리 (지금의 무한 스케일링 로직을 메인 모드에서 떼어내서 별도 모드로 격리)
+- [x] 기본(스토리) 모드 / 무한모드 모드 선택 진입점 추가 (`SceneLoader`에 `GameMode` enum + static 선택값 추가 —
+      `targetScene`과 같은 패턴이라 별도 클래스 안 만들고 흡수. "시작하기" 클릭 시 기존 버튼(`ContentParents`) 숨기고
+      모드 선택 패널(스토리/무한/뒤로가기) 노출 — 상시 버튼 2개 노출 대신 서브메뉴 방식)
+      - [x] 에디터 세팅: MainMenuScene에 `ModeSelectPanel` 오브젝트 신설(기본 비활성화),
+            버튼 3개(스토리/무한/뒤로가기) 배치 후 `UI_MainMenu` 슬롯 연결
+      - [x] 버그 수정: `Title`이 `ContentParents` 안에 있어서 시작 버튼 누르면 같이 사라지던 문제 —
+            `ContentParents` 밑에 `MainButtons` 서브그룹(버튼 3개만) 신설해서 그것만 토글하도록 변경
+- [x] 무한모드 분리 (`StageManager.AdvanceStage()`에서 `SceneLoader.GetGameMode() == Story`일 때만
+      `finalStage` 체크 → Victory. 무한모드는 그 조건을 안 타서 끝없이 진행, 보스도 계속 재소환됨)
 - [x] `GameState`에 승리 상태 추가 + 엔딩 씬 제작 (`GameManager.GameState.Victory`, `UI_Ending.cs` — `UI_Intro.cs`와 대칭되는
       타이핑 연출 컷씬. 15스테이지 클리어 시 0.8초 대기 후 EndingScene 전환 → 완료 시 MainMenuScene 복귀)
       - [x] EndingScene 에디터 세팅 완료, `GameManager.VictoryState()`(ContextMenu) 단축키로 Victory→EndingScene 전환 테스트 완료
