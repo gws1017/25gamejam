@@ -53,8 +53,13 @@
 - [x] 스테이지 번호 UI 표시 (`UI_InGame.SetStage`)
 - [ ] 기본(스토리) 모드 / 무한모드 모드 선택 진입점 추가 (타이틀 또는 메인메뉴에서 선택)
 - [ ] 무한모드를 별도 모드로 분리 (지금의 무한 스케일링 로직을 메인 모드에서 떼어내서 별도 모드로 격리)
-- [ ] `GameState`에 승리/클리어 상태 추가 + 엔딩 UI 신규 제작
-      (`StageManager.OnAllStagesCleared` 이벤트는 만들어뒀고 아직 구독자가 없음)
+- [x] `GameState`에 승리 상태 추가 + 엔딩 씬 제작 (`GameManager.GameState.Victory`, `UI_Ending.cs` — `UI_Intro.cs`와 대칭되는
+      타이핑 연출 컷씬. 15스테이지 클리어 시 0.8초 대기 후 EndingScene 전환 → 완료 시 MainMenuScene 복귀)
+      - [x] EndingScene 에디터 세팅 완료, `GameManager.VictoryState()`(ContextMenu) 단축키로 Victory→EndingScene 전환 테스트 완료
+      - [x] Galmuri9 SDF 폰트 아틀라스 확장(4096) + Clear Dynamic Data 적용 — 한글 깨짐 해결 확인
+      - [ ] `StageManager`가 실제로 보스 사망을 감지해서 Victory를 호출하는 경로는 아직 미검증
+            (`Final Stage`/`Kills Per Stage`를 임시로 낮춰서 실제 킬로 확인 필요, 확인 후 15/40으로 복구)
+      - [ ] 엔딩 삽화 2~4번 제작 (1번 `ending1.png`만 완성) 후 `endingSprites` 배열에 등록
 - [ ] 스테이지 전환 연출 (배경/화면전환 등, 필요 시)
 - [ ] 스테이지별로 다른 `monsterKeys` 사용 (현재는 전 스테이지 공통 배열 1개 — 스테이지 2/3 에셋 나온 뒤 작업)
 

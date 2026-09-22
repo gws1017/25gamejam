@@ -104,6 +104,7 @@ public class StageManager : MonoBehaviour
         {
             Debug.Log("모든 스테이지 클리어");
             OnAllStagesCleared?.Invoke();
+            GameManager.Instance.SetState(GameManager.GameState.Victory);
             return;
         }
 

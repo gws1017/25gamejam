@@ -12,6 +12,7 @@ public static class SceneLoader
         LoadingScene,
         GameScene,
         IntroScene,
+        EndingScene,
     }
 
     private static Scene targetScene = Scene.MainMenuScene;

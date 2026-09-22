@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         CountdownToStart,
         GamePlaying,
         GameOver,
+        Victory,
     }
 
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
@@ -78,6 +79,12 @@ public class GameManager : MonoBehaviour
     public void GameOverState()
     {
         SetState(GameState.GameOver);
+    }
+
+    [ContextMenu("VictoryState")]
+    public void VictoryState()
+    {
+        SetState(GameState.Victory);
     }
 
     public void PauseGame()
@@ -165,7 +172,19 @@ public class GameManager : MonoBehaviour
                 OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
                 PauseGameWithDelay_ForDyingAnim();
                 break;
+            case GameState.Victory:
+                OnStateChanged?.Invoke(this, new OnStateChangedEventArgs(state));
+                StartCoroutine(VictoryTransitionCoroutine());
+                break;
         }
+    }
+
+    private IEnumerator VictoryTransitionCoroutine()
+    {
+        // 마지막 보스 처치 연출(사망 애니메이션 등)이 보일 시간을 잠깐 준 뒤 엔딩 씬으로 전환.
+        // 씬 전환이 곧 화면 정지 역할을 하므로 여기서 Time.timeScale은 건드리지 않는다.
+        yield return new WaitForSeconds(0.8f);
+        SceneLoader.LoadScene(SceneLoader.Scene.EndingScene);
     }
 
     private IEnumerator PauseGameCoroutine()
