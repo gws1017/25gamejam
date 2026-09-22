@@ -21,6 +21,7 @@ public class UI_InGame : MonoBehaviour
     #endregion
 
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI stageText;
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private Image xpBar;
     [SerializeField] private Button shopButton;
@@ -43,12 +44,21 @@ public class UI_InGame : MonoBehaviour
         soundEvents = SoundEvents.Instance;
 
         SubscribeOnClickEvents();
+
+        if (StageManager.Instance != null)
+        {
+            SetStage(StageManager.Instance.CurrentStage);
+            StageManager.Instance.OnStageChanged += SetStage;
+        }
     }
 
     private void OnDestroy()
     {
         EmptySingleton();
         UnsubscribeOnClickEvents();
+
+        if (StageManager.Instance != null)
+            StageManager.Instance.OnStageChanged -= SetStage;
     }
 
 
@@ -80,6 +90,12 @@ public class UI_InGame : MonoBehaviour
     public void SetLevel(int level)
     {
         levelText.text = level.ToString();
+    }
+
+    public void SetStage(int stage)
+    {
+        if (stageText == null) return;
+        stageText.text = $"STAGE {stage}";
     }
 
     public void SetCoin(int coin)

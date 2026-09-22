@@ -1,9 +1,19 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using static AIController;
 
 public class MonsterCharacter : BaseCharacter,IPoolable
 {
+    /// <summary>
+    /// 몬스터가 죽을 때 발행. StageManager가 구독해서 킬카운트/보스 클리어를 판정한다.
+    /// 몬스터는 풀에서 계속 재사용되므로 인스턴스 단위 구독 대신 static으로 둔다.
+    /// </summary>
+    public static event Action<MonsterCharacter> OnMonsterDied;
+
+    /// <summary>보스 여부. 보스 클래스에서 override 할 것.</summary>
+    public virtual bool IsBoss => false;
+
     protected AIController controller;
     [SerializeField] protected int dropExp = 1;
     [SerializeField] protected float attackRange = 2f;
@@ -100,6 +110,10 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         isAttacking = false;
         isLive = false;
         PlayerCharacter.Instance.PlayerWallet.AddGold(10);
+
+        // 비활성화 전에 발행 (구독자가 몬스터 상태를 읽을 수 있도록)
+        OnMonsterDied?.Invoke(this);
+
         gameObject.SetActive(false);
     }
 

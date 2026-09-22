@@ -3,14 +3,17 @@ using UnityEngine;
 
 /*****************************************************************************************
  * 파일: Spawner.cs
- * 역할: 플레이어 레벨/주기에 따라 몬스터/보스 스폰
+ * 역할: 스테이지 진행에 따라 몬스터/보스 스폰
  * 에디터 세팅:
  *   - monsterSpawnPointRoot / bossSpawnPointRoot: 자식 트랜스폼이 실제 스폰 지점
  *   - monsterKeys: PoolManager에 등록된 key 문자열과 동일하게 입력
- *   - bossPrefabs: 보스 단계 인덱스에 맞춰 배열로 등록
+ *   - bossPrefabs: 보스 단계 인덱스에 맞춰 배열로 등록 (5스테이지→[0], 10→[1], 15→[2])
  * 동작:
  *   - 일반: monsterKeys → PoolManager.Get(key) → Spawn()
- *   - 보스: 레벨 10의 배수마다 bossPrefabs[n] Instantiate
+ *   - 보스: 보스 스테이지 진입 시 bossPrefabs[StageManager.BossIndex] Instantiate
+ * 주의:
+ *   - 진행 기준은 플레이어 레벨이 아니라 StageManager.CurrentStage
+ *   - 플레이어 exp/level은 여기서 쓰지 않음 (추후 스킬 시스템용)
  *****************************************************************************************/
 
 public class Spawner : MonoBehaviour
@@ -26,9 +29,9 @@ public class Spawner : MonoBehaviour
     private Transform[] spawnPoint;
 
     private GameObject SpawnBossObject;
-    private int level;
+    private int stage = 1;
     private float spawnTimer;
-    private bool bossSpawnedThisCycle = false;
+    private bool bossSpawnedThisStage = false;
 
     private void Awake()
     {
@@ -36,43 +39,64 @@ public class Spawner : MonoBehaviour
         bossSpawnPoint = bossSpawnPointRoot.GetComponentsInChildren<Transform>();
     }
 
+    private void OnEnable()
+    {
+        if (StageManager.Instance != null)
+            StageManager.Instance.OnStageChanged += HandleStageChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (StageManager.Instance != null)
+            StageManager.Instance.OnStageChanged -= HandleStageChanged;
+    }
+
+    private void Start()
+    {
+        // StageManager가 Spawner보다 늦게 Awake 될 수 있으므로 여기서 한 번 더 시도
+        if (StageManager.Instance != null)
+        {
+            StageManager.Instance.OnStageChanged -= HandleStageChanged;
+            StageManager.Instance.OnStageChanged += HandleStageChanged;
+        }
+    }
+
+    private void HandleStageChanged(int newStage)
+    {
+        // 스테이지가 바뀌면 다음 보스를 다시 소환할 수 있도록 초기화
+        bossSpawnedThisStage = false;
+        SpawnBossObject = null;
+    }
+
     private void Update()
     {
         spawnTimer += Time.deltaTime;
 
-        var player = PlayerCharacter.Instance;
-        if (player == null)
+        var stageManager = StageManager.Instance;
+        if (stageManager == null)
         {
-            Debug.Log("Player is Null");
+            Debug.LogWarning("StageManager is Null - 씬에 StageManager를 추가하세요.");
             return;
         }
-        level = player.Level;
+        stage = stageManager.CurrentStage;
 
-        if (level % 10 == 0)
+        if (stageManager.IsBossStage)
         {
             spawnInterval = 5.0f;
 
-            if (!bossSpawnedThisCycle)
+            if (!bossSpawnedThisStage)
             {
-                SpawnBossMonster();
-                bossSpawnedThisCycle = true;
+                SpawnBossMonster(stageManager.BossIndex);
+                bossSpawnedThisStage = true;
             }
         }
         else
         {
             spawnInterval = 1.0f;
-
-            // 다음 보스 사이클 대비 초기화
-            if (SpawnBossObject != null && !SpawnBossObject.activeSelf)
-            {
-                SpawnBossObject = null;
-            }
-
-            bossSpawnedThisCycle = false; // 보스 스폰 플래그 초기화
         }
 
-        //레벨이 오를수록 스폰 간격 감소(10레벨에서 초기화)
-        float interval = spawnInterval - 0.1f * ((level - 1) % 10);
+        //스테이지가 오를수록 스폰 간격 감소(보스 스테이지 주기마다 초기화)
+        float interval = spawnInterval - 0.1f * ((stage - 1) % 5);
         if (spawnTimer > interval)
         {
             spawnTimer = 0;
@@ -90,22 +114,36 @@ public class Spawner : MonoBehaviour
         PowerUp(monsterObject);
     }
 
-    //레벨 파라미터는 보스 추가될 경우 사용 , 플레이어레벨 / 10으로 나눈값을 넣어야함
-    void SpawnBossMonster(int lv = 0)
+    // bossIndex: 보스 스테이지 순번 (5스테이지→0, 10→1, 15→2)
+    void SpawnBossMonster(int bossIndex)
     {
-        SpawnBossObject = Instantiate(bossPrefabs[lv]);
+        if (bossPrefabs == null || bossPrefabs.Length == 0)
+        {
+            Debug.LogWarning("bossPrefabs가 비어있어 보스를 소환할 수 없습니다.");
+            return;
+        }
+
+        // 스테이지 2/3 보스가 아직 없으므로, 등록된 마지막 보스를 재사용한다.
+        int prefabIndex = Mathf.Clamp(bossIndex, 0, bossPrefabs.Length - 1);
+        if (prefabIndex != bossIndex)
+            Debug.LogWarning($"bossPrefabs[{bossIndex}]가 없어 [{prefabIndex}]로 대체합니다.");
+
+        SpawnBossObject = Instantiate(bossPrefabs[prefabIndex]);
         if (SpawnBossObject == null) return;
-        SpawnBossObject.transform.position = bossSpawnPoint[lv+1].position;
-        Debug.Log("보스 소환중...");
+
+        // bossSpawnPoint[0]은 루트 자신이므로 자식은 1부터 시작
+        int pointIndex = Mathf.Clamp(bossIndex + 1, 1, bossSpawnPoint.Length - 1);
+        SpawnBossObject.transform.position = bossSpawnPoint[pointIndex].position;
+        Debug.Log($"보스 소환중... (스테이지 {stage}, bossPrefabs[{prefabIndex}])");
 
         PowerUp(SpawnBossObject.GetComponent<MonsterCharacter>(),true);
     }
     void PowerUp(MonsterCharacter monsterObject, bool isBoss = false)
     {
-        //플레이어 레벨 기준으로 몬스터 강화
-        int powerUpCount = level / 10;
-        
-        //보스는 20레벨 부터 강화
+        //스테이지 기준으로 몬스터 강화 (보스 주기 1회당 1단계)
+        int powerUpCount = stage / 5;
+
+        //보스는 두 번째 보스 스테이지부터 강화
         if (isBoss) powerUpCount--;
 
         if (monsterObject == null) return;

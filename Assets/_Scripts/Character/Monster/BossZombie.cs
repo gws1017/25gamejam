@@ -10,6 +10,8 @@ public class BossZombie : MonsterCharacter
     [SerializeField] private GameObject zombieBulletPrefab;
     [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
 
+    public override bool IsBoss => true;
+
     void Start()
     {
         attackRange = 3f;
