@@ -80,6 +80,16 @@ public class StageManager : MonoBehaviour
         EmptySingleton();
     }
 
+    /// <summary>테스트용: 가장 가까운 보스 스테이지로 즉시 점프 (Spawner가 다음 프레임에 자동으로 보스 소환)</summary>
+    [ContextMenu("JumpToNearestBossStage")]
+    public void JumpToNearestBossStage()
+    {
+        currentStage = ((currentStage - 1) / bossStageInterval + 1) * bossStageInterval;
+        killCount = 0;
+        Debug.Log($"[디버그] 스테이지 {currentStage}(보스)로 점프");
+        OnStageChanged?.Invoke(currentStage);
+    }
+
     #region Internal Logic
     private void HandleMonsterDied(MonsterCharacter monster)
     {

@@ -7,10 +7,20 @@ public class BossZombieController : AIController
     [SerializeField] private float rotateSpeed = 10f; // 회전속도
     [SerializeField] private List<float> attackAngles = new List<float>() { 0, 90, 180, 270 }; // 공격전환 각도
 
-    private List<float> lastAngles = new List<float>();
+    // 직전에 발사한 각도만 기억한다 (리스트로 계속 쌓는 방식은, 공격각 간격이 촘촘해서
+    // 판정 구간이 끊김 없이 이어지는 패턴3에서 "리셋될 틈"이 영영 안 생겨 한 바퀴 돌고 나면
+    // 리스트가 꽉 차서 영구히 공격을 못 하게 되는 버그가 있었음)
+    private float? lastFiredAngle = null;
 
     public float RotateAngle { get => rotateAngle; set => rotateAngle = value; }
     public float RotateSpeed { get => rotateSpeed; set => rotateSpeed = value; }
+
+    /// <summary>공격 트리거 각도 간격을 교체한다 (패턴1 90도 ↔ 패턴3 10도 전환용).</summary>
+    public void SetAttackAngles(List<float> newAngles)
+    {
+        attackAngles = newAngles;
+        lastFiredAngle = null;
+    }
 
     protected override void OnEnable()
     {
@@ -50,18 +60,18 @@ public class BossZombieController : AIController
 
     bool CanAttack(float currentAngle)
     {
-
         foreach(var angle in attackAngles)
         {
             if(Mathf.Abs(Mathf.DeltaAngle(currentAngle, angle)) <= 5f)
             {
-                if (lastAngles.Contains(angle)) return false;
+                // 직전에 쏜 각도랑 같은 구간이면 중복 발사 방지. 다르면(= 새 구간에 진입했으면) 발사.
+                // 몇 바퀴를 돌아도 값 하나만 비교하므로 리스트가 쌓여서 막히는 일이 없다.
+                if (lastFiredAngle.HasValue && Mathf.Approximately(lastFiredAngle.Value, angle)) return false;
 
-                lastAngles.Add(angle);
+                lastFiredAngle = angle;
                 return true;
             }
         }
-        lastAngles = new List<float>();
         return false;
     }
 }

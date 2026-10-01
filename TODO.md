@@ -86,13 +86,48 @@
 시간 부족으로 보스 1종만 넣고, `Spawner`/`PoolManager` 레벨 스케일링으로 무한히 강해지게 만들어
 땜빵한 것으로 보임 (`BossZombie.PowerUp()`이 회전속도만 배율로 증가). 나머지 격차:
 
-- [ ] 패턴 전환(페이즈) 구조 추가 — 지금은 패턴1 하나만 무한 반복, 전환 로직 없음
+- [x] 패턴 전환(페이즈) 구조 추가 — HP% 기반. `MonsterCharacter`(일반몬스터 포함 공통 부모) 밑에
+      `Boss`(신규) 중간 클래스를 추가해서 Phase 시스템은 전부 거기로 격리
+      (`IsBoss=true` 고정, `phaseHpThresholds` + `virtual OnPhaseChanged(int)` 훅 — 일반 몬스터
+      프리팹 인스펙터엔 Phase 필드가 안 보임, 추후 스테이지2/3 보스는 `Boss` 상속만 받으면 됨).
+      `BossZombie : Boss`로 변경, `OnPhaseChanged()`에서:
+        - Phase 2 진입 시: 패턴2(브레스/솟구침) 해금 플래그만 세움 — 실제 공격 루틴은 미구현(아래 항목)
+        - Phase 3 진입 시: 패턴1(90도 간격)→패턴3(10도 간격)으로 `attackAngles` 교체 + 회전속도 배율
+          (패턴1·3은 같은 회전+각도트리거 메커니즘이라 "교체"이지 "추가"가 아님 — 패턴2는 유지되는 "추가" 쪽.
+          배율은 `phase3RotateSpeedMultiplier`로 인스펙터 노출, 기본 1배 — 10도 간격 자체로 이미 9배
+          빈도라 처음엔 2배를 곱했다가 "기관총 수준"이라 1배로 수정, 추가 튜닝은 플레이테스트로)
+      - [x] 버그 수정: `BossZombie.Attack()`이 죽은 구버전 `BulletPoolManager.Instance`로 null 가드하는 바람에
+            항상 조기 리턴 → `Attack` 상태에 영원히 고정되어 서클링·발사체 둘 다 멈추던 문제. 실제 스폰에 쓰는
+            `PoolManager.Instance`로 가드 교체
+      - [x] 에디터 세팅: `ZombieSlime.prefab`의 `Phase Hp Thresholds` 배열에 `{0.66, 0.33}` 입력 완료
+      - [x] 버그 수정: `BossZombieController.CanAttack()`이 쏜 각도를 `List<float>`에 계속 쌓기만 하던 방식이라,
+            패턴3(10도 간격, ±5도 허용오차)는 판정 구간이 끊김 없이 이어져서 "리스트 리셋될 틈"이 영영
+            안 생김 → 한 바퀴 돌고 나면 영구히 공격 불가 상태가 되던 버그. "직전에 쏜 각도 하나만" 비교하는
+            방식(`lastFiredAngle`)으로 교체, 몇 바퀴를 돌아도 막히지 않음
+      - [x] `phase3RotateSpeedMultiplier`를 매 프레임 재계산하도록 변경 — Play 중 Inspector 값 바꾸면
+            즉시 반영됨 (기존엔 Phase3 진입 순간 1회성 곱셈이라 재스폰해야 테스트 가능했음)
+      - [ ] 페이즈 전환 실제 플레이테스트 계속 (패턴3 속도 등 세부 밸런스)
+      - [x] 디버그 단축키: `StageManager.JumpToNearestBossStage()` ([ContextMenu]) — 가장 가까운
+            보스 스테이지로 즉시 점프, 플레이테스트용
+      - [ ] 보스 등장 시 프레임 드랍 체감 리포트 있음 — 원인 미확정. Spine/풀링 등 검토했으나 결정적 증거
+            못 찾음, Profiler로 재확인 필요
+- [x] 보스 체력바 UI 추가 — `MonsterCharacter.OnMonsterSpawned`(신규, `OnMonsterDied`와 대칭) +
+      `Boss.OnHealthChanged` 이벤트 + `UI_BossHealthBar.cs` 신규. 보스 스폰 시 자동으로 뜨고 사망 시 숨김
+      - [x] 에디터 세팅: `UI_InGame` Canvas 상단에 `BossHPBar` 배치, `barRoot`/`fillImage` 슬롯 연결 완료
+            (하단은 몹 스폰 지점이라 안 가리게 상단으로 결정)
+      - [x] 버그 수정: `barRoot`에 스크립트 자신이 붙은 오브젝트를 넣으면 `SetActive(false)` 시
+            스크립트 자신도 꺼져서 이벤트 구독이 영구히 끊기던 문제 — `SetActive` 대신 자식 `Image`들의
+            `enabled`만 토글하도록 변경, 기존 Inspector 세팅 그대로 사용 가능
+- [x] `AttackTelegraph.cs` 공용 컴포넌트 신설 — 테두리만 있다가 서서히 차오르고 다 차면 `OnComplete` 발행,
+      솟구침/브레스 둘 다 재사용 가능 (Image.FillAmount 기반, 셰이더 불필요).
+      월드 스페이스 Canvas + Image(Filled, Radial360 or Horizontal)로 구성, 색은 단색 빨강 placeholder
 - [ ] 패턴1 다듬기 — 조준 사격을 기획대로 고정 4방향 발사로 바꿀지 결정
-- [ ] 패턴2 구현 — 브레스(4방향) + 지면 솟구침 예고·발동 (신규 텔레그래프 상태/VFX 필요, 손 제일 많이 가는 항목)
-- [ ] 패턴3 구현 — 플레이어 중심 원형 이동 중 위치가 10도씩 바뀔 때마다 정박자로 플레이어를 직선 조준 공격, 로봇정령으로 패링해서 막는 구조.
-      기존 패턴1 로직(`BossZombieController.RotateFromTarget`+`BossZombie.Attack`, 원형 이동 + 각도 도달 시 조준 발사)과 동일 구조라 재사용 가능 —
-      `attackAngles`를 90도 간격 → 10도 간격으로 촘촘하게 바꾸고 정박자 리듬/패링 밸런스만 맞추면 됨. 완전 신규 구현 아님.
-- [ ] 패턴별 밸런스 테스트 (특히 패턴3 난이도)
+- [ ] 패턴2 실제 공격 루틴 구현 — `AttackTelegraph` 활용해서 브레스(4방향)+지면 솟구침 예고·발동
+      (솟구침은 텔레그래프 시작 시점 플레이어 위치를 스냅샷해서 고정, 실시간 추적 안 함).
+      이번 페이즈 작업에선 훅만 박아둠(`BossZombie.pattern2Unlocked`), 실제 루틴은 별도 설계 예정
+- [ ] 패턴3 정박자 리듬/패링 밸런스 테스트 (회전속도 2배가 추정값이라 실제 체감 확인 필요)
+- [ ] 패턴2용 신규 에셋 — 텔레그래프 링/바는 단색으로 계속 가기로 결정(별도 제작 불필요),
+      **솟구침 VFX / 브레스·레이저 VFX 2종만** GPT로 제작 필요
 
 ## [P2] 스테이지 2 (외계인 촉수 컨셉)
 

@@ -11,6 +11,12 @@ public class MonsterCharacter : BaseCharacter,IPoolable
     /// </summary>
     public static event Action<MonsterCharacter> OnMonsterDied;
 
+    /// <summary>
+    /// 몬스터가 스폰될 때 발행 (OnEnable → OnSpawn에서 1회만). UI_BossHealthBar가 구독해서
+    /// 보스 등장 시 체력바를 띄운다. 일반 몬스터는 풀에서 재사용되며 그때마다 발행됨.
+    /// </summary>
+    public static event Action<MonsterCharacter> OnMonsterSpawned;
+
     /// <summary>보스 여부. 보스 클래스에서 override 할 것.</summary>
     public virtual bool IsBoss => false;
 
@@ -61,6 +67,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         controller.enabled = true;
         controller.ChangeState(AIState.Move);
         currentHP = MaxHP;
+        OnMonsterSpawned?.Invoke(this);
     }
 
     public void OnDespawn()

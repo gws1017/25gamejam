@@ -4,17 +4,59 @@ using UnityEngine;
 using System.Collections.Generic;
 using static UnityEngine.Rendering.DebugUI.Table;
 
-public class BossZombie : MonsterCharacter
+public class BossZombie : Boss
 {
-    
+
     [SerializeField] private GameObject zombieBulletPrefab;
     [SerializeField] private Transform firePoint;        // 총구 위치(자식 트랜스폼 할당)
 
-    public override bool IsBoss => true;
+    private bool pattern2Unlocked = false;
+
+    [Tooltip("Phase3 회전속도 배율 (10도 간격이라 1.0이어도 공격 빈도가 9배 늘어남 — 밸런스용 조절 노출). " +
+             "Play 중에도 매 프레임 재계산해서 바로 반영됨 — 테스트하면서 실시간으로 조절 가능.")]
+    [SerializeField] private float phase3RotateSpeedMultiplier = 1f;
+
+    // Phase3 진입 직전의 회전속도(배율 적용 전 기준값). 이 값에 매 프레임 배율을 곱해서 적용하므로
+    // phase3RotateSpeedMultiplier를 Play 중에 바꿔도 다음 프레임부터 바로 반영된다.
+    private float rotateSpeedBeforePhase3 = -1f;
 
     void Start()
     {
         attackRange = 3f;
+    }
+
+    void Update()
+    {
+        if (CurrentPhase == 3 && rotateSpeedBeforePhase3 >= 0f && controller is BossZombieController bc)
+        {
+            bc.RotateSpeed = rotateSpeedBeforePhase3 * phase3RotateSpeedMultiplier;
+        }
+    }
+
+    protected override void OnPhaseChanged(int newPhase)
+    {
+        // Phase 2: 브레스/솟구침(패턴2) 추가 — 실제 공격 루틴은 별도 설계/구현 예정, 지금은 훅만
+        if (newPhase >= 2 && !pattern2Unlocked)
+        {
+            pattern2Unlocked = true;
+            // TODO: 패턴2(브레스+솟구침) 공격 루틴 시작 — AttackTelegraph 활용 예정
+        }
+
+        // Phase 3: 패턴1(90도 간격) → 패턴3(10도 간격, 정박자)로 전환. 같은 회전+각도 트리거
+        // 메커니즘을 재사용하는 것이므로 "교체"이지 "추가"가 아님 — 간격이 촘촘해진 만큼
+        // 회전속도도 올려야 리듬이 유지된다. 실제 배율 적용은 Update()에서 매 프레임 재계산.
+        if (newPhase == 3 && controller is BossZombieController bc)
+        {
+            bc.SetAttackAngles(BuildTightAttackAngles());
+            rotateSpeedBeforePhase3 = bc.RotateSpeed; // 배율 적용 전 기준값 캡처(한 번만)
+        }
+    }
+
+    private List<float> BuildTightAttackAngles()
+    {
+        var angles = new List<float>();
+        for (float a = 0f; a < 360f; a += 10f) angles.Add(a);
+        return angles;
     }
 
     public override void PowerUp(int count)
@@ -41,7 +83,7 @@ public class BossZombie : MonsterCharacter
         base.Attack();
 
         if (controller == null) return;
-        if (BulletPoolManager.Instance == null) return;
+        if (PoolManager.Instance == null) return;
 
         Vector2 origin = (firePoint != null) ? firePoint.position : transform.position;
         Vector2 playerPos = controller.TargetPlayer.transform.position;

@@ -249,8 +249,12 @@ MonoBehaviour:
   powerUpMultiplier: 0.1
   hitVFX: {fileID: 779097749719715931, guid: 4fcf0de36d53bbc4a92dfc7ba4c4774f, type: 3}
   monsterDieFX: {fileID: 8300000, guid: 645ec782a4f4a564ba4715a6f0d4f9a0, type: 3}
-  zombieBulletPrefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
+  phaseHpThresholds:
+  - 0.66
+  - 0.33
+  zombieBulletPrefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
   firePoint: {fileID: 2209632217826320307}
+  phase3RotateSpeedMultiplier: 0.2
 --- !u!114 &6155493384743665826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +267,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdceb943e7d0da44aac20bbf181b6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossZombieController
-  targetDir: {x: 0, y: 0}
+  toTargetVector: {x: 0, y: 0}
+  targetDirection: {x: 0, y: 0}
+  targetDistance: 0
   moveSpeed: 2
   spriteDir: 1
   currentState: 0
