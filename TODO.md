@@ -118,16 +118,36 @@
       - [x] 버그 수정: `barRoot`에 스크립트 자신이 붙은 오브젝트를 넣으면 `SetActive(false)` 시
             스크립트 자신도 꺼져서 이벤트 구독이 영구히 끊기던 문제 — `SetActive` 대신 자식 `Image`들의
             `enabled`만 토글하도록 변경, 기존 Inspector 세팅 그대로 사용 가능
-- [x] `AttackTelegraph.cs` 공용 컴포넌트 신설 — 테두리만 있다가 서서히 차오르고 다 차면 `OnComplete` 발행,
-      솟구침/브레스 둘 다 재사용 가능 (Image.FillAmount 기반, 셰이더 불필요).
-      월드 스페이스 Canvas + Image(Filled, Radial360 or Horizontal)로 구성, 색은 단색 빨강 placeholder
+- [x] `AttackTelegraph.cs` 신설 — 테두리(윤곽)만 있다가 안쪽이 서서히 차오르고 다 차면 `OnComplete(위치)` 발행.
+      당초 World Space Canvas+Image(Fill) 설계였으나, 프리팹/정렬 문제 없이 **코드에서 SpriteRenderer로 직접 생성**
+      (`CreateCircle` / `CreateBeam`)하는 방식으로 변경. 색은 단색 빨강. 감시 대상(보스)이 죽으면 발동 없이 취소
+- [x] `SpriteFlipbook.cs` 신설 — 슬라이스한 스프라이트 배열을 1회 재생하고 스스로 사라지는 일회성 VFX
+      (Animator/클립/프리팹 불필요)
+- [x] 패턴2(브레스+솟구침) 구현 — Phase2 진입 시 해금, Phase3에서도 유지되는 "추가" 패턴.
+      **발동 시점**: 보스가 플레이어 기준 동·북·서·남에 도달할 때마다(`BossZombieController.OnCardinalReached`,
+      `attackAngles`와 무관하게 항상 4방위 감지). 한 세트(`BossZombie.Pattern2Set()`)는 두 공격이 겹쳐 읽기 어려워서
+      **시간차**를 둔다 (브레스 → 솟구침 순서. 솟구침을 먼저 하면 보스가 공전해서 브레스가 방위에서 벗어나므로):
+        ①보스가 방위에 선 순간, 보스→플레이어 방향 직사각형 브레스 예고(1발) → `breathWarningDuration`(1.0초) 후 발동.
+          **브레스를 모으는 동안에만** 보스가 공전을 멈춤(`pauseOrbitDuringPattern2`), VFX가 끝나면 다시 공전
+        ②`gapBetweenPatterns`(0.3초) 뒤, 보스가 도는 중에 플레이어 **발밑** 스냅샷 지점의 **바닥에 눕힌 납작한 타원**
+          솟구침 예고(그림자 크기, 원근감) → `warningDuration`(1.2초) 후 발동
+      (브레스를 피해 옮긴 자리를 솟구침이 이어서 겨냥하는 연계). 예고 영역과 동일한 범위로 피해 판정(하트 1칸, 발동 순간 1회).
+      (※ 초안은 "쿨다운마다 동서남북 4방향 동시 발사 + 큰 원" → 방위 도달 기반 → 동시 발동이 겹쳐 보여 시간차 → 솟구침 중엔 정지 불필요해서 순서 반전)
+      - [x] 3페이즈 진입 후 패턴2가 안 나온다는 리포트 → 플레이테스트 재확인 결과 정상 동작 확인(원인 미확정, 진단 로그는 제거).
+            재발하면 `Phase 3 Rotate Speed Multiplier`가 너무 낮아 보스가 방위에 못 가는 경우부터 의심
+      인스펙터(필수 값만 노출): `breathWarningDuration`(1.0) / `warningDuration`(1.2) / `eruptionRadius`(0.6) /
+      `breathLength`(10) / `breathWidth`(1.2) / `eruptionFrames` / `breathFrames`.
+      나머지(`GapBetweenPatterns` 0.3, `VfxFps` 16, `GroundSquash` 0.35, `PlayerFootOffset` (0,-0.59))는 코드 상수로 내림 —
+      튜닝이 필요해지면 `[SerializeField]`로 다시 올릴 것. 방위 N번째마다 쓰기 옵션/정지 끄기 옵션은 불필요해서 삭제.
+      - [x] 에셋: `boss_effect_02_clean.png`(솟구침), `boss_effect_Breath_clean.png`(브레스) — 격자선 제거,
+            444px 셀로 재배치, 브레스는 모든 프레임의 빔 뿌리를 (8,222)로 정렬 + 오른쪽 끝 페이드
+      - [ ] 에디터 세팅 필요: 두 PNG를 Sprite/Multiple + Grid By Cell Size 444x444로 슬라이스
+            (솟구침 pivot Custom (0.5,0.14) / 브레스 pivot Custom (0.018,0.5)), `ZombieSlime.prefab`의 `BossZombie`
+            `Eruption Frames` / `Breath Frames` 배열에 슬라이스된 8장을 순서대로 연결 (비워두면 VFX 없이 예고+판정만 동작)
+      - [ ] 플레이테스트 후 쿨다운/예고시간/크기 밸런스 조정
+      - [x] 디버그 단축키: `Boss`의 [ContextMenu] `Debug: HP 60% (Phase2 진입)` / `HP 30% (Phase3 진입)`
 - [ ] 패턴1 다듬기 — 조준 사격을 기획대로 고정 4방향 발사로 바꿀지 결정
-- [ ] 패턴2 실제 공격 루틴 구현 — `AttackTelegraph` 활용해서 브레스(4방향)+지면 솟구침 예고·발동
-      (솟구침은 텔레그래프 시작 시점 플레이어 위치를 스냅샷해서 고정, 실시간 추적 안 함).
-      이번 페이즈 작업에선 훅만 박아둠(`BossZombie.pattern2Unlocked`), 실제 루틴은 별도 설계 예정
-- [ ] 패턴3 정박자 리듬/패링 밸런스 테스트 (회전속도 2배가 추정값이라 실제 체감 확인 필요)
-- [ ] 패턴2용 신규 에셋 — 텔레그래프 링/바는 단색으로 계속 가기로 결정(별도 제작 불필요),
-      **솟구침 VFX / 브레스·레이저 VFX 2종만** GPT로 제작 필요
+- [ ] 패턴3 정박자 리듬/패링 밸런스 테스트 (회전속도 배율이 추정값이라 실제 체감 확인 필요)
 
 ## [P2] 스테이지 2 (외계인 촉수 컨셉)
 

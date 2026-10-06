@@ -38,6 +38,20 @@ public class Boss : MonsterCharacter
         UpdatePhase();
     }
 
+    // ---- 테스트용 단축키 (Play 중 컴포넌트 우클릭) ----
+    [ContextMenu("Debug: HP 60% (Phase2 진입)")]
+    private void DebugHp60() => DebugSetHpRatio(0.6f);
+
+    [ContextMenu("Debug: HP 30% (Phase3 진입)")]
+    private void DebugHp30() => DebugSetHpRatio(0.3f);
+
+    private void DebugSetHpRatio(float ratio)
+    {
+        currentHP = maxHP * ratio;
+        OnHealthChanged?.Invoke(currentHP, maxHP);
+        UpdatePhase();
+    }
+
     private void UpdatePhase()
     {
         if (phaseHpThresholds == null || phaseHpThresholds.Length == 0) return;

@@ -255,6 +255,30 @@ MonoBehaviour:
   zombieBulletPrefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
   firePoint: {fileID: 2209632217826320307}
   phase3RotateSpeedMultiplier: 0.2
+  pattern2Cooldown: 5
+  warningDuration: 1.2
+  eruptionRadius: 1.2
+  breathLength: 10
+  breathWidth: 1.2
+  vfxFps: 16
+  eruptionFrames:
+  - {fileID: 6155784744744499236, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 5160617348499980704, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 7596903370299720809, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 1734314887183245066, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 4533553499031948189, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: -8793736083761476738, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 5315275803644901879, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  - {fileID: 3049235284579131787, guid: b4a982df9d4efbf4aa0a4dde1196698d, type: 3}
+  breathFrames:
+  - {fileID: 6437453158936789292, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: -7025758421880131573, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: 289499530705443120, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: 1226766046302016679, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: 7085335365723875427, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: 3858549514845290590, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: -3381183708615708730, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
+  - {fileID: 3240463012093931983, guid: be28ff9df6340374583a32d25a5ea8e5, type: 3}
 --- !u!114 &6155493384743665826
 MonoBehaviour:
   m_ObjectHideFlags: 0

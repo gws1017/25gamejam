@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +13,19 @@ public class BossZombieController : AIController
     // 리스트가 꽉 차서 영구히 공격을 못 하게 되는 버그가 있었음)
     private float? lastFiredAngle = null;
 
+    // 보스가 플레이어 기준 동(0)/북(90)/서(180)/남(270)에 도달했을 때 발행. attackAngles(패턴1/3 사격 간격)와
+    // 무관하게 항상 4방위만 감지한다. 패턴2(브레스)가 이 신호에 맞춰 발동한다.
+    private static readonly float[] CardinalAngles = { 0f, 90f, 180f, 270f };
+    private float? lastCardinal = null;
+    private bool orbitPaused = false;
+
+    public event Action<float> OnCardinalReached;
+
     public float RotateAngle { get => rotateAngle; set => rotateAngle = value; }
     public float RotateSpeed { get => rotateSpeed; set => rotateSpeed = value; }
+
+    /// <summary>true면 플레이어 주변 공전을 멈추고 제자리에 선다 (브레스를 모으는 동안 사용).</summary>
+    public void SetOrbitPaused(bool paused) => orbitPaused = paused;
 
     /// <summary>공격 트리거 각도 간격을 교체한다 (패턴1 90도 ↔ 패턴3 10도 전환용).</summary>
     public void SetAttackAngles(List<float> newAngles)
@@ -38,6 +50,7 @@ public class BossZombieController : AIController
     private void RotateFromTarget()
     {
         if (targetPlayer == null) return;
+        if (orbitPaused) return;
 
         rotateAngle += rotateSpeed * Time.fixedDeltaTime;
 
@@ -55,6 +68,23 @@ public class BossZombieController : AIController
         {
             GetComponent<Animator>().SetTrigger("Idle");
             ChangeState(AIState.Attack);
+        }
+
+        CheckCardinal(currentAngle);
+    }
+
+    private void CheckCardinal(float currentAngle)
+    {
+        foreach (var angle in CardinalAngles)
+        {
+            if (Mathf.Abs(Mathf.DeltaAngle(currentAngle, angle)) > 5f) continue;
+
+            // 같은 방위 구간에 머무는 동안은 한 번만 발행
+            if (lastCardinal.HasValue && Mathf.Approximately(lastCardinal.Value, angle)) return;
+
+            lastCardinal = angle;
+            OnCardinalReached?.Invoke(angle);
+            return;
         }
     }
 

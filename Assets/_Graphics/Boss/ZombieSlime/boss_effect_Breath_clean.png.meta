@@ -1,0 +1,469 @@
+fileFormatVersion: 2
+guid: be28ff9df6340374583a32d25a5ea8e5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6437453158936789292
+    second: boss_effect_Breath_clean_0
+  - first:
+      213: -7025758421880131573
+    second: boss_effect_Breath_clean_1
+  - first:
+      213: 289499530705443120
+    second: boss_effect_Breath_clean_2
+  - first:
+      213: 1226766046302016679
+    second: boss_effect_Breath_clean_3
+  - first:
+      213: 7085335365723875427
+    second: boss_effect_Breath_clean_4
+  - first:
+      213: 3858549514845290590
+    second: boss_effect_Breath_clean_5
+  - first:
+      213: -3381183708615708730
+    second: boss_effect_Breath_clean_6
+  - first:
+      213: 3240463012093931983
+    second: boss_effect_Breath_clean_7
+  - first:
+      213: 879706000314293765
+    second: boss_effect_Breath_clean_8
+  - first:
+      213: 2051763829977977783
+    second: boss_effect_Breath_clean_9
+  - first:
+      213: -3794064633203768707
+    second: boss_effect_Breath_clean_10
+  - first:
+      213: -1162340086481736830
+    second: boss_effect_Breath_clean_11
+  - first:
+      213: -4269373999254462782
+    second: boss_effect_Breath_clean_12
+  - first:
+      213: 871044166967372403
+    second: boss_effect_Breath_clean_13
+  - first:
+      213: -4463547589889992105
+    second: boss_effect_Breath_clean_14
+  - first:
+      213: -7941529437123773593
+    second: boss_effect_Breath_clean_15
+  - first:
+      213: -4095064749843613237
+    second: boss_effect_Breath_clean_16
+  - first:
+      213: -7639981480616911180
+    second: boss_effect_Breath_clean_17
+  - first:
+      213: -7822869024914261401
+    second: boss_effect_Breath_clean_18
+  - first:
+      213: 2361888908903785828
+    second: boss_effect_Breath_clean_19
+  - first:
+      213: 2820537977728239704
+    second: boss_effect_Breath_clean_20
+  - first:
+      213: -2673223202170161030
+    second: boss_effect_Breath_clean_21
+  - first:
+      213: 5751198386994623987
+    second: boss_effect_Breath_clean_22
+  - first:
+      213: -5675910330953341711
+    second: boss_effect_Breath_clean_23
+  - first:
+      213: 7716232221114491663
+    second: boss_effect_Breath_clean_24
+  - first:
+      213: -3983193888516468846
+    second: boss_effect_Breath_clean_25
+  - first:
+      213: 1188744067902327011
+    second: boss_effect_Breath_clean_26
+  - first:
+      213: 953789519738342969
+    second: boss_effect_Breath_clean_27
+  - first:
+      213: -7905447753805649331
+    second: boss_effect_Breath_clean_28
+  - first:
+      213: -7009730990966332677
+    second: boss_effect_Breath_clean_29
+  - first:
+      213: -3896493261407326744
+    second: boss_effect_Breath_clean_30
+  - first:
+      213: -5006636372397858061
+    second: boss_effect_Breath_clean_31
+  - first:
+      213: -5098140202750854703
+    second: boss_effect_Breath_clean_32
+  - first:
+      213: -4294276592419281502
+    second: boss_effect_Breath_clean_33
+  - first:
+      213: -7169010892412348566
+    second: boss_effect_Breath_clean_34
+  - first:
+      213: 5293481176174851140
+    second: boss_effect_Breath_clean_35
+  - first:
+      213: 6185775374113031400
+    second: boss_effect_Breath_clean_36
+  - first:
+      213: 611160117576728502
+    second: boss_effect_Breath_clean_37
+  - first:
+      213: -8230709931154876095
+    second: boss_effect_Breath_clean_38
+  - first:
+      213: 7984104140433528439
+    second: boss_effect_Breath_clean_39
+  - first:
+      213: 3900440974176689512
+    second: boss_effect_Breath_clean_40
+  - first:
+      213: -3210777559924073595
+    second: boss_effect_Breath_clean_41
+  - first:
+      213: -3226256150427701645
+    second: boss_effect_Breath_clean_42
+  - first:
+      213: 2603435630386702943
+    second: boss_effect_Breath_clean_43
+  - first:
+      213: -8366595020250781521
+    second: boss_effect_Breath_clean_44
+  - first:
+      213: 1283315368525358093
+    second: boss_effect_Breath_clean_45
+  - first:
+      213: 2062986418098553842
+    second: boss_effect_Breath_clean_46
+  - first:
+      213: -9188600492932170601
+    second: boss_effect_Breath_clean_47
+  - first:
+      213: -3981604657885967913
+    second: boss_effect_Breath_clean_48
+  - first:
+      213: 1231781955559248212
+    second: boss_effect_Breath_clean_49
+  - first:
+      213: 8315048460621512688
+    second: boss_effect_Breath_clean_50
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 444
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c21c4ac7a8d665950800000000000000
+      internalID: 6437453158936789292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_1
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 444
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00302a70fd7f7e90800000000000000
+      internalID: -7025758421880131573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_2
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 444
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03917521a42840400800000000000000
+      internalID: 289499530705443120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_3
+      rect:
+        serializedVersion: 2
+        x: 1332
+        y: 444
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a4975c2839560110800000000000000
+      internalID: 1226766046302016679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368eb74b9fa245260800000000000000
+      internalID: 7085335365723875427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_5
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 0
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e500c9c17525c8530800000000000000
+      internalID: 3858549514845290590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_6
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 0
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cf6f9fc45f9311d0800000000000000
+      internalID: -3381183708615708730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_Breath_clean_7
+      rect:
+        serializedVersion: 2
+        x: 1332
+        y: 0
+        width: 444
+        height: 444
+      alignment: 9
+      pivot: {x: 0.018, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc1b6a7d0ff68fc20800000000000000
+      internalID: 3240463012093931983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2fa12226916cb79419e4c31fa130128d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":444.0,"y":444.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.017999999225139619,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      boss_effect_Breath_clean_0: 6437453158936789292
+      boss_effect_Breath_clean_1: -7025758421880131573
+      boss_effect_Breath_clean_2: 289499530705443120
+      boss_effect_Breath_clean_3: 1226766046302016679
+      boss_effect_Breath_clean_4: 7085335365723875427
+      boss_effect_Breath_clean_5: 3858549514845290590
+      boss_effect_Breath_clean_6: -3381183708615708730
+      boss_effect_Breath_clean_7: 3240463012093931983
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
