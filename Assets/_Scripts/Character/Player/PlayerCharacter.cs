@@ -38,6 +38,15 @@ public class PlayerCharacter : BaseCharacter
     private void NotifyHealthChanged() => OnHealthChanged?.Invoke(currentHP, maxHP);
 
     public bool IsInvincibleExternal { get; set; } = false;
+
+    /// <summary>
+    /// 디버그/영상 촬영용 무적 치트. 상점 무적 아이템(IsInvincibleExternal)과는 별도의 플래그다.
+    /// 아이템 무적이 만료될 때 IsInvincibleExternal을 false로 되돌리기 때문에,
+    /// 같은 플래그를 쓰면 치트가 아이템 때문에 풀려버린다.
+    /// 토글은 PlayerController.CheckCheatInput()에서 F1 키로 한다.
+    /// </summary>
+    public bool IsCheatInvincible { get; set; } = false;
+
     private int hitBuffer = 0;
 
     private int maxLevel = 1000;
@@ -128,7 +137,7 @@ public class PlayerCharacter : BaseCharacter
     //데미지 처리함수
     public void ApplyDamage(float damage = 1f)
     {
-        if (IsInvincibleExternal || IsDead) return;
+        if (IsInvincibleExternal || IsCheatInvincible || IsDead) return;
 
         if (Mathf.Approximately(damage, 1f))
         {
@@ -232,4 +241,12 @@ public class PlayerCharacter : BaseCharacter
 
     [ContextMenu("Hit x2")]
     public void CM_HitTwice() { ApplyDamage(1f); ApplyDamage(1f); }
+
+    /// <summary>무적 치트 ON/OFF. 키 입력 대신 컴포넌트 우클릭으로도 토글할 수 있다.</summary>
+    [ContextMenu("Cheat: 무적 토글")]
+    public void ToggleCheatInvincible()
+    {
+        IsCheatInvincible = !IsCheatInvincible;
+        Debug.Log($"[치트] 무적 {(IsCheatInvincible ? "ON" : "OFF")}");
+    }
 }

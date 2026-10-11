@@ -79,6 +79,8 @@ public class PlayerController : BaseController
         //UI키입력은 일시정지와 관계없음
         CheckUIInput();
 
+        CheckCheatInput();
+
         if (!CheckEnableInput()) return;
 
         CheckInput();
@@ -128,6 +130,20 @@ public class PlayerController : BaseController
             UI_StateManager.Instance.SetState(UI_StateManager.UIState.UI_Paused);
         }
     }
+    // 디버그용 치트 키 입력.
+    // 에디터와 개발용 빌드에서만 컴파일되므로 실제 배포 빌드에는 포함되지 않는다.
+    private void CheckCheatInput()
+    {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // F1: 무적 토글
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            var player = PlayerCharacter.Instance;
+            if (player != null) player.ToggleCheatInvincible();
+        }
+#endif
+    }
+
     //키입력 체크
     private void CheckInput()
     {
