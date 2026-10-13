@@ -97,3 +97,6 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# 아트 원본 (.ai/.psd) - 공개 레포 재배포 방지 + 유니티 임포트 제외
+/_ArtSource/

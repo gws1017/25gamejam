@@ -3845,6 +3845,18 @@ MonoBehaviour:
   - key: BossBullet
     prefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
     size: 20
+  - key: BursterBullet
+    prefab: {fileID: 5371210269570226003, guid: c60c0c6c093e9a64fb5a9a87158343b7, type: 3}
+    size: 100
+  - key: SpitterBullet
+    prefab: {fileID: 5371210269570226003, guid: 42ae263518144a344a0c0fbba1d100c9, type: 3}
+    size: 100
+  - key: Spitter
+    prefab: {fileID: 7226998442595843064, guid: 39975cb516d2fa4408423ceda429f36f, type: 3}
+    size: 100
+  - key: Burster
+    prefab: {fileID: 7226998442595843064, guid: e3c41879013f3ad4b8c9599504003daf, type: 3}
+    size: 100
 --- !u!4 &701754298
 Transform:
   m_ObjectHideFlags: 0
