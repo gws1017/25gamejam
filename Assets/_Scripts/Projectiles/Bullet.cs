@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     public GameObject Causer { get; private set; } // 발사자
     protected Rigidbody2D rb;
     protected Coroutine lifeRoutine;
+    private bool isHit = false;
 
     public float Speed => speed;
     public float Damage => damage;
@@ -58,6 +59,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     // 탄환 초기화(데미지/발사자 설정). 스폰 직후에 반드시 호출.
     public void Init(float dmg, GameObject causer)
     {
+        isHit = false;
         damage = dmg;
         Causer = causer;
         AddIgnoreObject(causer); // 스폰 직후 발사자와는 충돌하지 않도록 등록
@@ -85,6 +87,15 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     {
         if (!ignoreObjects.Contains(obj))
             ignoreObjects.Add(obj);
+    }
+
+    // 같은 탄환으로 중복 피해가 적용되지 않도록 명중 여부를 기록한다.
+    public bool TryHit()
+    {
+        if (isHit) return false;
+
+        isHit = true;
+        return true;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -127,4 +138,3 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
 
     
 }
-

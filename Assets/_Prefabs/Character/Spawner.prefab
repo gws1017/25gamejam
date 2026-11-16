@@ -191,6 +191,7 @@ MonoBehaviour:
     - Burster
   bossPrefabs:
   - {fileID: 4115483976116657050, guid: 6f50cf8d5610150469e716e88104d4f5, type: 3}
+  - {fileID: 1514715526830990931, guid: 374f4039a98e2cb4787e22f9521c77e8, type: 3}
 --- !u!1 &4046368110345411389
 GameObject:
   m_ObjectHideFlags: 0

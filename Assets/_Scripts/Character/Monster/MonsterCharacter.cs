@@ -35,6 +35,8 @@ public class MonsterCharacter : BaseCharacter,IPoolable
     public float AttackCoolTime => attackCoolTime;
     public int DropExp => dropExp;
     public bool IsLive => isLive;
+    // 플레이어와 충돌했을 때 근접 공격 데미지를 적용하는지 여부
+    public virtual bool IsMeleeDamage => true;
 
     public string poolKey { get; set; }
 
@@ -138,6 +140,11 @@ public class MonsterCharacter : BaseCharacter,IPoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        ApplyProjectileDamage(collision, collision.ClosestPoint(transform.position));
+    }
+
+    public void ApplyProjectileDamage(Collider2D collision, Vector2 hitPoint)
+    {
         //플레이어 공격은 투사체 밖에 없다
         if (!collision.CompareTag("Projectile") || !isLive) return;
         if (collision.CompareTag("Enemy")) return; //적끼리 체크 X
@@ -145,7 +152,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
 
 
         float applyDamage = 0;
-        Vector2 hitPoint = collision.ClosestPoint(transform.position);
+
 
         var bullet = collision.GetComponent<Bullet>();
         if (bullet == null) return;
@@ -156,7 +163,7 @@ public class MonsterCharacter : BaseCharacter,IPoolable
             applyDamage += bullet.Damage;
         }
 
-        if (applyDamage <= 0) return;
+        if (applyDamage <= 0 || !bullet.TryHit()) return;
         currentHP -= applyDamage;
 
         if (currentHP > 0)

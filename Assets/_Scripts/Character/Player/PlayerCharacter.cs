@@ -173,6 +173,7 @@ public class PlayerCharacter : BaseCharacter
         //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
         if (collision.gameObject.TryGetComponent<MonsterCharacter>(out var mob))
         {
+            if (!mob.IsMeleeDamage) return;
             if (DamageDelayCorutine == null)
             {
                 DamageDelayCorutine = StartCoroutine(DamageDelayCoroutine(mob.AttackCoolTime));
