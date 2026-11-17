@@ -76,6 +76,11 @@ public class PlayerController : BaseController
             return;
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // 치트 패널에서 타이핑할 때 E(상점)·Space(사격) 같은 게임 입력이 같이 먹지 않게 막는다
+        if (DevConsole.IsOpen) return;
+#endif
+
         //UI키입력은 일시정지와 관계없음
         CheckUIInput();
 

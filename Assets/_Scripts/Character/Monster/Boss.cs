@@ -45,6 +45,19 @@ public class Boss : MonsterCharacter
     [ContextMenu("Debug: HP 30% (Phase3 진입)")]
     private void DebugHp30() => DebugSetHpRatio(0.3f);
 
+    /// <summary>테스트용: 해당 페이즈에 막 진입한 체력으로 만든다 (1 = 체력 가득). 개발자 치트 패널(DevConsole)에서 사용.</summary>
+    public void DebugSetPhase(int phase)
+    {
+        if (phase <= 1 || phaseHpThresholds == null || phaseHpThresholds.Length == 0)
+        {
+            DebugSetHpRatio(1f);
+            return;
+        }
+
+        int index = Mathf.Clamp(phase - 2, 0, phaseHpThresholds.Length - 1);
+        DebugSetHpRatio(Mathf.Max(0.01f, phaseHpThresholds[index] - 0.01f));
+    }
+
     private void DebugSetHpRatio(float ratio)
     {
         currentHP = maxHP * ratio;

@@ -80,6 +80,15 @@ public class StageManager : MonoBehaviour
         EmptySingleton();
     }
 
+    /// <summary>테스트용: 스테이지를 지정해서 즉시 이동 (보스 스테이지면 Spawner가 자동으로 보스 소환). 개발자 치트 패널(DevConsole)에서 사용.</summary>
+    public void SetStage(int stage)
+    {
+        currentStage = Mathf.Max(1, stage);
+        killCount = 0;
+        Debug.Log($"[디버그] 스테이지 {currentStage}로 이동 (보스 스테이지: {IsBossStage})");
+        OnStageChanged?.Invoke(currentStage);
+    }
+
     /// <summary>테스트용: 가장 가까운 보스 스테이지로 즉시 점프 (Spawner가 다음 프레임에 자동으로 보스 소환)</summary>
     [ContextMenu("JumpToNearestBossStage")]
     public void JumpToNearestBossStage()
