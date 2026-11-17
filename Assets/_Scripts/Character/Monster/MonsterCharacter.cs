@@ -138,26 +138,21 @@ public class MonsterCharacter : BaseCharacter,IPoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //플레이어 공격은 투사체 밖에 없다
-        if (!collision.CompareTag("Projectile") || !isLive) return;
-        if (collision.CompareTag("Enemy")) return; //적끼리 체크 X
+        if (!isLive) return;
+        if (!TryConsumePlayerBullet(collision, gameObject, out float damageAmount)) return;
 
+        TakeDamage(damageAmount, collision.ClosestPoint(transform.position));
+    }
 
+    /// <summary>
+    /// 피해를 적용한다. 자기 콜라이더에 맞았을 때뿐 아니라, 다른 오브젝트가 대신 맞고
+    /// 넘겨줄 때(DamageRelay — 몸이 여러 개인 보스)도 이 함수를 통한다.
+    /// </summary>
+    public void TakeDamage(float amount, Vector2 hitPoint)
+    {
+        if (!isLive || amount <= 0f) return;
 
-        float applyDamage = 0;
-        Vector2 hitPoint = collision.ClosestPoint(transform.position);
-
-        var bullet = collision.GetComponent<Bullet>();
-        if (bullet == null) return;
-
-        if (bullet.Causer != null && bullet.Causer.CompareTag("Enemy")) return; //투사체인데, Enemy가 쏜 총알이라면 종료
-        if( bullet.Causer != gameObject)
-        {
-            applyDamage += bullet.Damage;
-        }
-
-        if (applyDamage <= 0) return;
-        currentHP -= applyDamage;
+        currentHP -= amount;
 
         if (currentHP > 0)
         {
@@ -167,6 +162,31 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         {
             controller.ChangeState(AIController.AIState.Dead);
         }
+    }
+
+    /// <summary>
+    /// 플레이어가 쏜 탄에 맞은 것인지 판별하고, 맞았다면 그 탄의 피해를 "사용 처리"한다.
+    /// 사용 처리 덕분에 탄 하나가 같은 프레임에 콜라이더 두 개(예: 보스 본체와 파트너)에 동시에
+    /// 닿아도 피해는 한 번만 들어간다.
+    /// </summary>
+    public static bool TryConsumePlayerBullet(Collider2D collision, GameObject self, out float damageAmount)
+    {
+        damageAmount = 0f;
+
+        //플레이어 공격은 투사체 밖에 없다
+        if (!collision.CompareTag("Projectile")) return false;
+        if (collision.CompareTag("Enemy")) return false; //적끼리 체크 X
+
+        var bullet = collision.GetComponent<Bullet>();
+        if (bullet == null) return false;
+
+        if (bullet.Causer != null && bullet.Causer.CompareTag("Enemy")) return false; //Enemy가 쏜 총알이면 무시
+        if (bullet.Causer == self) return false;
+        if (bullet.Damage <= 0f) return false;
+        if (!bullet.TryConsumeHit()) return false;
+
+        damageAmount = bullet.Damage;
+        return true;
     }
 
 

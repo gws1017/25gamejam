@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     public GameObject Causer { get; private set; } // 발사자
     protected Rigidbody2D rb;
     protected Coroutine lifeRoutine;
+    private bool hitConsumed = false;               // 이 탄의 피해가 이미 적용됐는가 (중복 피해 방지)
 
     public float Speed => speed;
     public float Damage => damage;
@@ -58,6 +59,7 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     // 탄환 초기화(데미지/발사자 설정). 스폰 직후에 반드시 호출.
     public void Init(float dmg, GameObject causer)
     {
+        hitConsumed = false;   // 스폰/패링 반사 때마다 다시 맞힐 수 있는 상태로
         damage = dmg;
         Causer = causer;
         AddIgnoreObject(causer); // 스폰 직후 발사자와는 충돌하지 않도록 등록
@@ -78,6 +80,14 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     {
         yield return new WaitForSeconds(lifetime);
         PoolManager.Instance.Get(poolKey).Despawn(this);
+    }
+
+    /// <summary>피해를 한 번만 적용하기 위한 확인. 처음 호출이면 true, 이미 적용된 탄이면 false.</summary>
+    public bool TryConsumeHit()
+    {
+        if (hitConsumed) return false;
+        hitConsumed = true;
+        return true;
     }
 
     // 무시할 오브젝트(충돌 제외) 동적 등록
@@ -120,6 +130,8 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
         Vector2 reflectDir = Vector2.Reflect(incoming, normal);          // 반사 방향 계산
 
         rb.linearVelocity = reflectDir * speed; // 반사 가속
+        // 이미지도 반사 방향을 바라보게 회전 (안 돌리면 꼬리가 진행 방향 앞쪽에 붙어 보임)
+        transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(reflectDir.y, reflectDir.x) * Mathf.Rad2Deg, Vector3.forward);
         if (lifeRoutine != null) StopCoroutine(lifeRoutine);
         lifeRoutine = StartCoroutine(LifeTimer()); // 수명 재시작
         ignoreObjects.Clear(); // 원래 사수도 다시 맞도록 초기화

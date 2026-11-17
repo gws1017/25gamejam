@@ -171,7 +171,12 @@ public class PlayerCharacter : BaseCharacter
     {
         //근접 공격 데미지 처리 
         //각 근접 몬스터의 공격 쿨타임마다 데미지가 적용됨
-        if (collision.gameObject.TryGetComponent<MonsterCharacter>(out var mob))
+        // 몬스터 본체가 아니어도 DamageRelay가 붙은 몸(보스2 빨강)은 그 대상 몬스터로 취급한다
+        if (!collision.gameObject.TryGetComponent<MonsterCharacter>(out var mob) &&
+            collision.gameObject.TryGetComponent<DamageRelay>(out var relay))
+            mob = relay.Target;
+
+        if (mob != null)
         {
             if (DamageDelayCorutine == null)
             {

@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 112c3f60454bcb9468c9a1a2ec51cb1b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3337716344641909454
+    second: boss_effect_TentacleRed-v1_0
+  - first:
+      213: -4288453993058523250
+    second: boss_effect_TentacleRed-v1_1
+  - first:
+      213: -2345757068220684114
+    second: boss_effect_TentacleRed-v1_2
+  - first:
+      213: -5189880532349421244
+    second: boss_effect_TentacleRed-v1_3
+  - first:
+      213: 1983074880644233715
+    second: boss_effect_TentacleRed-v1_4
+  - first:
+      213: -6453972222999881938
+    second: boss_effect_TentacleRed-v1_5
+  - first:
+      213: 3944980502376485808
+    second: boss_effect_TentacleRed-v1_6
+  - first:
+      213: -2006450717478924482
+    second: boss_effect_TentacleRed-v1_7
+  - first:
+      213: -953636109875510605
+    second: boss_effect_TentacleRed-v1_8
+  - first:
+      213: -8994054063662369942
+    second: boss_effect_TentacleRed-v1_9
+  - first:
+      213: 5347799975928893721
+    second: boss_effect_TentacleRed-v1_10
+  - first:
+      213: 5576427618140819895
+    second: boss_effect_TentacleRed-v1_11
+  - first:
+      213: 2900306128083730938
+    second: boss_effect_TentacleRed-v1_12
+  - first:
+      213: -277764056423916225
+    second: boss_effect_TentacleRed-v1_13
+  - first:
+      213: 5412521346036162944
+    second: boss_effect_TentacleRed-v1_14
+  - first:
+      213: -3393707502525224937
+    second: boss_effect_TentacleRed-v1_15
+  - first:
+      213: 6534375640945965648
+    second: boss_effect_TentacleRed-v1_16
+  - first:
+      213: 2740124826211006219
+    second: boss_effect_TentacleRed-v1_17
+  - first:
+      213: 3861361207073150218
+    second: boss_effect_TentacleRed-v1_18
+  - first:
+      213: -2818129211352042877
+    second: boss_effect_TentacleRed-v1_19
+  - first:
+      213: 5686702146141363845
+    second: boss_effect_TentacleRed-v1_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 603
+        width: 355
+        height: 363
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23d8a942bac0ea1d0800000000000000
+      internalID: -3337716344641909454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 495
+        width: 249
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e87242480d95c74c0800000000000000
+      internalID: -4288453993058523250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_2
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 479
+        width: 227
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea82853ff52327fd0800000000000000
+      internalID: -2345757068220684114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_3
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 295
+        width: 379
+        height: 681
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 449f89a2727d9f7b0800000000000000
+      internalID: -5189880532349421244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_4
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 107
+        width: 395
+        height: 878
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f9bccfd81c458b10800000000000000
+      internalID: 1983074880644233715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_5
+      rect:
+        serializedVersion: 2
+        x: 1062
+        y: 535
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e279ad13572ee66a0800000000000000
+      internalID: -6453972222999881938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_6
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 517
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b31ef19dd26fb630800000000000000
+      internalID: 3944980502376485808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_7
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 486
+        width: 11
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3f475df3b7a724e0800000000000000
+      internalID: -2006450717478924482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_8
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 503
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b282e9b20104c2f0800000000000000
+      internalID: -953636109875510605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_9
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 488
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a63febc4b73be2380800000000000000
+      internalID: -8994054063662369942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_10
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 481
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91195178eb3373a40800000000000000
+      internalID: 5347799975928893721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_11
+      rect:
+        serializedVersion: 2
+        x: 1018
+        y: 486
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b116fe9f53736d40800000000000000
+      internalID: 5576427618140819895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_12
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 14
+        width: 257
+        height: 460
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af1c1589e05ff3820800000000000000
+      internalID: 2900306128083730938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_13
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 391
+        width: 13
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3d1b75ff0f252cf0800000000000000
+      internalID: -277764056423916225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_14
+      rect:
+        serializedVersion: 2
+        x: 1304
+        y: 363
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08164b9cc732d1b40800000000000000
+      internalID: 5412521346036162944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_15
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 15
+        width: 269
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 718e760d10127e0d0800000000000000
+      internalID: -3393707502525224937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_16
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 45
+        width: 37
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05abc8b5604ceaa50800000000000000
+      internalID: 6534375640945965648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_17
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 15
+        width: 277
+        height: 209
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b07398af201e60620800000000000000
+      internalID: 2740124826211006219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_18
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 32
+        width: 53
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0591193f8f469530800000000000000
+      internalID: 3861361207073150218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_19
+      rect:
+        serializedVersion: 2
+        x: 1271
+        y: 16
+        width: 145
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 382b532d96ef3e8d0800000000000000
+      internalID: -2818129211352042877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_effect_TentacleRed-v1_20
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 48
+        width: 37
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58e1534f8793bee40800000000000000
+      internalID: 5686702146141363845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      boss_effect_TentacleRed-v1_0: -3337716344641909454
+      boss_effect_TentacleRed-v1_1: -4288453993058523250
+      boss_effect_TentacleRed-v1_10: 5347799975928893721
+      boss_effect_TentacleRed-v1_11: 5576427618140819895
+      boss_effect_TentacleRed-v1_12: 2900306128083730938
+      boss_effect_TentacleRed-v1_13: -277764056423916225
+      boss_effect_TentacleRed-v1_14: 5412521346036162944
+      boss_effect_TentacleRed-v1_15: -3393707502525224937
+      boss_effect_TentacleRed-v1_16: 6534375640945965648
+      boss_effect_TentacleRed-v1_17: 2740124826211006219
+      boss_effect_TentacleRed-v1_18: 3861361207073150218
+      boss_effect_TentacleRed-v1_19: -2818129211352042877
+      boss_effect_TentacleRed-v1_2: -2345757068220684114
+      boss_effect_TentacleRed-v1_20: 5686702146141363845
+      boss_effect_TentacleRed-v1_3: -5189880532349421244
+      boss_effect_TentacleRed-v1_4: 1983074880644233715
+      boss_effect_TentacleRed-v1_5: -6453972222999881938
+      boss_effect_TentacleRed-v1_6: 3944980502376485808
+      boss_effect_TentacleRed-v1_7: -2006450717478924482
+      boss_effect_TentacleRed-v1_8: -953636109875510605
+      boss_effect_TentacleRed-v1_9: -8994054063662369942
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

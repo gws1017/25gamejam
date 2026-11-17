@@ -8,6 +8,7 @@ using UnityEngine;
  * 사용법: 프리팹/에디터 세팅 없이 코드에서 정적 팩토리로 바로 생성한다. (SpriteRenderer + 런타임 생성 스프라이트)
  *   var tg = AttackTelegraph.CreateEllipse(pos, radiusX, 0.35f, 1.2f, bossTransform);   // 바닥에 눕힌 타원
  *   var bm = AttackTelegraph.CreateBeam(origin, dir, length, width, 1.2f, bossTransform); // 방향성 직사각형
+ *   var pg = AttackTelegraph.CreateParallelogram(start, end, width, 1.0f);                // 바닥에 비스듬히 누운 사각형 (보스2 돌진)
  *   tg.OnComplete += center => { // 여기서 실제 공격 판정 처리 };
  * 메모:
  *   - 색은 단색 빨강 placeholder. 추후 스프라이트를 교체하고 싶으면 GetXxxSprite()만 바꾸면 된다.
@@ -27,6 +28,10 @@ public class AttackTelegraph : MonoBehaviour
 
     private Transform fill;
     private bool isEllipse;
+    private bool isParallelogram;
+    private Vector2 parallelogramEnd;        // 시작 변 중심(= 이 오브젝트 위치) 기준 끝 변 중심
+    private float parallelogramHalfWidth;    // 가로 반폭 (윗변·아랫변은 가로로 평평)
+    private Sprite areaSprite, fillSprite;   // 꼭짓점을 직접 지정한 런타임 스프라이트 (OnDestroy에서 정리)
     private float fullSize;          // 타원: 가로 지름 / 빔: 길이
     private float fullHeight;        // 타원: 세로 지름 / 빔: 두께
     private float duration;
@@ -78,6 +83,34 @@ public class AttackTelegraph : MonoBehaviour
         return tg;
     }
 
+    /// <summary>
+    /// 바닥에 비스듬히 누운 사각형(평행사변형) 예고. 윗변·아랫변은 가로로 평평하고 옆변만 기운다.
+    /// startCenter 변에서 endCenter 변 쪽으로 차오른다 (= 보스가 지나갈 방향). width는 가로 폭.
+    /// 평행사변형은 Transform 회전·크기로 만들 수 없어서 스프라이트 꼭짓점을 직접 지정한다.
+    /// </summary>
+    public static AttackTelegraph CreateParallelogram(Vector2 startCenter, Vector2 endCenter, float width, float duration, Transform watch = null)
+    {
+        var go = new GameObject("Telegraph_Parallelogram");
+        go.transform.position = new Vector3(startCenter.x, startCenter.y, -0.1f);
+
+        var tg = go.AddComponent<AttackTelegraph>();
+        tg.isParallelogram = true;
+        tg.duration = Mathf.Max(0.01f, duration);
+        tg.parallelogramEnd = endCenter - startCenter;
+        tg.parallelogramHalfWidth = width * 0.5f;
+        tg.watch = watch;
+        tg.hasWatch = watch != null;
+
+        tg.areaSprite = CreateQuadSprite();
+        tg.fillSprite = CreateQuadSprite();
+        var area = AddSprite(go.transform, "Area", tg.areaSprite, BeamAreaColor, Vector2.one, 0, 0f);
+        tg.fill = AddSprite(go.transform, "Fill", tg.fillSprite, FillColor, Vector2.one, 0, -0.01f);
+
+        ShapeParallelogram(area, tg.areaSprite, Vector2.zero, tg.parallelogramEnd, tg.parallelogramHalfWidth);
+        ShapeParallelogram(tg.fill, tg.fillSprite, Vector2.zero, Vector2.zero, tg.parallelogramHalfWidth); // 처음엔 빈 상태
+        return tg;
+    }
+
     private static Transform AddSprite(Transform parent, string name, Sprite sprite, Color color, Vector2 scale, int order, float z)
     {
         var child = new GameObject(name);
@@ -110,7 +143,9 @@ public class AttackTelegraph : MonoBehaviour
         float t = Mathf.Clamp01(elapsed / duration);
 
         // 타원: 중심에서 바깥으로 차오름 / 빔: 시작점에서 길이 방향으로 차오름
-        if (isEllipse) fill.localScale = new Vector3(fullSize * t, fullHeight * t, 1f);
+        // 평행사변형: 시작 변에서 끝 변 쪽으로 차오름 (옆변 기울기 유지)
+        if (isParallelogram) ShapeParallelogram(fill, fillSprite, Vector2.zero, parallelogramEnd * t, parallelogramHalfWidth);
+        else if (isEllipse) fill.localScale = new Vector3(fullSize * t, fullHeight * t, 1f);
         else fill.localScale = new Vector3(fullSize * t, fullHeight, 1f);
 
         if (t >= 1f)
@@ -119,6 +154,57 @@ public class AttackTelegraph : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnDestroy()
+    {
+        // 평행사변형 예고는 예고마다 스프라이트를 새로 만들므로 같이 정리 (텍스처는 공용이라 두고 간다)
+        if (areaSprite != null) Destroy(areaSprite);
+        if (fillSprite != null) Destroy(fillSprite);
+    }
+
+    #region Parallelogram
+    private static readonly ushort[] QuadTriangles = { 0, 1, 2, 0, 2, 3 };
+
+    /// <summary>공용 흰 텍스처를 쓰는 1유닛 스프라이트. 꼭짓점은 ShapeParallelogram에서 덮어쓴다.</summary>
+    private static Sprite CreateQuadSprite()
+    {
+        Texture2D tex = GetSquareSprite().texture;
+        return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, tex.width, 0, SpriteMeshType.FullRect);
+    }
+
+    /// <summary>
+    /// part를 중심선 a→b, 가로 반폭 halfWidth인 평행사변형으로 만든다 (좌표는 부모 기준).
+    /// 스프라이트 꼭짓점은 스프라이트 사각형 안에만 둘 수 있어서, 네 꼭짓점을 감싸는 상자에
+    /// part의 위치·크기를 맞추고 꼭짓점은 그 상자 안의 비율로 넣는다.
+    /// </summary>
+    private static void ShapeParallelogram(Transform part, Sprite sprite, Vector2 a, Vector2 b, float halfWidth)
+    {
+        Vector2 h = new Vector2(halfWidth, 0f);
+        Vector2[] corners = { a - h, a + h, b + h, b - h };
+
+        Vector2 min = Vector2.Min(Vector2.Min(corners[0], corners[1]), Vector2.Min(corners[2], corners[3]));
+        Vector2 max = Vector2.Max(Vector2.Max(corners[0], corners[1]), Vector2.Max(corners[2], corners[3]));
+        Vector2 size = max - min;
+
+        // 높이가 0이면(차오르기 직전) 그릴 게 없다
+        bool visible = size.x > 0.0001f && size.y > 0.0001f;
+        part.gameObject.SetActive(visible);
+        if (!visible) return;
+
+        part.localPosition = new Vector3(min.x, min.y, part.localPosition.z);
+        part.localScale = new Vector3(size.x, size.y, 1f);
+
+        float px = sprite.rect.width; // 스프라이트 사각형 크기(픽셀). 꼭짓점은 0~px 범위
+        var vertices = new Vector2[4];
+        for (int i = 0; i < 4; i++)
+        {
+            vertices[i] = new Vector2(
+                Mathf.Clamp((corners[i].x - min.x) / size.x * px, 0f, px),
+                Mathf.Clamp((corners[i].y - min.y) / size.y * px, 0f, px));
+        }
+        sprite.OverrideGeometry(vertices, QuadTriangles);
+    }
+    #endregion
 
     #region Runtime Sprites
     private static Sprite GetDiscSprite()

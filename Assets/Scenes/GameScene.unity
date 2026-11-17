@@ -3845,6 +3845,12 @@ MonoBehaviour:
   - key: BossBullet
     prefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
     size: 20
+  - key: AlienBulletBlue
+    prefab: {fileID: 5371210269570226003, guid: e3b9147c0d6a4f28a1c5d7e2096b84fa, type: 3}
+    size: 30
+  - key: AlienBulletRed
+    prefab: {fileID: 5371210269570226003, guid: 6f0d82a3e9c14b57b2a8e1f43c97d05b, type: 3}
+    size: 30
   - key: BursterBullet
     prefab: {fileID: 5371210269570226003, guid: c60c0c6c093e9a64fb5a9a87158343b7, type: 3}
     size: 100
