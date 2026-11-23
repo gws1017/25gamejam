@@ -101,6 +101,8 @@ public class Bullet : MonoBehaviour, IParryable, IPoolable
     {
         // 투사체 끼리는 충돌체크 하지 말 것
         if (collision.CompareTag("Projectile")) return;
+        // 근접 몬스터의 무기 판정은 몸이 아니므로 탄을 막지 않는다 (패링 대상으로만 쓰임)
+        if (collision.GetComponent<MeleeStrikeHitbox>() != null) return;
         // 이동제한용 벽과는 충돌체크 무시
         if (collision.CompareTag("Wall")) return;
 

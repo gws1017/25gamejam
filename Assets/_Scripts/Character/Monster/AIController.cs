@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class AIController : BaseController
 {
@@ -17,10 +18,14 @@ public class AIController : BaseController
         Attack,
         Spawn,
         Dead,
-        Hit
+        Hit,
+        Stagger   // 패링당해 넉백 + 스턴 중 (MeleeDevil). 기존 프리팹 값이 밀리지 않게 맨 뒤에 추가
     }
 
     [SerializeField] protected AIState currentState;
+
+    private bool isLockedOn = true;        // 평소엔 플레이어를 락온(계속 바라봄). 근접 공격 중엔 해제해서 판정 방향을 고정
+    private Coroutine knockbackRoutine;
 
     //Getter
     public Rigidbody2D TargetPlayer => targetPlayer;
@@ -54,6 +59,8 @@ public class AIController : BaseController
         spriteRenderer.sortingOrder = 1;
         rigidBody2D.simulated = true;
         collide.enabled = true;
+        isLockedOn = true;
+        knockbackRoutine = null;   // 비활성화 때 코루틴은 이미 멈춰 있다 (풀 재사용 대비 초기화)
         ChangeState(AIState.Move);
     }
     private void OnDisable()
@@ -95,8 +102,48 @@ public class AIController : BaseController
     {
         if (targetPlayer == null) return;
         if (!owner.IsLive) return;
+        if (!isLockedOn) return;
 
         LookAtPlayer();
+    }
+
+    /// <summary>
+    /// 플레이어 락온 설정. true(기본)면 매 프레임 플레이어 쪽을 바라보고,
+    /// false면 지금 방향을 유지한다 (근접 공격 중 판정 방향 고정용).
+    /// </summary>
+    public void SetLockOn(bool lockOn)
+    {
+        isLockedOn = lockOn;
+    }
+
+    /// <summary>
+    /// 넉백 + 스턴. direction 쪽으로 distance만큼 duration 동안 밀려난 뒤 stunTime 동안 멈췄다가 Move로 돌아간다.
+    /// 패링 성공 시에만 호출된다 (MeleeDevil.OnStrikeParried). 그동안 상태는 Stagger라 이동/공격하지 않는다.
+    /// </summary>
+    public void Knockback(Vector2 direction, float distance, float duration, float stunTime)
+    {
+        if (knockbackRoutine != null) StopCoroutine(knockbackRoutine);
+        ChangeState(AIState.Stagger);
+        knockbackRoutine = StartCoroutine(KnockbackRoutine(direction.normalized, distance, duration, stunTime));
+    }
+
+    private IEnumerator KnockbackRoutine(Vector2 direction, float distance, float duration, float stunTime)
+    {
+        Vector2 start = rigidBody2D.position;
+        for (float t = 0f; t < duration; t += Time.fixedDeltaTime)
+        {
+            float k = t / duration;
+            float eased = 1f - (1f - k) * (1f - k);   // 처음에 세게 밀리고 점점 느려진다
+            rigidBody2D.MovePosition(start + direction * distance * eased);
+            rigidBody2D.linearVelocity = Vector2.zero;
+            yield return new WaitForFixedUpdate();
+        }
+        rigidBody2D.MovePosition(start + direction * distance);
+
+        yield return new WaitForSeconds(stunTime);
+
+        knockbackRoutine = null;
+        if (owner.IsLive && currentState == AIState.Stagger) ChangeState(AIState.Move);
     }
 
     protected virtual void CalculateAIMovement()

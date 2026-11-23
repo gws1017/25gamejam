@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using System.Collections.Generic;
 
 /// <summary>
@@ -31,8 +32,12 @@ public class PoolManager : MonoBehaviour
         [Tooltip("풀링할 프리팹. 프리팹에는 반드시 IPoolable을 구현한 컴포넌트가 1개 이상 붙어 있어야 합니다.")]
         public GameObject prefab;
 
-        [Tooltip("초기 생성 개수 예약(preSize). 런타임 중 부족하면 자동 생성될 수 있습니다.")]
-        public int size = 20;
+        [Tooltip("게임 시작 시 미리 만들어 둘 개수. 플레이 중 새로 생성(Instantiate)할 때의 끊김을 줄이기 위한 값이며, 최대 개수가 아니다.")]
+        [FormerlySerializedAs("size")]   // 예전 이름(size)으로 저장된 씬 값을 그대로 가져온다
+        public int initialSize = 20;
+
+        [Tooltip("동시에 존재할 수 있는 최대 개수. 0이면 제한 없음 (총알처럼 모자라면 안 되는 것은 0). 전부 사용 중이면 스폰되지 않는다.")]
+        public int maxSize = 0;
     }
 
     [Header("Editor Setup")]
@@ -45,10 +50,11 @@ public class PoolManager : MonoBehaviour
     /// </summary>
     /// <param name="key">식별용 키(Spawner 등 외부 참조와 동일해야 함)</param>
     /// <param name="prefab">IPoolable을 구현한 컴포넌트를 가진 프리팹의 '컴포넌트'</param>
-    /// <param name="size">초기 생성 수량</param>
-    public void Register(string key, MonoBehaviour prefab, int size)
+    /// <param name="initialSize">미리 만들어 둘 개수</param>
+    /// <param name="maxSize">최대 개수 (0 = 제한 없음)</param>
+    public void Register(string key, MonoBehaviour prefab, int initialSize, int maxSize = 0)
     {
-        var pool = new GenericPool<MonoBehaviour>(prefab, size, transform);
+        var pool = new GenericPool<MonoBehaviour>(prefab, initialSize, transform, maxSize);
         Register(key, pool);
     }
     public GenericPool<MonoBehaviour> Get(string key)
@@ -94,7 +100,7 @@ public class PoolManager : MonoBehaviour
                 continue;
             }
 
-            var pool = new GenericPool<MonoBehaviour>(comp, entry.size, transform);
+            var pool = new GenericPool<MonoBehaviour>(comp, entry.initialSize, transform, entry.maxSize);
             Register(entry.key, pool);
         }
 

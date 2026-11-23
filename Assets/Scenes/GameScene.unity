@@ -3832,37 +3832,56 @@ MonoBehaviour:
   poolEntryList:
   - key: BasicZombie
     prefab: {fileID: 1029707707262696306, guid: f648686672cefff46b6b739ab5543d17, type: 3}
-    size: 150
+    initialSize: 150
+    maxSize: 0
   - key: PoliceZombie
     prefab: {fileID: 7226998442595843064, guid: db57e40041784f94d963bcad1063ccce, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
   - key: PlayerBullet
     prefab: {fileID: 5371210269570226003, guid: f20f8442ddf2f5e4899341339898ba76, type: 3}
-    size: 20
+    initialSize: 20
+    maxSize: 0
   - key: PoliceBullet
     prefab: {fileID: 8743953251841192934, guid: 5adea1321e555dd46ad7b08a930ea02f, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
   - key: BossBullet
     prefab: {fileID: 5371210269570226003, guid: 0e24e3a07c89a7349a0441ad99d87873, type: 3}
-    size: 20
+    initialSize: 20
+    maxSize: 0
   - key: AlienBulletBlue
     prefab: {fileID: 5371210269570226003, guid: e3b9147c0d6a4f28a1c5d7e2096b84fa, type: 3}
-    size: 30
+    initialSize: 30
+    maxSize: 0
   - key: AlienBulletRed
     prefab: {fileID: 5371210269570226003, guid: 6f0d82a3e9c14b57b2a8e1f43c97d05b, type: 3}
-    size: 30
+    initialSize: 30
+    maxSize: 0
   - key: BursterBullet
     prefab: {fileID: 5371210269570226003, guid: c60c0c6c093e9a64fb5a9a87158343b7, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
   - key: SpitterBullet
     prefab: {fileID: 5371210269570226003, guid: 42ae263518144a344a0c0fbba1d100c9, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
   - key: Spitter
     prefab: {fileID: 7226998442595843064, guid: 39975cb516d2fa4408423ceda429f36f, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
   - key: Burster
     prefab: {fileID: 7226998442595843064, guid: e3c41879013f3ad4b8c9599504003daf, type: 3}
-    size: 100
+    initialSize: 100
+    maxSize: 0
+  - key: AxeDevil
+    prefab: {fileID: 5520010000000000001, guid: f4b8d2a6c0e94f1b83d7a5c9e1f0b201, type: 3}
+    initialSize: 5
+    maxSize: 8
+  - key: SpearDevil
+    prefab: {fileID: 5520020000000000001, guid: f4b8d2a6c0e94f1b83d7a5c9e1f0b202, type: 3}
+    initialSize: 5
+    maxSize: 10
 --- !u!4 &701754298
 Transform:
   m_ObjectHideFlags: 0

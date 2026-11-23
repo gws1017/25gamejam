@@ -6,12 +6,17 @@ public class GenericPool<T> where T : Component
     private readonly Queue<T> pool = new Queue<T>();
     private Transform container;
     private T prefab;
+    private readonly int maxSize;   // 동시에 존재할 수 있는 최대 개수. 0이면 제한 없음
+    private int createdCount;       // 지금까지 만든 개수 (= 풀이 관리하는 전체 개수)
 
     //풀 생성
-    public GenericPool(T prefab, int initialSize, Transform parent = null)
+    /// <param name="initialSize">미리 만들어 둘 개수 (최대 개수가 아님)</param>
+    /// <param name="maxSize">최대 개수. 0이면 제한 없음. initialSize보다 작으면 initialSize로 맞춘다</param>
+    public GenericPool(T prefab, int initialSize, Transform parent = null, int maxSize = 0)
     {
         //프리팹 및 풀 컨테이너 등록
         this.prefab = prefab;
+        this.maxSize = (maxSize > 0) ? Mathf.Max(maxSize, initialSize) : 0;
         container = new GameObject($"{prefab.name}_Pool").transform;
         if (parent != null)
             container.SetParent(parent);
@@ -22,12 +27,25 @@ public class GenericPool<T> where T : Component
             T obj = GameObject.Instantiate(prefab, container);
             obj.gameObject.SetActive(false);
             pool.Enqueue(obj);
+            createdCount++;
         }
     }
 
+    /// <returns>꺼낸 객체. 최대 개수까지 전부 사용 중이면 null (호출부에서 스폰을 건너뛰어야 한다)</returns>
     public T Spawn(Vector3 position, Quaternion rotation,string poolKey = null)
     {
-        T obj = pool.Count > 0 ? pool.Dequeue() : GameObject.Instantiate(prefab, container);
+        T obj;
+        if (pool.Count > 0)
+        {
+            obj = pool.Dequeue();
+        }
+        else
+        {
+            if (maxSize > 0 && createdCount >= maxSize) return null;   // 최대 개수 도달 → 스폰 안 함
+            obj = GameObject.Instantiate(prefab, container);
+            createdCount++;
+        }
+
         obj.transform.SetPositionAndRotation(position, rotation);
         obj.gameObject.SetActive(true);
 
@@ -49,4 +67,3 @@ public class GenericPool<T> where T : Component
         pool.Enqueue(obj);
     }
 }
-
