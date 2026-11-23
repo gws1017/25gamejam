@@ -3882,6 +3882,10 @@ MonoBehaviour:
     prefab: {fileID: 5520020000000000001, guid: f4b8d2a6c0e94f1b83d7a5c9e1f0b202, type: 3}
     initialSize: 5
     maxSize: 10
+  - key: GreaterDevil
+    prefab: {fileID: 5530010000000000001, guid: f4b8d2a6c0e94f1b83d7a5c9e1f0b203, type: 3}
+    initialSize: 1
+    maxSize: 1
 --- !u!4 &701754298
 Transform:
   m_ObjectHideFlags: 0
