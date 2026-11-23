@@ -26,6 +26,9 @@ public class AIController : BaseController
     public Rigidbody2D TargetPlayer => targetPlayer;
     public Vector2 TargetDir => targetDirection;
     public float MoveSpeed => moveSpeed;
+    /// <summary>프리팹에 설정된 원래 이동 속도. 스테이지 강화는 매번 이 값에서 계산한다 (풀 재사용 시 누적 방지).</summary>
+    public float BaseMoveSpeed => baseMoveSpeed;
+    private float baseMoveSpeed;
 
     //Setter
 
@@ -41,6 +44,7 @@ public class AIController : BaseController
     {
         base.Awake();
         isPlayer = false;
+        baseMoveSpeed = moveSpeed;
 
         owner = GetComponent<MonsterCharacter>();
     }

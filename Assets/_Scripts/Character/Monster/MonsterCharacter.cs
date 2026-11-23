@@ -44,10 +44,19 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         controller.SetSpeed = value;
     }
 
+    // 프리팹에 설정된 원래 값. 스테이지 강화는 매번 이 값에서 계산한다.
+    // (강화된 값에 또 곱하면 풀에서 재사용될 때마다 강화가 누적된다)
+    private float baseMaxHP;
+    private float baseDefense;
+    private float basePowerUpMultiplier;
+
     protected override void Awake()
     {
         base.Awake();
         controller = GetComponent<AIController>();
+        baseMaxHP = maxHP;
+        baseDefense = defense;
+        basePowerUpMultiplier = powerUpMultiplier;
     }
     void Start()
     {
@@ -74,15 +83,19 @@ public class MonsterCharacter : BaseCharacter,IPoolable
     {
     }
 
+    /// <summary>
+    /// 현재 스테이지 강화 단계(count)에 맞는 세기로 맞춘다. 스폰마다 Spawner가 호출.
+    /// 항상 프리팹 원래 값에서 계산하므로 몇 번 재사용돼도 같은 스테이지면 같은 세기다.
+    /// </summary>
     public virtual void PowerUp(int count)
     {
-        powerUpMultiplier *= count; //1~9 : 0 , 10 ~ 19 : 0.1 , 20 ~ 29 : 0.2
+        powerUpMultiplier = basePowerUpMultiplier * count; // 강화 0단계: 0 / 1단계: 0.1 / 2단계: 0.2 ...
 
         float pm = 1 + powerUpMultiplier;
 
-        controller.SetSpeed = controller.MoveSpeed * pm;
-        maxHP *= pm;
-        defense *= pm;
+        controller.SetSpeed = controller.BaseMoveSpeed * pm;
+        maxHP = baseMaxHP * pm;
+        defense = baseDefense * pm;
         //경험치도 늘리고싶으면 주석해제
         //dropExp = Mathf.CeilToInt(((float)dropExp * pm));
 
@@ -121,7 +134,13 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         // 비활성화 전에 발행 (구독자가 몬스터 상태를 읽을 수 있도록)
         OnMonsterDied?.Invoke(this);
 
-        gameObject.SetActive(false);
+        // 풀에서 나온 몬스터는 풀로 반환해야 다음 스폰 때 재사용된다.
+        // (전에는 끄기만 해서 매 스폰마다 새로 생성됐다)
+        // 보스처럼 Instantiate로 만든 몬스터는 poolKey가 없으므로 지금처럼 끄기만 한다.
+        var pool = (PoolManager.Instance != null && !string.IsNullOrEmpty(poolKey))
+                   ? PoolManager.Instance.Get(poolKey) : null;
+        if (pool != null) pool.Despawn(this);
+        else gameObject.SetActive(false);
     }
 
     protected IEnumerator AttackDelayCorutine()
