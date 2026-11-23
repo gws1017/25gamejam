@@ -25,6 +25,8 @@ public class MeleeDevil : MonsterCharacter
     private static readonly int AttackTrigger = Animator.StringToHash("Attack");
     private static readonly int StaggerTrigger = Animator.StringToHash("Stagger");
     private static readonly int MoveTrigger = Animator.StringToHash("Move");
+    private static readonly int DeathTrigger = Animator.StringToHash("Death");
+    private const float DeathDisappearDelay = 3f;   // Death 클립 이벤트가 안 오더라도 이 시간 뒤엔 치운다
 
     [Header("Melee Devil")]
     [SerializeField] private MeleeStrikeHitbox strike;
@@ -36,14 +38,19 @@ public class MeleeDevil : MonsterCharacter
     [Tooltip("밀려난 뒤 멈춰 있는 시간(초) — 패링 보상 딜타임")]
     [SerializeField] private float stunTime = 0.7f;
 
-    private Animator animator;
+    [Tooltip("사망 모션(Death 클립)이 있으면 켠다. 켜면 쓰러지는 모션이 끝난 뒤 사라지고, 끄면 죽는 즉시 사라진다")]
+    [SerializeField] private bool hasDeathAnim = false;
+
+    private Animator anim;
+    private Collider2D bodyColl;
     private bool parried;              // 이번 공격이 패링당했는가 (남은 애니메이션 이벤트 무시용)
     private Coroutine cooldownRoutine;
 
     protected override void Awake()
     {
         base.Awake();
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
+        bodyColl = GetComponent<Collider2D>();
         if (strike == null) strike = GetComponentInChildren<MeleeStrikeHitbox>(true);
     }
 
@@ -71,10 +78,10 @@ public class MeleeDevil : MonsterCharacter
         parried = false;
 
         controller.SetLockOn(false);                 // 공격 중엔 락온 해제 → 돌아보지 않는다 (판정 방향 고정)
-        if (strike != null) strike.PlaceInFront(FacingSign());
+        if (strike != null) strike.SetFacing(FacingSign());
 
-        animator.ResetTrigger(MoveTrigger);
-        animator.SetTrigger(AttackTrigger);
+        anim.ResetTrigger(MoveTrigger);
+        anim.SetTrigger(AttackTrigger);
     }
 
     #region Animation Events (Attack 클립)
@@ -126,14 +133,53 @@ public class MeleeDevil : MonsterCharacter
 
         // AIController가 Move로 돌아갈 때마다 Move 트리거를 보내는데, Idle 상태에서는 쓰이지 않아 남아 있다.
         // 그대로 두면 Stagger에 들어가자마자 Move 트리거로 빠져나오므로 먼저 지운다.
-        animator.ResetTrigger(MoveTrigger);
-        animator.ResetTrigger(AttackTrigger);
-        animator.SetTrigger(StaggerTrigger);
+        anim.ResetTrigger(MoveTrigger);
+        anim.ResetTrigger(AttackTrigger);
+        anim.SetTrigger(StaggerTrigger);
 
         Vector2 away = (Vector2)transform.position - PlayerPosition();
         if (away.sqrMagnitude < 0.0001f) away = new Vector2(-FacingSign(), 0f);
         controller.Knockback(away, knockbackDistance, knockbackTime, stunTime);
     }
+
+    #region Death
+    /// <summary>
+    /// 사망 모션이 있으면 바로 치우지 않고 쓰러지는 모션을 재생한다.
+    /// 경험치/골드/킬 카운트는 Die에서 이미 처리됐고, isLive가 false라 이동·공격·피격도 없다.
+    /// </summary>
+    protected override void Disappear()
+    {
+        if (!hasDeathAnim || anim == null)
+        {
+            base.Disappear();
+            return;
+        }
+
+        if (strike != null) strike.DeactivateHitbox();
+        if (cooldownRoutine != null) StopCoroutine(cooldownRoutine);
+        cooldownRoutine = null;
+        if (bodyColl != null) bodyColl.enabled = false;   // 쓰러지는 동안 접촉 피해 없음 (재사용 시 AIController가 다시 켠다)
+
+        anim.ResetTrigger(MoveTrigger);
+        anim.ResetTrigger(AttackTrigger);
+        anim.ResetTrigger(StaggerTrigger);
+        anim.SetTrigger(DeathTrigger);
+        StartCoroutine(DisappearAfterDelay());
+    }
+
+    /// <summary>Death 클립 끝 애니메이션 이벤트.</summary>
+    public void OnDeathAnimEnd()
+    {
+        if (isLive || !gameObject.activeSelf) return;   // 이미 치워졌거나 재사용된 뒤 늦게 온 이벤트 무시
+        base.Disappear();
+    }
+
+    private IEnumerator DisappearAfterDelay()
+    {
+        yield return new WaitForSeconds(DeathDisappearDelay);
+        if (!isLive) base.Disappear();   // 이벤트가 먼저 왔다면 이미 비활성화돼서 여기까지 오지 않는다
+    }
+    #endregion
 
     /// <summary>플레이어가 있는 쪽 (1 오른쪽 / -1 왼쪽).</summary>
     private int FacingSign() => PlayerPosition().x >= transform.position.x ? 1 : -1;

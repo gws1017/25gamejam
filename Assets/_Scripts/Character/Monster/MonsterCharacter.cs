@@ -134,9 +134,17 @@ public class MonsterCharacter : BaseCharacter,IPoolable
         // 비활성화 전에 발행 (구독자가 몬스터 상태를 읽을 수 있도록)
         OnMonsterDied?.Invoke(this);
 
+        Disappear();
+    }
+
+    /// <summary>
+    /// 필드에서 치운다 (죽음 처리 자체는 Die에서 이미 끝난 뒤).
+    /// 사망 모션이 있는 몬스터는 override해서 모션이 끝난 뒤에 이 기본 동작을 부른다 (MeleeDevil).
+    /// </summary>
+    protected virtual void Disappear()
+    {
         // 풀에서 나온 몬스터는 풀로 반환해야 다음 스폰 때 재사용된다.
-        // (전에는 끄기만 해서 매 스폰마다 새로 생성됐다)
-        // 보스처럼 Instantiate로 만든 몬스터는 poolKey가 없으므로 지금처럼 끄기만 한다.
+        // 보스처럼 Instantiate로 만든 몬스터는 poolKey가 없으므로 끄기만 한다.
         var pool = (PoolManager.Instance != null && !string.IsNullOrEmpty(poolKey))
                    ? PoolManager.Instance.Get(poolKey) : null;
         if (pool != null) pool.Despawn(this);

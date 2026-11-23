@@ -35,7 +35,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5520020000000000012}
+  - {fileID: 5520020000000000022}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5520020000000000003
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9b2d4f6a8c1e4a37b5d9e2f1c3a6b801, type: 3}
+  m_Sprite: {fileID: 4420001001, guid: 9b2d4f6a8c1e4a37b5d9e2f1c3a6b820, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -160,8 +160,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.4968102, y: 0.48245615}
+    oldSize: {x: 2.0225806, y: 2.0225806}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -186,7 +186,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03e81c5a3a911bd458763da8d39a9e0c, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIController
   toTargetVector: {x: 0, y: 0}
   targetDirection: {x: 0, y: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2a7c4f1b9d6483aa1c5f0e3d7b2c901, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeDevil
   damage: 1
   defense: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   currentHP: 24
   maxHP: 24
   dropExp: 30
-  attackRange: 1.6
+  attackRange: 1.4
   attackCoolTime: 1.5
   attackTrigger: Attack
   powerUpMultiplier: 0.1
@@ -237,6 +237,39 @@ MonoBehaviour:
   knockbackDistance: 1.5
   knockbackTime: 0.2
   stunTime: 0.7
+  hasDeathAnim: 0
+--- !u!1 &5520020000000000021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5520020000000000022}
+  m_Layer: 0
+  m_Name: StrikePivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5520020000000000022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5520020000000000021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5520020000000000012}
+  m_Father: {fileID: 5520020000000000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5520020000000000011
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,11 +298,11 @@ Transform:
   m_GameObject: {fileID: 5520020000000000011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.85, y: -0.15, z: 0}
+  m_LocalPosition: {x: 0.945, y: -0.217, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5520020000000000002}
+  m_Father: {fileID: 5520020000000000022}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5520020000000000013
 BoxCollider2D:
@@ -278,7 +311,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5520020000000000011}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -315,7 +348,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.2, y: 0.4}
+  m_Size: {x: 0.546, y: 0.263}
   m_EdgeRadius: 0
 --- !u!50 &5520020000000000014
 Rigidbody2D:
@@ -354,6 +387,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2a7c4f1b9d6483aa1c5f0e3d7b2c902, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeStrikeHitbox
   offset: {x: 0.85, y: -0.15}
