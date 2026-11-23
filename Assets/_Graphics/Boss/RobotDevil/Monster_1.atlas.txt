@@ -1,0 +1,23 @@
+Monster_1.png
+size: 512, 1024
+filter: Linear, Linear
+Monster_1_B_hand
+bounds: 249, 2, 91, 184
+Monster_1_B_uparm
+bounds: 162, 393, 65, 127
+Monster_1_F_hand
+bounds: 2, 2, 134, 219
+Monster_1_F_uparm
+bounds: 80, 393, 80, 135
+Monster_1_L_B_Leg
+bounds: 138, 2, 109, 188
+Monster_1_L_B_Upleg
+bounds: 2, 223, 135, 168
+Monster_1_L_F_Leg
+bounds: 139, 223, 89, 168
+Monster_1_L_F_Upleg
+bounds: 2, 393, 76, 156
+Monster_1_body
+bounds: 342, 2, 151, 174
+Monster_1_head
+bounds: 230, 223, 210, 160
