@@ -125,10 +125,10 @@ TextureImporter:
       name: groundCrack_0
       rect:
         serializedVersion: 2
-        x: 211
-        y: 853
-        width: 192
-        height: 108
+        x: 205
+        y: 849
+        width: 203
+        height: 118
       alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,10 +147,10 @@ TextureImporter:
       name: groundCrack_1
       rect:
         serializedVersion: 2
-        x: 720
-        y: 800
-        width: 434
-        height: 204
+        x: 715
+        y: 796
+        width: 448
+        height: 212
       alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,10 +169,10 @@ TextureImporter:
       name: groundCrack_2
       rect:
         serializedVersion: 2
-        x: 42
-        y: 184
-        width: 549
-        height: 215
+        x: 36
+        y: 175
+        width: 560
+        height: 233
       alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,10 +191,10 @@ TextureImporter:
       name: groundCrack_3
       rect:
         serializedVersion: 2
-        x: 631
-        y: 184
-        width: 613
-        height: 214
+        x: 628
+        y: 179
+        width: 621
+        height: 226
       alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
